@@ -144,6 +144,11 @@ The performance data discussed in this section allow us to state some rules of t
 - If the matrix not only comes from a PDE but also has a piecewise diagonal structure, then HDI is probably a very good idea, and
 - If the matrix comes from a graph problem and has a power-law distribution in the number of entries, then the only option among the ones considered here is HYB, but even HYB is not very satisfactory; in this case, it may be appropriate to investigate more specialized formats [Ashari et al. 2014; Yang et al. 2011].
 
+### Parallel Sparse Direct Methods: A short tutorial
+https://pdfs.semanticscholar.org/bfbe/882ec19e2fae60fdbab805e49569cd292085.pdf
+- TO READ
+- Utku 
+
 ### A lightweight optimization selection method for Sparse Matrix-Vector Multiplication, Jan 2016
 https://arxiv.org/pdf/1511.02494.pdf
 - TO READ
