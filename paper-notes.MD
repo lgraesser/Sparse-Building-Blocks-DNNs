@@ -147,24 +147,30 @@ The performance data discussed in this section allow us to state some rules of t
 ### A lightweight optimization selection method for Sparse Matrix-Vector Multiplication, Jan 2016
 https://arxiv.org/pdf/1511.02494.pdf
 - TO READ
+- Laura
 
 ### Accelerating Sparse Matrix Vector Multiplication in Iterative Methods Using GPU
 http://ieeexplore.ieee.org/document/6047229/
 -TO READ:  Contains some work analyzing sparse matrix structure
+- Utku
 
 ### SMAT: An input adaptive auto-tuner for sparse matrix-vector
 multiplication, Li et al, 2013
 https://arxiv.org/abs/1210.2536
 - TO READ - uses ML to select compression format
+- Laura
 
 ###  A model-driven blocking strategy for load balanced sparse matrix-vector multiplication on GPUs, Sedaghati et al, 2015
 https://ac.els-cdn.com/S0743731514002081/1-s2.0-S0743731514002081-main.pdf?_tid=1a8fcc74-bdd2-11e7-9796-00000aacb35d&acdnat=1509409754_e68b4a6351498b88c6b95658a7dbe1cb
 - TO READ:  ML approach using classification trees to select amongst CSR, ELLPACK, COO, and ELL-COO
+- Utku
 
 ### Automatic selection of sparse matrix representation on GPUs,  Sedaghati et al, 2015
 http://web.cse.ohio-state.edu/~pouchet.2/doc/ics-article.15b.pdf
 - TO READ
+- Laura
 
 ### Graph Clustering survey
 http://www.leonidzhukov.net/hse/2015/networks/papers/GraphClustering_Schaeffer07.pdf
 - MAYBE TO READ
+- Utku?
