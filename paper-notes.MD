@@ -237,8 +237,33 @@ https://ac.els-cdn.com/S0743731514002081/1-s2.0-S0743731514002081-main.pdf?_tid=
 
 ### Automatic selection of sparse matrix representation on GPUs,  Sedaghati et al, 2015
 http://web.cse.ohio-state.edu/~pouchet.2/doc/ics-article.15b.pdf
-- TO READ
-- Laura
+
+Focuses on four SpMV representations implemented in cuSPARSE and CUSP:
+- CSR
+- ELLPACK
+- COO
+- ELL-COO (HYB)
+
+- Gathered 682 matrices from the [UFL repository](https://sparse.tamu.edu/about)
+	- Matrices were selected with 3 constraints
+		1. C1: the sparse matrix does not fit in the CPU LLC (8 MB for our machines). This is to focus on matrices where GPU execution is most beneficial.
+		2. C2: the sparse matrix fits in the “effective” space on the global memory of the device (i.e. single-GPU execution).
+		3. C3: the number of rows is large enough to guarantee minimum GPU concurrency. This is achieved by assuming that a warp works on a row; thus the minimum number of rows equals the maximum warp-level concurrency on a given device.
+- Used decision trees to classify matrices
+
+![](Sedaghati_SpM_memory.png)
+
+![](Sedaghati_SpM_time.png)
+
+- Work does not take into account the conversion time
+	- Possible extensions it to model conversion time and number of expected iterations
+
+![](Sedaghati_SpM_formats.png)
+
+**Feature set**
+- Similar to the lightweight optimization paper
+- Additional features: Number of non zero blocks per row, size of non zero blocks per row
+
 
 ### Graph Clustering survey
 http://www.leonidzhukov.net/hse/2015/networks/papers/GraphClustering_Schaeffer07.pdf
