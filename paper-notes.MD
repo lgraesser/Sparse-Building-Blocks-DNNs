@@ -167,8 +167,73 @@ https://pdfs.semanticscholar.org/bfbe/882ec19e2fae60fdbab805e49569cd292085.pdf
 
 ### A lightweight optimization selection method for Sparse Matrix-Vector Multiplication, Jan 2016
 https://arxiv.org/pdf/1511.02494.pdf
-- TO READ
-- Laura
+
+
+- Two approaches to selecting optimization
+1. Based on online profiling of performance
+2. Structural features of the sparse matrix
+
+Applications
+- Iterative methods for the solution of sparse linear systems
+- Approximation of eigenvalues and eigenvectors of sparse matrices
+
+Desirable characteristics for optimization methodology
+- stable: should yield improvements on all sparse matrices
+- cross-platform
+- lightweight: run time overhead of optimization selection should be low
+
+- Frame problem as a classification task where classes = performance bottlenecks
+	- Online or offline/ml classifiers
+- Tested on Intel Sandy Bridge and Intel Xeon Phi (sort of GPU)
+
+Problem with CSR\
+- Indirect memory references
+- Irregular memory accesses to the vector x
+- short row lengths
+
+Classes
+- CML: This class refers to matrices that suffer from excessive LLC misses and can therefore be bound by cache miss latencies.
+- MB: This class includes matrices that have saturated the available memory bandwidth.
+- IMB: This class appears mostly on many-core architectures, where the large number of threads exposes highly uneven row lengths in the matrix or regions with completely different sparsity patterns, resulting either in workload imbalance or computational unevenness.
+- CMP: This class includes matrices that are bound by computation. Such matrices are mostly matrices that fit in the system’s caches and are, therefore, not limited by main memory bandwidth.
+
+- "Blind ML" approach not necessary according to the authors
+- Alternative approaches to defining classes - clustering
+
+**Profiling based classifier**
+- Profile matrix using three benchmarks (modified CSR) - noxmiss, inflate, balance
+
+**ML based classifier**
+- Decision tree and naive bayes (using scikit learn)
+- features
+	- size
+	- density (number non zero / total elements)
+	- number non zero - max, min, avg, sd
+	- column distance between first and last non zero elements of row i - max, min, avg, sd
+	- dispersion (?) avg, sd
+	- Clustering: number of groups (group = consective non zero elements in a row) / number of non zero elements in a row
+	- miss ratio: number of non zero elements in row i that can generate cache misses (e.g. distance from previous element in the same row > cache line size of the system)
+
+	**Optimizations**
+	Note: Only CSR based optimizations
+	- CML: software prefetching on vector x
+	- MB: column index compression through delta coding
+	- IMB: auto or dynamic scheduling (OpenMP)
+	- CMP: inner loop unrolling + vectorization
+
+	- Some issues with optimization: model may be selecting the right class but the optimization is not as effective (measure of success is not accuracy but performance improvement).
+	- Need to compare selected speedup to ideal speedup (i.e. run each matrix with all of the optimizations)
+
+	**Measuring run time overhead**
+	- Time to classify / Time to execute the SpMV kernel
+	- Note: The kernels appear pre-written, so there is no cost to re-formatting
+
+- Related work:
+	- clSpMV framework. This approach is restricted to GPUs.
+	- A performance modeling and optimization analysis tool for sparse matrix-vector multiplication on gpus, Guo et al: They have an analytical and profile-based performance model to predict the *execution time* of SpMV on GPUs using different sparse matrix storage formats
+		- Features: just number of non zero elements per row (to check)
+- Can also use storage format selection as the class (e.g. SMAT)
+
 
 ### Accelerating Sparse Matrix Vector Multiplication in Iterative Methods Using GPU
 http://ieeexplore.ieee.org/document/6047229/
@@ -188,8 +253,33 @@ https://ac.els-cdn.com/S0743731514002081/1-s2.0-S0743731514002081-main.pdf?_tid=
 
 ### Automatic selection of sparse matrix representation on GPUs,  Sedaghati et al, 2015
 http://web.cse.ohio-state.edu/~pouchet.2/doc/ics-article.15b.pdf
-- TO READ
-- Laura
+
+Focuses on four SpMV representations implemented in cuSPARSE and CUSP:
+- CSR
+- ELLPACK
+- COO
+- ELL-COO (HYB)
+
+- Gathered 682 matrices from the [UFL repository](https://sparse.tamu.edu/about)
+	- Matrices were selected with 3 constraints
+		1. C1: the sparse matrix does not fit in the CPU LLC (8 MB for our machines). This is to focus on matrices where GPU execution is most beneficial.
+		2. C2: the sparse matrix fits in the “effective” space on the global memory of the device (i.e. single-GPU execution).
+		3. C3: the number of rows is large enough to guarantee minimum GPU concurrency. This is achieved by assuming that a warp works on a row; thus the minimum number of rows equals the maximum warp-level concurrency on a given device.
+- Used decision trees to classify matrices
+
+![](Sedaghati_SpM_memory.png)
+
+![](Sedaghati_SpM_time.png)
+
+- Work does not take into account the conversion time
+	- Possible extensions it to model conversion time and number of expected iterations
+
+![](Sedaghati_SpM_formats.png)
+
+**Feature set**
+- Similar to the lightweight optimization paper
+- Additional features: Number of non zero blocks per row, size of non zero blocks per row
+
 
 ### Graph Clustering survey
 http://www.leonidzhukov.net/hse/2015/networks/papers/GraphClustering_Schaeffer07.pdf
