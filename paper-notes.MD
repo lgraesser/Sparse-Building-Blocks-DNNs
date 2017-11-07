@@ -144,10 +144,26 @@ The performance data discussed in this section allow us to state some rules of t
 - If the matrix not only comes from a PDE but also has a piecewise diagonal structure, then HDI is probably a very good idea, and
 - If the matrix comes from a graph problem and has a power-law distribution in the number of entries, then the only option among the ones considered here is HYB, but even HYB is not very satisfactory; in this case, it may be appropriate to investigate more specialized formats [Ashari et al. 2014; Yang et al. 2011].
 
-### Parallel Sparse Direct Methods: A short tutorial
+#### Special Section: Utku's Small notes
+- It is all about memory and accessing/writing it. We have dense arrays x,y and some representation of the sparse matrix M. We need to retrieve some parts of x for each row and multiply+aggregate sum. We may try to
+	- Increase speed
+	- Reduce memory footprint (increase coalescing, reduce transactions)
+- And we can do that for a specific case or try to be more general. I think, it is better to optimize/work for a specific case and then you can see how well it does for the rest. How many times are you going to repeat the same spMv matter a lot, but if you are doing MtoM multiplication, then you probably going to do many multiplications. It would be nice to check whether sparse MtoM is implemented as many SpMv.
+- Didn't really get JAD and DIA, didn't spend time on them
+- Hybrids models are better at being general algorithms.
+- Results differ considerably between GPU's!!
+- I feel like it would be nice to define a use-case for us(pruned networks, network training) and then investigate different methods on them.
+- HYB looks cool.
+
+### Parallel Sparse Direct Methods: A short tutorial [evcu]
 https://pdfs.semanticscholar.org/bfbe/882ec19e2fae60fdbab805e49569cd292085.pdf
-- TO READ
-- Utku 
+- Linear systems like Ax=b can be solved with doing LU or Cholesky(if A is symmetric) factorization. If A is sparse, LU-factorization would introduce many more non-zeros(fill-in).
+- There are four phases and the interesting(bottle-neck) is the numerical factorization. ordering,symmetry, diagonallty matters.
+- Dense matrix factorization is O(n^3) and it requires some kind of a parallel execution, since future depends on the past.
+- Sparse matrix factorization, in theory requires much less computation and future steps may be taken earlier, whenever sparsity allows that. In other words, there is a dependency graph of work(a DAG) with a root from left-upper corner.
+- So the algorithms are focused on load-balancing mainly.
+- You first need to generate the graph and that is the important part since, you can generate different dependency graphs from the same Linear system by doing reordering. `nested dissection` algorithm is the best known heuristic.
+- Using supernodes(rows or columns with the same nonzero structure) would reduce the ordering calculations.
 
 ### A lightweight optimization selection method for Sparse Matrix-Vector Multiplication, Jan 2016
 https://arxiv.org/pdf/1511.02494.pdf
