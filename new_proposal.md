@@ -8,6 +8,10 @@ We decided to to focus in fully connected parts of trained networks.
 
 ### [Highly Parallel Sparse Matrix-Matrix Multiplication, Buluc, Gilbert](https://arxiv.org/pdf/1006.2183.pdf)
 
+- " One of the key linear-algebraic primitives for graph algorithms is computing the product of two sparse matrices (SpGEMM) over a semiring."
+
+### [Fast Sparse Martix Multiplication](https://ac.els-cdn.com/001046559290116G/1-s2.0-001046559290116G-main.pdf?_tid=5317d530-c405-11e7-b03e-00000aab0f26&acdnat=1510091460_0ee8c2533767fe6235271a52ba4a38e1)
+
 ### [A work-efficient parallel sparse matrix-sparse vector multiplication algorithm, Azad,  Buluc](http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7967159)
 
 ### [Sparse Matrix Sparse Vector Multiplication - A Novel Approach](http://ieeexplore.ieee.org/document/7349895/)
