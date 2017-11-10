@@ -292,6 +292,19 @@ https://dl.acm.org/citation.cfm?id=1693471
 - Their BELLPACK uses explicit storage to compress data and reordering of rows.
 - Their approach is limited to the sparse matrices with small amount of dense rows. If your rows are evenly distributed, you don't need blocked architecture anyway.
 
-![](choi1.png)
+![](choi_1.png)
 
-![](choi2.png)
+![](choi_2.png)
+
+- **Optimizations**
+	- **Short Vector Packing**: Packed the blocks into vectors of *float2* *float4* . *float4* is good since it automatically aligns the memory. So pad with 0's if you have something like 1*3 blocks.
+	- **Row Alignment**: Pad blocks with zeros whenever the total size is smaller then the word-size
+
+- Exp. results for BCSR is better then CSR worst then the NVIDIA's hybrid. Parallel reduction is the reason they say.
+- Their BELLPACK implementation is interesting. They are first picking the block size r*c and create the matrix of blocks. They are attacking the uneven distribution problem of ELLPACK by sorting the rows by #blocks and separating them in to R bins. Each of the bins get its own ELLPACK representation. So They need to carefully adjust r,c and R. Their results are better then hybrid strategy of NVIDIA.
+
+![](choi_3.png)
+
+- They try to model different GPU's with their specs. They define the formula for max thread blocks per MP, which basically depends on three ideas, registers, shared memory and hardware limits(max warp, max thread, max thread-block etc.)
+- They are trying to estimate some parameters in their definitions like the latency, per occupancy factor. They are using previous benchmarks to come-up with an execution-time-model.
+- You can sample the matrix(like 1%) to come-up with non-zero% and total size.
