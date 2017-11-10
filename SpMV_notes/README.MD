@@ -285,3 +285,13 @@ Focuses on four SpMV representations implemented in cuSPARSE and CUSP:
 http://www.leonidzhukov.net/hse/2015/networks/papers/GraphClustering_Schaeffer07.pdf
 - MAYBE TO READ
 - Utku?
+
+### Model-driven autotuning of sparse matrix-vector multiply on GPUs
+https://dl.acm.org/citation.cfm?id=1693471
+- Focus on tuning blocked implementations like BCSR and BELLPACK. They need to carefully(brute-force) tune the parameters to come-up with optimal speed-up. They propose a model for guessing those parameters, which may provide 15% less performance.
+- Their BELLPACK uses explicit storage to compress data and reordering of rows.
+- Their approach is limited to the sparse matrices with small amount of dense rows. If your rows are evenly distributed, you don't need blocked architecture anyway.
+
+![](choi1.png)
+
+![](choi2.png)
