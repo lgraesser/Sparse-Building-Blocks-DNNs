@@ -4,7 +4,7 @@
 
 Automatic tuning of sparse formats based on the sparsity characteristics of matrices appears well covered (please see a selection of papers below).
 
-Given this, We decided to focus on sparse matrix*sparse matrix(spMspM) multiplications and particularly in the context of deep learning. We believe in the importance of optimizing spM*spM multiplications in the context of deep-learning-research and development. Deep learning algorithms are over-parameterized and their parameters can typically be pruned down to 5-10% non zeros per matrix. Training big networks and using them for inference consists of many matrix-matrix multiplications. These matrices may be very sparse.
+Given this, We decided to focus on sparse matrix\*sparse matrix(spMspM) multiplications and particularly in the context of deep learning. We believe in the importance of optimizing spM\*spM multiplications in the context of deep-learning-research and development. Deep learning algorithms are over-parameterized and their parameters can typically be pruned down to 5-10% non zeros per matrix. Training big networks and using them for inference consists of many matrix-matrix multiplications. These matrices may be very sparse.
 
 - [Automatic selection of sparse matrix representation on GPUs,  Sedaghati et al, 2015](http://web.cse.ohio-state.edu/~pouchet.2/doc/ics-article.15b.pdf)
 - [Accelerating Sparse Matrix Vector Multiplication in Iterative Methods Using GPU](http://ieeexplore.ieee.org/document/6047229/)
@@ -51,7 +51,7 @@ We decided to to focus in fully connected parts of trained networks.
 - We need to write code fore doing basic feed forward capability.
 - Simulating pruning and comparing it with normal pruning(if you have time). You can compare different simulations and see how pruning statistics effect performance.
 
-## Referencesr
+## References
 
 ### [Highly Parallel Sparse Matrix-Matrix Multiplication, Buluc, Gilbert](https://arxiv.org/pdf/1006.2183.pdf)
 
