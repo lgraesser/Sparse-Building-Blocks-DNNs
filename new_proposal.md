@@ -2,7 +2,9 @@
 
 ### Why we are changing project
 
-Automatic tuning of sparse formats based on the sparsity characteristics of matrices appears well covered (see selection of papers below). Given this, we propose to focus on a particular (potential) application of sparse matrix matrix multiplication, the chains of matrix multiplications that occur in pruned neural networks.
+Automatic tuning of sparse formats based on the sparsity characteristics of matrices appears well covered (please see a selection of papers below).
+
+Given this, We decided to focus on sparse matrix*sparse matrix(spMspM) multiplications and particularly in the context of deep learning. We believe in the importance of optimizing spM*spM multiplications in the context of deep-learning-research and development. Deep learning algorithms are over-parameterized and their parameters can typically be pruned down to 5-10% non zeros per matrix. Training big networks and using them for inference consists of many matrix-matrix multiplications. These matrices may be very sparse.
 
 - [Automatic selection of sparse matrix representation on GPUs,  Sedaghati et al, 2015](http://web.cse.ohio-state.edu/~pouchet.2/doc/ics-article.15b.pdf)
 - [Accelerating Sparse Matrix Vector Multiplication in Iterative Methods Using GPU](http://ieeexplore.ieee.org/document/6047229/)
@@ -13,9 +15,10 @@ Automatic tuning of sparse formats based on the sparsity characteristics of matr
 ### Problem setting:
 - Neural networks an essential component of the state of the art machine learning models for object detection, object localization, semantic segmentation, image captioning, machine translation, speech recognition, etc.
 - At their heart, neural networks are chains of matrix multiplications, interspersed with simple functions applied to the results.
-- Optmizing neural networks is not that well understood, but it appears that significant overparameterization (i.e. really big models) during training helps the model to learn and to find a good optimum.
+- Optimizing neural networks is not that well understood, but it appears that significant over-parameterization (i.e. really big models) during training helps the model to learn and to find a good optimum.
 - Many of these models are so large that the only tractable way to use them for training and inference is to use parallel programs (i.e. GPUs)
-- Iterative pruning has become a common way to compress the size of fully trained neural networks. Typically 80-90% of a networks parameters can be pruned away without having any negative effect on performance. This creates significant sparsity in the networks weight matrices
+- Iterative pruning has become a common way to compress the size of fully trained neural networks. Typically 80-90% of a networks parameters can be pruned away without having any negative effect on performance. This creates significant sparsity in the networks weight matrices.
+- Additionally, a considerable group of famous networks uses zero-inducing non-linearities like ReLU or sigmoid and creates sparsity in the resulting matrix.
 - Typically the weight matrices of neural networks are represented in a dense format.
 
 ### Project
