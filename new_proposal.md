@@ -42,10 +42,11 @@ It has been observed that if the entire model can fit in the L1 cache of GPU [ad
 
 ### Additional Notes
 
-To begin with we will focus fully connected parts of trained networks.
+To begin with we will focus on fully connected parts of trained networks.
 
 - We will choose fully connected parts of following networks and write c code to read them into various sparse formats.
 - We need to write code for doing basic feed forward capability.
+- We will make use of existing routines for dense matrix matrix multiplication
 - To begin with we will simulate pruning by randomly zero-ing a certain % of weight matrices. If there is time, it would be interesting to compare it with normal pruning to see if the sparsity patterns are different and if this matters.
 - One option is can compare different approaches to zero-ing elements in a matrix and see how pruning statistics effect performance.
 
