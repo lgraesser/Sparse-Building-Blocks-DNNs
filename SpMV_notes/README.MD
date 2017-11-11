@@ -241,10 +241,16 @@ http://ieeexplore.ieee.org/document/6047229/
 - Utku
 
 ### SMAT: An input adaptive auto-tuner for sparse matrix-vector
-multiplication, Li et al, 2013
+I'm not impressed by the ML, which is just decision trees based 'if-else'
 https://arxiv.org/abs/1210.2536
-- TO READ - uses ML to select compression format
-- Laura
+- In one point, given CSR format they get some basic features(they count all the way(no sampling), like 7-8) and they use 4 binary classifier to choose from DIA,ELL,CSR,COO in-order (first use DIA classifier with DIA specific features whether it is a good fit for DIA or not, then ELL etc.). After choosing the best representation they use the provided libraries.
+- Their motivation is the gap between specific research with various formats and the practice. They are attacking this gap by providing CSR based wrapper, which amortizes itself around 20 iterations.
+- They have selected 2373 matrices from UF-sM collection and they benchmark the best known-or-(probably)available algorithms for each of the four representation.
+
+![](li_1.png)
+![](li_2.png)
+
+- They didn't include hybrid-model, which is much more balanced solution and I guess it would give a similar result as their 'ML' solution. 
 
 ###  A model-driven blocking strategy for load balanced sparse matrix-vector multiplication on GPUs, Sedaghati et al, 2015
 https://ac.els-cdn.com/S0743731514002081/1-s2.0-S0743731514002081-main.pdf?_tid=1a8fcc74-bdd2-11e7-9796-00000aacb35d&acdnat=1509409754_e68b4a6351498b88c6b95658a7dbe1cb
