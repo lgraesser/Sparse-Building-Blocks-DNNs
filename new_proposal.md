@@ -1,10 +1,54 @@
 ## New Proposal
+
+### Why we are changing project
+
+Automatic tuning of sparse formats based on the sparsity characteristics of matrices appears well covered (see selection of papers below). Given this, we propose to focus on a particular (potential) application of sparse matrix matrix multiplication, the chains of matrix multiplications that occur in pruned neural networks.
+
+- [Automatic selection of sparse matrix representation on GPUs,  Sedaghati et al, 2015](http://web.cse.ohio-state.edu/~pouchet.2/doc/ics-article.15b.pdf)
+- [Accelerating Sparse Matrix Vector Multiplication in Iterative Methods Using GPU](http://ieeexplore.ieee.org/document/6047229/)
+- [SMAT: An input adaptive auto-tuner for sparse matrix-vector multiplication, Li et al, 2013](https://arxiv.org/abs/1210.2536)
+- [A lightweight optimization selection method for Sparse Matrix-Vector Multiplication, Jan 2016](https://arxiv.org/pdf/1511.02494.pdf)
+- clSpMV framework. This approach is restricted to GPUs.
+
+### Problem setting:
+- Neural networks an essential component of the state of the art machine learning models for object detection, object localization, semantic segmentation, image captioning, machine translation, speech recognition, etc.
+- At their heart, neural networks are chains of matrix multiplications, interspersed with simple functions applied to the results.
+- Optmizing neural networks is not that well understood, but it appears that significant overparameterization (i.e. really big models) during training helps the model to learn and to find a good optimum.
+- Many of these models are so large that the only tractable way to use them for training and inference is to use parallel programs (i.e. GPUs)
+- Iterative pruning has become a common way to compress the size of fully trained neural networks. Typically 80-90% of a networks parameters can be pruned away without having any negative effect on performance. This creates significant sparsity in the networks weight matrices
+- Typically the weight matrices of neural networks are represented in a dense format.
+
+### Project
+This project explores if, and at what degree of pruning, it is optimal to represent a weight matrix in a sparse format. A secondary question is what amongst the diff
+Two interrelated factors are relevant:
+1. Space the model occupies
+2. Inference speed
+
+It has been observed that if the entire model can fit in the L1 cache of GPU [add reference], significant speedups are possible. Given this, a sparse matrix format might be an optimal solution even if the sparse matrix multiplication is slower.
+
+### Hypotheses:
+- Primary: For a sufficiently large neural network, there exists a pruning threshold (measured as an average % of the number of model parameters) above which it is optimal to represent one or more weight matrices in the network as sparse matrices, and to use sparse matrix - sparse matrix routines instead of the more common parallel dense matrix routines
+- Secondary: There may exist levels of pruning below this threshold, where is it optimal to represent one or more weight matrices in the network as a hybrid (mix of sparse and dense) format.
+
+### Literature
+
+See below
+
+**Assumptions**:
+  - All comparisons are made on GPUs
+  - Optimality is a function of the space the model occupies and the speed at which inference using the model takes. A faster, smaller model is better than a larger, slower model.
+  - A smaller model is preferable to a larger model, assuming speed is equal.
+  - We will analyze both the size of the model and speed of inference
+
+### Notes
+
 We decided to to focus in fully connected parts of trained networks.
 
 - We will choose fully connected parts of following networks and write c code to read them into various C formats.
 - We need to write code fore doing basic feed forward capability.
 - Simulating pruning and comparing it with normal pruning(if you have time). You can compare different simulations and see how pruning statistics effect performance.
 
+## Referencesr
 
 ### [Highly Parallel Sparse Matrix-Matrix Multiplication, Buluc, Gilbert](https://arxiv.org/pdf/1006.2183.pdf)
 
