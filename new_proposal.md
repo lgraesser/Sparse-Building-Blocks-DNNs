@@ -22,8 +22,9 @@ Given this, We decided to focus on sparse matrix\*sparse matrix(spMspM) multipli
 - Typically the weight matrices of neural networks are represented in a dense format.
 
 ### Project
-This project explores if, and at what degree of pruning, it is optimal to represent a weight matrix in a sparse format. A secondary question is what amongst the diff
-Two interrelated factors are relevant:
+This project explores if, and at what degree of pruning, it is optimal to represent a weight matrix in a sparse format. A secondary question is if different sparse matrix storage formats make a significant difference.
+
+Two interrelated factors are relevant when evaluating performance:
 1. Space the model occupies
 2. Inference speed
 
@@ -33,23 +34,23 @@ It has been observed that if the entire model can fit in the L1 cache of GPU [ad
 - Primary: For a sufficiently large neural network, there exists a pruning threshold (measured as an average % of the number of model parameters) above which it is optimal to represent one or more weight matrices in the network as sparse matrices, and to use sparse matrix - sparse matrix routines instead of the more common parallel dense matrix routines
 - Secondary: There may exist levels of pruning below this threshold, where is it optimal to represent one or more weight matrices in the network as a hybrid (mix of sparse and dense) format.
 
-### Literature
-
-See below
-
 **Assumptions**:
   - All comparisons are made on GPUs
   - Optimality is a function of the space the model occupies and the speed at which inference using the model takes. A faster, smaller model is better than a larger, slower model.
   - A smaller model is preferable to a larger model, assuming speed is equal.
   - We will analyze both the size of the model and speed of inference
 
-### Notes
+### Additional Notes
 
-We decided to to focus in fully connected parts of trained networks.
+To begin with we will focus fully connected parts of trained networks.
 
-- We will choose fully connected parts of following networks and write c code to read them into various C formats.
-- We need to write code fore doing basic feed forward capability.
-- Simulating pruning and comparing it with normal pruning(if you have time). You can compare different simulations and see how pruning statistics effect performance.
+- We will choose fully connected parts of following networks and write c code to read them into various sparse formats.
+- We need to write code for doing basic feed forward capability.
+- To begin with we will simulate pruning by randomly zero-ing a certain % of weight matrices. If there is time, it would be interesting to compare it with normal pruning to see if the sparsity patterns are different and if this matters.
+- One option is can compare different approaches to zero-ing elements in a matrix and see how pruning statistics effect performance.
+
+### Questions
+- Are there 3D sparse matrix matrix multiplication routines?
 
 ## References
 
@@ -57,7 +58,7 @@ We decided to to focus in fully connected parts of trained networks.
 
 - " One of the key linear-algebraic primitives for graph algorithms is computing the product of two sparse matrices (SpGEMM) over a semiring."
 
-### [Fast Sparse Martix Multiplication](https://ac.els-cdn.com/001046559290116G/1-s2.0-001046559290116G-main.pdf?_tid=5317d530-c405-11e7-b03e-00000aab0f26&acdnat=1510091460_0ee8c2533767fe6235271a52ba4a38e1)
+### [Fast Sparse Matrix Multiplication](https://ac.els-cdn.com/001046559290116G/1-s2.0-001046559290116G-main.pdf?_tid=5317d530-c405-11e7-b03e-00000aab0f26&acdnat=1510091460_0ee8c2533767fe6235271a52ba4a38e1)
 
 ### [A work-efficient parallel sparse matrix-sparse vector multiplication algorithm, Azad,  Buluc](http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7967159)
 
