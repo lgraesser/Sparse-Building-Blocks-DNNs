@@ -68,6 +68,11 @@ To begin with we will focus on fully connected parts of trained networks.
 - Also, split kernel into out_ch / k_ch = n planes of k_ch
 - Fancy tiling and accumulation
 
+- Network statistics
+  - 20 - 80% weights per layer can be eliminated
+  - If relu's are used as the activation function, then typically 50-70% of the activations (inputs) are also zero
+  
+
 ###[A Framework for General Sparse Matrix-Matrix Multiplication on GPUs](https://arxiv.org/pdf/1504.05022.pdf)
 
 ### [Optimizing Sparse Matrix-Matrix Multiplication for the GPU](https://pdfs.semanticscholar.org/3c9c/92d5267e826d4a1572c3e13a979ddc0c595e.pdf)
