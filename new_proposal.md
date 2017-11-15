@@ -55,6 +55,18 @@ To begin with we will focus on fully connected parts of trained networks.
 
 ## References
 
+###[Deep compression](https://arxiv.org/pdf/1510.00149.pdf)
+
+###[Efficient Inference Engine on Compressed networks](https://arxiv.org/pdf/1602.01528.pdf)
+
+###[Sparse CNN](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Liu_Sparse_Convolutional_Neural_2015_CVPR_paper.pdf)
+
+###[Sparse CNN: Accelerator](https://arxiv.org/pdf/1708.04485.pdf)
+
+###[A Framework for General Sparse Matrix-Matrix Multiplication on GPUs](https://arxiv.org/pdf/1504.05022.pdf)
+
+### [Optimizing Sparse Matrix-Matrix Multiplication for the GPU](https://pdfs.semanticscholar.org/3c9c/92d5267e826d4a1572c3e13a979ddc0c595e.pdf)
+
 ### [Highly Parallel Sparse Matrix-Matrix Multiplication, Buluc, Gilbert](https://arxiv.org/pdf/1006.2183.pdf)
 
 - " One of the key linear-algebraic primitives for graph algorithms is computing the product of two sparse matrices (SpGEMM) over a semiring."
