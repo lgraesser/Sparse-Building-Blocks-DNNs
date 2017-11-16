@@ -57,11 +57,21 @@ To begin with we will focus on fully connected parts of trained networks.
 
 ###[Deep compression](https://arxiv.org/pdf/1510.00149.pdf)
 
+
 ###[Efficient Inference Engine on Compressed networks](https://arxiv.org/pdf/1602.01528.pdf)
 
 ###[Sparse CNN](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Liu_Sparse_Convolutional_Neural_2015_CVPR_paper.pdf)
 
 ###[Sparse CNN: Accelerator](https://arxiv.org/pdf/1708.04485.pdf)
+- 2d tiling along width and height of input
+- Kernel weight dimensions: in_ch, out_ch, w, h
+- Also, split kernel into out_ch / k_ch = n planes of k_ch
+- Fancy tiling and accumulation
+
+- Network statistics
+  - 20 - 80% weights per layer can be eliminated
+  - If relu's are used as the activation function, then typically 50-70% of the activations (inputs) are also zero
+  
 
 ###[A Framework for General Sparse Matrix-Matrix Multiplication on GPUs](https://arxiv.org/pdf/1504.05022.pdf)
 
