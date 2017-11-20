@@ -3,7 +3,7 @@
 if __name__ == '__main__':
         import sys
         if len(sys.argv) == 3:
-            dims = map(int,sys.argv[1].strip().split(','))
+            dims = list(map(int,sys.argv[1].strip().split(',')))
             if len(dims)<2:
                 print("!error!please provide at least 2 dimensions!")
                 sys.exit(1)
