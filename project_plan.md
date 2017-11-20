@@ -11,7 +11,7 @@ Our question is, given a dense matrix, should we convert it to Sparse Matrix or 
 
 ### Project Phases
 1. **Investigating Fully Connected Layer Sparsity Threshold for Efficient Forward Propagation**(15th-24th December)
-  - (U) Generate sample matrices with python(write script) with random sampling. Look at the common datasets to comply with their style/standard. So we can use already written reading code. There should be (matrx1,matrx2)
+  - (U)~~Generate sample matrices with python(write script) with random sampling. Look at the common datasets to comply with their style/standard. So we can use already written reading code. There should be (matrx1,matrx2)~~
   - (L) Write down matrix conversion part with cuda. (maybe look at the UF-dataset, if they are written as dense vector, they may have a conversion)
   - (U) Implement Dense-Kernel(call cuda).
   - (U) Implement Sparse-Kernel
