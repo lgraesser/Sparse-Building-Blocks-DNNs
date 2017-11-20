@@ -19,9 +19,9 @@ if __name__ == '__main__':
         mask = np.random.binomial(1,1-s_factor,(n,m))
         arr = np.random.uniform(-RANGE_WIDTH,RANGE_WIDTH,(n,m))
 
-        print "ROWS=%d" % n
-        print "COLUMNS=%d" % m
+        print("ROWS=%d" % n)
+        print("COLUMNS=%d" % m)
         non_zeros = sum(sum(mask))
-        print "SPARSITY=%.2f (%d/%d)" % (1-float(non_zeros)/n/m,non_zeros,n*m)
+        print("SPARSITY=%.2f (%d/%d)" % (1-float(non_zeros)/n/m,non_zeros,n*m))
 
         savetxt_compact(sys.stdout,arr*mask,fmt="%.8f",delimiter=",")
