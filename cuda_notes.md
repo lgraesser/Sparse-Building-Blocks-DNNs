@@ -6,17 +6,19 @@
  Supports float, double, cuComplex, and cuDoubleComplex
 
  Naming conventions
+```C
  cusparse<t>[<matrix data format>]<operation>[<output matrix data format>]
 
  <t> : S, D, C, Z, X
  <matrix data format>: dense, coo, csr, csc, hyb
+```
 
- All functions have return type cusparseStatus_t
+ All functions have return type `cusparseStatus_t`
 
  Execution is asynchronous, although cudaMemcpy() (either device to host or vice versa) is blocking with respect to the host
 
  **Compilation**
- nvcc myCusparseApp.c  -lcusparse  -o myCusparseApp
+ `nvcc myCusparseApp.c  -lcusparse  -o myCusparseApp`
 
 **Usage**
 Must call `cusparseCreate()` to initialize the library before calling any cuSPARSE function
