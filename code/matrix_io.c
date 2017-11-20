@@ -21,6 +21,7 @@
 #define index2D(i, j, N) ((i)*(N)) + (j)
 #define index3D(ch, i, j, M, N) ((ch)*(M)*(N)) + ((i)*(N)) + (j)
 #define index4D(s, ch, i, j, K, M, N) ((s)*(K)*(M)*(N)) + ((ch)*(M)*(N)) + ((i)*(N)) + (j)
+#define index4DCol(s, ch, i, j, K, M, N) ((s)*(K)*(M)*(N)) + ((ch)*(M)*(N)) + ((j)*(M)) + (i)
 
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
@@ -29,7 +30,10 @@
 void read_matrix_vals(char *, float *, int []);
 void read_matrix_dims(char *, int []);
 void print_matrix(float *, int []);
+void print_matrix_cols(float *, int []);
 void write_matrix(char *, float *, int []);
+void convert_to_column_major(float *, float *, int []);
+void convert_to_row_major(float *, float *, int []);
 /* ========================================================================= */
 
 
@@ -52,11 +56,19 @@ int main(int argc, char * argv[])
     }
   }
   matrix = (float *)calloc(num_elems, sizeof(float));
+  matrix_cols = (float *)calloc(num_elems, sizeof(float));
   read_matrix_vals(filename, matrix, matrix_dims);
+  convert_to_column_major(matrix, matrix_cols, matrix_dims);
   print_matrix(matrix, matrix_dims);
+  print_matrix_cols(matrix, matrix_dims);
   free(matrix);
+  free(matrix_cols);
 }
 
+void convert_to_column_major(float * matrix_row_major, float * matrix_cols, int matrix_dims[])
+{
+  // TODO
+}
 
 void read_matrix_dims(char * filename, int matrix_dims[])
 {
@@ -130,6 +142,7 @@ void read_matrix_vals(char * filename, float * matrix, int matrix_dims[])
   free(line);
 }
 
+
 void print_matrix(float * matrix, int matrix_dims[])
 {
   printf("Matrix dimensions: [%d, %d, %d, %d]\n",
@@ -149,6 +162,35 @@ void print_matrix(float * matrix, int matrix_dims[])
         for (j = 0; j < matrix_dims[3]; j++)
         {
           printf("%05.2f ", matrix[index4D(s, ch, i, j,
+            matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
+        }
+        printf("\n");
+      }
+      printf("\n");
+    }
+  }
+}
+
+
+void print_matrix(float * matrix, int matrix_dims[])
+{
+  printf("Matrix dimensions: [%d, %d, %d, %d]\n",
+                              matrix_dims[0],
+                              matrix_dims[1],
+                              matrix_dims[2],
+                              matrix_dims[3]);
+  // Write planes
+  int s, ch, i, j;
+  for (s = 0; s < MAX(matrix_dims[0], 1); s++)
+  {
+    for (ch = 0; ch < MAX(matrix_dims[1], 1); ch++)
+    {
+      printf("(Sample, Channel) = (%d, %d)\n", s, ch);
+      for (i = 0; i < matrix_dims[2]; i++)
+      {
+        for (j = 0; j < matrix_dims[3]; j++)
+        {
+          printf("%05.2f ", matrix[index4DCol(s, ch, i, j,
             matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
         }
         printf("\n");
