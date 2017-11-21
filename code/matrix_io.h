@@ -16,4 +16,5 @@ void print_matrix_cols(float *, int []);
 void write_matrix(char *, float *, int []);
 void convert_to_column_major(float *, float *, int []);
 void convert_to_row_major(float *, float *, int []);
+void convert_dense_to_coo_4D(float *, float *, int *, int *, int *, int *, int [])
 /* ========================================================================= */
