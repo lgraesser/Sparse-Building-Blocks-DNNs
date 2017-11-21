@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "matrix_io.h"
 
 /* To index a 2D, 3D or 4D array stored as 1D, in row major order */
 /* Arrays always assumed to be S * K * M * N
@@ -26,22 +27,13 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
-/* ======================== Function declarations=========================== */
-void read_matrix_vals(char *, float *, int []);
-void read_matrix_dims(char *, int []);
-void print_matrix(float *, int []);
-void print_matrix_cols(float *, int []);
-void write_matrix(char *, float *, int []);
-void convert_to_column_major(float *, float *, int []);
-void convert_to_row_major(float *, float *, int []);
-/* ========================================================================= */
-
 
 int main(int argc, char * argv[])
 {
   // TODO: add filename read in
 
   float * matrix;
+  float * matrix_cols;
   int matrix_dims[4] = {0};
   char * filename = "test.mat";
   read_matrix_dims(filename, matrix_dims);
@@ -57,18 +49,56 @@ int main(int argc, char * argv[])
   }
   matrix = (float *)calloc(num_elems, sizeof(float));
   matrix_cols = (float *)calloc(num_elems, sizeof(float));
+
+  // Read and convert matrices
   read_matrix_vals(filename, matrix, matrix_dims);
   convert_to_column_major(matrix, matrix_cols, matrix_dims);
   print_matrix(matrix, matrix_dims);
-  print_matrix_cols(matrix, matrix_dims);
+  print_matrix_cols(matrix_cols, matrix_dims);
+
+  // Check row major and col major layout
+  printf("Row major matrix\n");
+  for (k = 0; k < num_elems; k++)
+  {
+    printf("%05.2f ", matrix[k]);
+  }
+  printf("\n");
+  printf("Column major matrix\n");
+  for (k = 0; k < num_elems; k++)
+  {
+    printf("%05.2f ", matrix_cols[k]);
+  }
+  printf("\n");
+
+  // Free memory
   free(matrix);
   free(matrix_cols);
 }
 
-void convert_to_column_major(float * matrix_row_major, float * matrix_cols, int matrix_dims[])
+void convert_to_column_major(float * matrix_row_major,
+                             float * matrix_col_major,
+                             int matrix_dims[])
 {
-  // TODO
+  // Write planes
+  int s, ch, i, j;
+  for (s = 0; s < MAX(matrix_dims[0], 1); s++)
+  {
+    for (ch = 0; ch < MAX(matrix_dims[1], 1); ch++)
+    {
+      for (i = 0; i < matrix_dims[2]; i++)
+      {
+        for (j = 0; j < matrix_dims[3]; j++)
+        {
+          matrix_col_major[index4DCol(s, ch, i, j,
+            matrix_dims[1], matrix_dims[2], matrix_dims[3])] =
+            matrix_row_major[index4D(s, ch, i, j,
+            matrix_dims[1], matrix_dims[2], matrix_dims[3])];
+        }
+      }
+    }
+  }
 }
+
 
 void read_matrix_dims(char * filename, int matrix_dims[])
 {
@@ -95,6 +125,7 @@ void read_matrix_dims(char * filename, int matrix_dims[])
                               matrix_dims[3]);
   free(line);
 }
+
 
 void read_matrix_vals(char * filename, float * matrix, int matrix_dims[])
 {
@@ -172,7 +203,7 @@ void print_matrix(float * matrix, int matrix_dims[])
 }
 
 
-void print_matrix(float * matrix, int matrix_dims[])
+void print_matrix_cols(float * matrix, int matrix_dims[])
 {
   printf("Matrix dimensions: [%d, %d, %d, %d]\n",
                               matrix_dims[0],
