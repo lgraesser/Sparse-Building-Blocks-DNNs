@@ -171,6 +171,7 @@ void read_matrix_vals(char * filename, float * matrix, int matrix_dims[])
     }
   }
   free(line);
+  fclose(fp);
 }
 
 
