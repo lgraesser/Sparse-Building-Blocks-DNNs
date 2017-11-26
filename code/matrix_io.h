@@ -9,10 +9,9 @@
  */
 
 /* ======================== Function declarations=========================== */
-void read_matrix_vals(char *, float *, int []);
+void read_matrix_vals(char *, float *, int [],char);
 void read_matrix_dims(char *, int []);
-void print_matrix(float *, int []);
-void print_matrix_cols(float *, int []);
+void print_matrix(float *, int [],char);
 void write_matrix(char *, float *, int []);
 void convert_to_column_major(float *, float *, int []);
 void convert_to_row_major(float *, float *, int []);

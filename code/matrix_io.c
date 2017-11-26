@@ -53,8 +53,8 @@ int main(int argc, char * argv[])
   // Read and convert matrices
   read_matrix_vals(filename, matrix, matrix_dims,0);
   read_matrix_vals(filename, matrix_cols, matrix_dims,1);
-  print_matrix(matrix, matrix_dims);
-  print_matrix_cols(matrix_cols, matrix_dims);
+  print_matrix(matrix, matrix_dims,0);
+  print_matrix(matrix_cols, matrix_dims,1);
 
   // Check row major and col major layout
   printf("Row major matrix\n");
@@ -128,7 +128,7 @@ void read_matrix_dims(char * filename, int matrix_dims[])
 }
 
 
-void read_matrix_vals(char * filename, float * matrix, int matrix_dims[],char col_order_flag)
+void read_matrix_vals(char * filename, float * matrix, int matrix_dims[],char is_col_order_flag)
 {
   FILE *fp = fopen(filename, "r");
   size_t len = 0;
@@ -165,7 +165,7 @@ void read_matrix_vals(char * filename, float * matrix, int matrix_dims[],char co
         {
           // printf("[%d, %d, %d, %d]\n", s, ch, i, j);
           float tok_f = atof(token);
-          if (col_order_flag){
+          if (is_col_order_flag){
             matrix[index4DCol(s, ch, i, j, matrix_dims[1], matrix_dims[2], matrix_dims[3])] = tok_f;
           }
           else{
@@ -181,7 +181,7 @@ void read_matrix_vals(char * filename, float * matrix, int matrix_dims[],char co
 }
 
 
-void print_matrix(float * matrix, int matrix_dims[])
+void print_matrix(float * matrix, int matrix_dims[],char is_col_order_flag)
 {
   printf("Matrix dimensions: [%d, %d, %d, %d]\n",
                               matrix_dims[0],
@@ -199,37 +199,14 @@ void print_matrix(float * matrix, int matrix_dims[])
       {
         for (j = 0; j < matrix_dims[3]; j++)
         {
-          printf("%05.2f ", matrix[index4D(s, ch, i, j,
-            matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
-        }
-        printf("\n");
-      }
-      printf("\n");
-    }
-  }
-}
-
-
-void print_matrix_cols(float * matrix, int matrix_dims[])
-{
-  printf("Matrix dimensions: [%d, %d, %d, %d]\n",
-                              matrix_dims[0],
-                              matrix_dims[1],
-                              matrix_dims[2],
-                              matrix_dims[3]);
-  // Write planes
-  int s, ch, i, j;
-  for (s = 0; s < MAX(matrix_dims[0], 1); s++)
-  {
-    for (ch = 0; ch < MAX(matrix_dims[1], 1); ch++)
-    {
-      printf("(Sample, Channel) = (%d, %d)\n", s, ch);
-      for (i = 0; i < matrix_dims[2]; i++)
-      {
-        for (j = 0; j < matrix_dims[3]; j++)
-        {
-          printf("%05.2f ", matrix[index4DCol(s, ch, i, j,
-            matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
+          if (is_col_order_flag){
+            printf("%05.2f ", matrix[index4DCol(s, ch, i, j,
+              matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
+          }
+          else{
+            printf("%05.2f ", matrix[index4D(s, ch, i, j,
+              matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
+          }
         }
         printf("\n");
       }
