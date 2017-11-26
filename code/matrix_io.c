@@ -19,54 +19,6 @@
  *  M: number of rows, i = index of a single row
  *  N: number of columns, j = index of a single column
  */
-#define index2D(i, j, N) ((i)*(N)) + (j)
-#define index3D(ch, i, j, M, N) ((ch)*(M)*(N)) + ((i)*(N)) + (j)
-#define index4D(s, ch, i, j, K, M, N) ((s)*(K)*(M)*(N)) + ((ch)*(M)*(N)) + ((i)*(N)) + (j)
-#define index4DCol(s, ch, i, j, K, M, N) ((s)*(K)*(M)*(N)) + ((ch)*(M)*(N)) + ((j)*(M)) + (i)
-
-#define MAX(x, y) (((x) > (y)) ? (x) : (y))
-#define MIN(x, y) (((x) < (y)) ? (x) : (y))
-
-
-int main(int argc, char * argv[])
-{
-  // TODO: add filename read in
-
-  float * matrix;
-  float * matrix_cols;
-  int matrix_dims[4] = {0};
-  char * filename = "test.mat";
-  int num_elems;
-  read_matrix_dims(filename, matrix_dims,&num_elems);
-  // Allocate memory
-  matrix = (float *)calloc(num_elems, sizeof(float));
-  matrix_cols = (float *)calloc(num_elems, sizeof(float));
-
-  // Read and convert matrices
-  read_matrix_vals(filename, matrix, matrix_dims,0);
-  read_matrix_vals(filename, matrix_cols, matrix_dims,1);
-  print_matrix(matrix, matrix_dims,0);
-  print_matrix(matrix_cols, matrix_dims,1);
-
-  // Check row major and col major layout
-  int k;
-  printf("Row major matrix\n");
-  for (k = 0; k < num_elems; k++)
-  {
-    printf("%05.2f ", matrix[k]);
-  }
-  printf("\n");
-  printf("Column major matrix\n");
-  for (k = 0; k < num_elems; k++)
-  {
-    printf("%05.2f ", matrix_cols[k]);
-  }
-  printf("\n");
-
-  // Free memory
-  free(matrix);
-  free(matrix_cols);
-}
 
 void convert_to_column_major(float * matrix_row_major,
                              float * matrix_col_major,
