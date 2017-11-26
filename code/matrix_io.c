@@ -51,8 +51,8 @@ int main(int argc, char * argv[])
   matrix_cols = (float *)calloc(num_elems, sizeof(float));
 
   // Read and convert matrices
-  read_matrix_vals(filename, matrix, matrix_dims);
-  convert_to_column_major(matrix, matrix_cols, matrix_dims);
+  read_matrix_vals(filename, matrix, matrix_dims,0);
+  read_matrix_vals(filename, matrix_cols, matrix_dims,1);
   print_matrix(matrix, matrix_dims);
   print_matrix_cols(matrix_cols, matrix_dims);
 
@@ -124,10 +124,11 @@ void read_matrix_dims(char * filename, int matrix_dims[])
                               matrix_dims[2],
                               matrix_dims[3]);
   free(line);
+  fclose(fp);
 }
 
 
-void read_matrix_vals(char * filename, float * matrix, int matrix_dims[])
+void read_matrix_vals(char * filename, float * matrix, int matrix_dims[],char col_order_flag)
 {
   FILE *fp = fopen(filename, "r");
   size_t len = 0;
@@ -164,7 +165,12 @@ void read_matrix_vals(char * filename, float * matrix, int matrix_dims[])
         {
           // printf("[%d, %d, %d, %d]\n", s, ch, i, j);
           float tok_f = atof(token);
-          matrix[index4D(s, ch, i, j, matrix_dims[1], matrix_dims[2], matrix_dims[3])] = tok_f;
+          if (col_order_flag){
+            matrix[index4DCol(s, ch, i, j, matrix_dims[1], matrix_dims[2], matrix_dims[3])] = tok_f;
+          }
+          else{
+            matrix[index4D(s, ch, i, j, matrix_dims[1], matrix_dims[2], matrix_dims[3])] = tok_f;
+          }
           token = strtok(NULL, delim);
         }
       }
