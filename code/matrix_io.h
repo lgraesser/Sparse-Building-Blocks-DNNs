@@ -10,7 +10,7 @@
 
 /* ======================== Function declarations=========================== */
 void read_matrix_vals(char *, float *, int [],char);
-void read_matrix_dims(char *, int []);
+void read_matrix_dims(char *, int [],int *);
 void print_matrix(float *, int [],char);
 void write_matrix(char *, float *, int []);
 void convert_to_column_major(float *, float *, int []);

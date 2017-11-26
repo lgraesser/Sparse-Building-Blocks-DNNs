@@ -36,17 +36,9 @@ int main(int argc, char * argv[])
   float * matrix_cols;
   int matrix_dims[4] = {0};
   char * filename = "test.mat";
-  read_matrix_dims(filename, matrix_dims);
+  int num_elems;
+  read_matrix_dims(filename, matrix_dims,&num_elems);
   // Allocate memory
-  int num_elems = 1;
-  int k;
-  for (k = 0; k < 4; k++)
-  {
-    if (matrix_dims[k] != 0)
-    {
-      num_elems *= matrix_dims[k];
-    }
-  }
   matrix = (float *)calloc(num_elems, sizeof(float));
   matrix_cols = (float *)calloc(num_elems, sizeof(float));
 
@@ -57,6 +49,7 @@ int main(int argc, char * argv[])
   print_matrix(matrix_cols, matrix_dims,1);
 
   // Check row major and col major layout
+  int k;
   printf("Row major matrix\n");
   for (k = 0; k < num_elems; k++)
   {
@@ -100,8 +93,9 @@ void convert_to_column_major(float * matrix_row_major,
 }
 
 
-void read_matrix_dims(char * filename, int matrix_dims[])
+void read_matrix_dims(char * filename, int matrix_dims[],int* product)
 {
+  // Return the multiplication of the dimensions, a.k. number of elements
   FILE *fp = fopen(filename, "r");
   size_t len = 0;
   ssize_t read;
@@ -111,12 +105,14 @@ void read_matrix_dims(char * filename, int matrix_dims[])
   int dim = atoi(&line[6]);
   printf("DIM: %d\n", dim);
   int i;
+  *product = 1;
   int offset = 4 - dim;
   for (i = 0; i < dim; i ++)
   {
     read = getline(&line, &len, fp);
     printf("%d: %s", i, line);
     matrix_dims[i + offset] = atoi(&line[5]);
+    *product *= matrix_dims[i + offset];
   }
   printf("Matrix dimensions: [%d, %d, %d, %d]\n",
                               matrix_dims[0],
