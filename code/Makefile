@@ -1,8 +1,8 @@
 NVCC=nvcc -arch=sm_35
 
-all: dense io
+all: mm io
 
-dense: matrix_io.o dense_experiment.o
+mm: matrix_io.o mm_experiment.o mm.o
 	$(NVCC) -lcublas -o $@ $^
 
 io: matrix_io.o matrix_io_test.o
