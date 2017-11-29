@@ -28,7 +28,8 @@ struct SparseMat {
   int * csrColIndA;
   float * csrValA;
   const int * nz_per_row;
+  int total_non_zero;
 };
 
-SparseMat * convert_to_sparse(float *, int, cusparseHandle_t *, cusparseMatDescr_t);
-void print_sparse_matrix(SparseMat *);
+struct SparseMat * convert_to_sparse(float *, int [], cusparseHandle_t, const cusparseMatDescr_t);
+void print_sparse_matrix(struct SparseMat *, int);
