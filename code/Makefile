@@ -1,8 +1,8 @@
 NVCC=nvcc -arch=sm_35
 
-all: dense io sparse_test
+all: mm io sparse_test
 
-dense: matrix_io.o dense_experiment.o
+mm: matrix_io.o mm_experiment.o mm.o
 	$(NVCC) -lcublas -o $@ $^
 
 sparse_test: sparse_conversion_test.o sparse_conversion.o matrix_io.o
@@ -19,4 +19,4 @@ io: matrix_io.o matrix_io_test.o
 
 .PHONY: clean
 clean:
-	rm -f *.o dense io sparse_test
+	rm -f *.o mm io sparse_test

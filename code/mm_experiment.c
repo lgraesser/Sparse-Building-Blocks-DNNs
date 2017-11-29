@@ -4,46 +4,9 @@
  */
 
 #include "matrix_io.h"
+#include "mm.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-#include <cuda_runtime.h>
-#include <cublas_v2.h>
-
-/* The input is 2d 2d
- */
-
-void gpu_blas_mmul(const float *A, const float *B, float *C, const int m, const int k, const int n) {
-   int lda=m,ldb=k,ldc=m;
-   const float alf = 1;
-   const float bet = 0;
-   const float *alpha = &alf;
-   const float *beta = &bet;
-
-   // Create a handle for CUBLAS
-   cublasHandle_t handle;
-   cublasCreate(&handle);
-
-   // Do the actual multiplication
-   cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
-
-   // Destroy the handle
-   cublasDestroy(handle);
-}
-
-void mm_cpu(float *a, float *b, float *c, int m, int n, int k){
-    int i,j,r;
-    float c_sum;
-    for(i=0;i<m;i++){
-      for(j=0;j<n;j++){
-        c_sum = 0;
-        for(r=0;r<k;r++){
-            c_sum += a[index2DCol(i,r,m)]*b[index2DCol(r,j,k)];
-        }
-        c[index2DCol(i,j,m)] = c_sum;
-      }
-    }
-}
 
 int main(int argc, char * argv[])
 {
@@ -67,13 +30,20 @@ int main(int argc, char * argv[])
   int m = matrix_dims1[2];
   int k = matrix_dims1[3];
   int n = matrix_dims2[3];
-  printf("m:%d,k:%d,n:%d\n",m,k,n);
-  matrixRes = (float *)calloc(m*n,sizeof(float));
-  mm_cpu(matrix1,matrix2,matrixRes,m,n,k);
-
   matrix_dimsRes[2]=m;
   matrix_dimsRes[3]=n;
+
+  matrixRes = (float *)calloc(m*n,sizeof(float));
+  cpu_mm(matrix1,matrix2,matrixRes,m,n,k);
+  printf("Cpu result:\n");
   print_matrix(matrixRes,matrix_dimsRes ,1);
+  free(matrixRes);
+
+  matrixRes = (float *)calloc(m*n,sizeof(float));
+  gpu_mm_dense(matrix1,matrix2,matrixRes,m,n,k);
+  printf("CuBLAS result:\n");
+  print_matrix(matrixRes,matrix_dimsRes ,1);
+
   free(matrix1);
   free(matrix2);
   free(matrixRes);
