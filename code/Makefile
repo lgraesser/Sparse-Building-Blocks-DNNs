@@ -11,5 +11,6 @@ io: matrix_io.o matrix_io_test.o
 %.o: %.c
 	$(NVCC) -x cu -I. -dc $< -o $@
 
+.PHONY: clean
 clean:
 	rm -f *.o dense io
