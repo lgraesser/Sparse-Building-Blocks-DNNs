@@ -10,41 +10,42 @@
 
 int main(int argc, char * argv[])
 {
-  float * matrix1, * matrix2,*matrixRes;
-  int n_elements1,n_elements2;
-  int matrix_dims1[4] = {0};
-  int matrix_dims2[4] = {0};
-  int matrix_dimsRes[4] = {0};
+  struct Matrix matrix1, matrix2, matrixRes;
+  int n_elements;
   const char * filename1 = "a.mat";
-  read_matrix_dims(filename1, matrix_dims1, &n_elements1);
-  matrix1 = (float *)calloc(n_elements1, sizeof(float));
-  read_matrix_vals(filename1, matrix1, matrix_dims1,1);
-  print_matrix(matrix1, matrix_dims1,1);
+
+  read_matrix_dims(filename1, &matrix1, &n_elements);
+  matrix1.vals = (float *)calloc(n_elements, sizeof(float));
+  read_matrix_vals(filename1, &matrix1,1);
+  print_matrix(&matrix1);
 
   const char * filename2 = "b.mat";
-  read_matrix_dims(filename2, matrix_dims2, &n_elements2);
-  matrix2 = (float *)calloc(n_elements2, sizeof(float));
-  read_matrix_vals(filename2, matrix2, matrix_dims2,1);
-  print_matrix(matrix2, matrix_dims2,1);
+  read_matrix_dims(filename2, &matrix2, &n_elements);
+  matrix2.vals = (float *)calloc(n_elements, sizeof(float));
+  read_matrix_vals(filename2, &matrix2,1);
+  print_matrix(&matrix2);
 
-  int m = matrix_dims1[2];
-  int k = matrix_dims1[3];
-  int n = matrix_dims2[3];
-  matrix_dimsRes[2]=m;
-  matrix_dimsRes[3]=n;
 
-  matrixRes = (float *)calloc(m*n,sizeof(float));
-  cpu_mm(matrix1,matrix2,matrixRes,m,n,k);
+  int m = matrix1.dims[2];
+  int k = matrix1.dims[3];
+  int n = matrix2.dims[3];
+
+  matrixRes.dims[0] = matrixRes.dims[1] = 0;
+  matrixRes.dims[2]=m;
+  matrixRes.dims[3]=n;
+
+  matrixRes.vals = (float *)calloc(m*n,sizeof(float));
+  cpu_mm(&matrix1,&matrix2,&matrixRes,m,n,k);
   printf("Cpu result:\n");
-  print_matrix(matrixRes,matrix_dimsRes ,1);
-  free(matrixRes);
+  print_matrix(&matrixRes);
 
-  matrixRes = (float *)calloc(m*n,sizeof(float));
-  gpu_mm_dense(matrix1,matrix2,matrixRes,m,n,k);
+  memset(matrixRes.vals,0,m*n*sizeof(float));
+
+  gpu_mm_dense(&matrix1,&matrix2,&matrixRes,m,n,k);
   printf("CuBLAS result:\n");
-  print_matrix(matrixRes,matrix_dimsRes ,1);
+  print_matrix(&matrixRes);
 
-  free(matrix1);
-  free(matrix2);
-  free(matrixRes);
+  free(matrix1.vals);
+  free(matrix2.vals);
+  free(matrixRes.vals);
 }
