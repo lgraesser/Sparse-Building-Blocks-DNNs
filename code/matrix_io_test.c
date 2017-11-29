@@ -10,7 +10,7 @@
  *  M: number of rows, i = index of a single row
  *  N: number of columns, j = index of a single column
  */
- 
+
 int main(int argc, char * argv[])
 {
   // TODO: add filename read in
@@ -18,7 +18,7 @@ int main(int argc, char * argv[])
   float * matrix;
   float * matrix_cols;
   int matrix_dims[4] = {0};
-  char * filename = "test.mat";
+  const char * filename = "test.mat";
   int num_elems;
   read_matrix_dims(filename, matrix_dims,&num_elems);
   // Allocate memory

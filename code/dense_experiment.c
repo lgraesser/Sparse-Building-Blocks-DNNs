@@ -52,13 +52,13 @@ int main(int argc, char * argv[])
   int matrix_dims1[4] = {0};
   int matrix_dims2[4] = {0};
   int matrix_dimsRes[4] = {0};
-  char * filename1 = "a.mat";
+  const char * filename1 = "a.mat";
   read_matrix_dims(filename1, matrix_dims1, &n_elements1);
   matrix1 = (float *)calloc(n_elements1, sizeof(float));
   read_matrix_vals(filename1, matrix1, matrix_dims1,1);
   print_matrix(matrix1, matrix_dims1,1);
 
-  char * filename2 = "b.mat";
+  const char * filename2 = "b.mat";
   read_matrix_dims(filename2, matrix_dims2, &n_elements2);
   matrix2 = (float *)calloc(n_elements2, sizeof(float));
   read_matrix_vals(filename2, matrix2, matrix_dims2,1);

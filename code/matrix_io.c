@@ -45,14 +45,13 @@ void convert_to_column_major(float * matrix_row_major,
 }
 
 
-void read_matrix_dims(char * filename, int matrix_dims[],int* product)
+void read_matrix_dims(const char * filename, int matrix_dims[],int* product)
 {
   // Return the multiplication of the dimensions, a.k. number of elements
   FILE *fp = fopen(filename, "r");
   size_t len = 0;
-  ssize_t read;
   char *line = NULL;
-  read = getline(&line, &len, fp);
+  getline(&line, &len, fp);
   printf("%s", line);
   int dim = atoi(&line[6]);
   printf("DIM: %d\n", dim);
@@ -61,7 +60,7 @@ void read_matrix_dims(char * filename, int matrix_dims[],int* product)
   int offset = 4 - dim;
   for (i = 0; i < dim; i ++)
   {
-    read = getline(&line, &len, fp);
+    getline(&line, &len, fp);
     printf("%d: %s", i, line);
     matrix_dims[i + offset] = atoi(&line[5]);
     *product *= matrix_dims[i + offset];
@@ -76,20 +75,19 @@ void read_matrix_dims(char * filename, int matrix_dims[],int* product)
 }
 
 
-void read_matrix_vals(char * filename, float * matrix, int matrix_dims[],char is_col_order_flag)
+void read_matrix_vals(const char * filename, float * matrix, int matrix_dims[],char is_col_order_flag)
 {
   FILE *fp = fopen(filename, "r");
   size_t len = 0;
-  ssize_t read;
   char *line = NULL;
     // Discard matrix descriptor rows and gather matrix stats
-  read = getline(&line, &len, fp);
+  getline(&line, &len, fp);
   int k;
   for (k = 0; k < 4; k++)
   {
     if (matrix_dims[k] != 0)
     {
-      read = getline(&line, &len, fp);
+      getline(&line, &len, fp);
     }
   }
   // Read planes
@@ -99,15 +97,15 @@ void read_matrix_vals(char * filename, float * matrix, int matrix_dims[],char is
     for (ch = 0; ch < MAX(matrix_dims[1], 1); ch++)
     {
       // Read Matrix breaker line
-      read = getline(&line, &len, fp);
+      getline(&line, &len, fp);
       // printf("Line: %s\n", line);
       for (i = 0; i < matrix_dims[2]; i++)
       {
         // Read row
-        read = getline(&line, &len, fp);
+        getline(&line, &len, fp);
         // printf("Row length: %d Line: %s\n", len, line);
         char * token;
-        char * delim = ",";
+        const char * delim = ",";
         token = strtok(line, delim);
         for (j = 0; j < matrix_dims[3]; j++)
         {

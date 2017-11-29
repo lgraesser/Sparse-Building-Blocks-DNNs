@@ -10,7 +10,7 @@
 
  #define index2D(i, j, N) ((i)*(N)) + (j)
  #define index2DCol(i, j, M) ((j)*(M)) + (i)
- 
+
  #define index3D(ch, i, j, M, N) ((ch)*(M)*(N)) + ((i)*(N)) + (j)
  #define index4D(s, ch, i, j, K, M, N) ((s)*(K)*(M)*(N)) + ((ch)*(M)*(N)) + ((i)*(N)) + (j)
  #define index4DCol(s, ch, i, j, K, M, N) ((s)*(K)*(M)*(N)) + ((ch)*(M)*(N)) + ((j)*(M)) + (i)
@@ -19,8 +19,8 @@
  #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 /* ======================== Function declarations=========================== */
-void read_matrix_vals(char *, float *, int [],char);
-void read_matrix_dims(char *, int [],int *);
+void read_matrix_vals(const char *, float *, int [],char);
+void read_matrix_dims(const char *, int [],int *);
 void print_matrix(float *, int [],char);
 void write_matrix(char *, float *, int []);
 void convert_to_column_major(float *, float *, int []);
