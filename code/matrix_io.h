@@ -7,13 +7,19 @@
  * However, cuSPARSE assumes matrices are stored in column major order
  * Use convert_to_column_major to convert the matrix
  */
+ struct Matrix {
+   float *vals;
+   int dims[4];
+   char is_column_first;
+ };
 
 /* ======================== Function declarations=========================== */
-void read_matrix_vals(const char *, float *, int [],char);
-void read_matrix_dims(const char *, int [],int *);
-void print_matrix(float *, int [],char);
-void write_matrix(char *, float *, int []);
-void convert_to_column_major(float *, float *, int []);
-void convert_to_row_major(float *, float *, int []);
+void read_matrix_vals(const char * filename, struct Matrix *mat,int is_column_first_flag);
+void read_matrix_dims(const char * filename, struct Matrix *mat, int* product);
+void print_matrix(struct Matrix *mat);
+void convert_to_column_major(struct Matrix *matrix_row_major,
+                             struct Matrix *matrix_col_major);
+int isMatricesHaveSameDim(struct Matrix *matrix_row_major,
+                            struct Matrix *matrix_col_major);
 // void convert_dense_to_coo_4D(float *, float *, int *, int *, int *, int *, int [])
 /* ========================================================================= */

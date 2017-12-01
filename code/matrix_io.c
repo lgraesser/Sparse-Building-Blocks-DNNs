@@ -20,29 +20,50 @@
  *  M: number of rows, i = index of a single row
  *  N: number of columns, j = index of a single column
  */
+int isMatricesHaveSameDim(struct Matrix *matrix_row_major,
+                             struct Matrix *matrix_col_major)
+ {
+   for (int i =0;i<4;i++){
+     if (matrix_row_major->dims[i] != matrix_col_major->dims[i]){
+       return 0;
+     }
+   }
+   return 1;
+ }
 
-void convert_to_column_major(float * matrix_row_major,
-                             float * matrix_col_major,
-                             int matrix_dims[])
+void convert_to_column_major(struct Matrix *matrix_row_major,
+                             struct Matrix *matrix_col_major)
 {
   // Write planes
   int s, ch, i, j;
-  for (s = 0; s < MAX(matrix_dims[0], 1); s++)
+  // TODO check whether they have same dimensions.
+  if (! isMatricesHaveSameDim(matrix_row_major,matrix_col_major)){
+    printf("Matrix dimensions doesn't match\n");
+    exit(1);
+  }
+  else if (matrix_row_major->is_column_first!=0){
+    printf("First matrix should be row major ordered\n");
+    exit(1);
+  }
+
+  //Otherwise lets change
+  for (s = 0; s < MAX(matrix_row_major->dims[0], 1); s++)
   {
-    for (ch = 0; ch < MAX(matrix_dims[1], 1); ch++)
+    for (ch = 0; ch < MAX(matrix_row_major->dims[1], 1); ch++)
     {
-      for (i = 0; i < matrix_dims[2]; i++)
+      for (i = 0; i < matrix_row_major->dims[2]; i++)
       {
-        for (j = 0; j < matrix_dims[3]; j++)
+        for (j = 0; j < matrix_row_major->dims[3]; j++)
         {
-          matrix_col_major[index4DCol(s, ch, i, j,
-            matrix_dims[1], matrix_dims[2], matrix_dims[3])] =
-            matrix_row_major[index4D(s, ch, i, j,
-            matrix_dims[1], matrix_dims[2], matrix_dims[3])];
+          matrix_col_major->vals[index4DCol(s, ch, i, j,
+            matrix_row_major->dims[1], matrix_row_major->dims[2], matrix_row_major->dims[3])] =
+            matrix_row_major->vals[index4D(s, ch, i, j,
+            matrix_row_major->dims[1], matrix_row_major->dims[2], matrix_row_major->dims[3])];
         }
       }
     }
   }
+  matrix_col_major->is_column_first=1;
 }
 
 
@@ -82,26 +103,33 @@ void read_matrix_dims(const char * filename, int matrix_dims[],int* product)
   int dim = atoi(&line[6]);
   printf("DIM: %d\n", dim);
   int i;
+  //initiliaze dimensions to 0
+  for (i = 0; i < 4; i ++)
+  {
+    mat->dims[i]=0;
+  }
+
+  // lets read the dims
   *product = 1;
   int offset = 4 - dim;
   for (i = 0; i < dim; i ++)
   {
     getline(&line, &len, fp);
     printf("%d: %s", i, line);
-    matrix_dims[i + offset] = atoi(&line[5]);
-    *product *= matrix_dims[i + offset];
+    mat->dims[i + offset] = atoi(&line[5]);
+    *product *= mat->dims[i + offset];
   }
   printf("Matrix dimensions: [%d, %d, %d, %d]\n",
-                              matrix_dims[0],
-                              matrix_dims[1],
-                              matrix_dims[2],
-                              matrix_dims[3]);
+                              mat->dims[0],
+                              mat->dims[1],
+                              mat->dims[2],
+                              mat->dims[3]);
   free(line);
   fclose(fp);
 }
 
 
-void read_matrix_vals(const char * filename, float * matrix, int matrix_dims[],char is_col_order_flag)
+void read_matrix_vals(const char * filename, struct Matrix *mat,int is_column_first_flag)
 {
   FILE *fp = fopen(filename, "r");
   size_t len = 0;
@@ -111,21 +139,22 @@ void read_matrix_vals(const char * filename, float * matrix, int matrix_dims[],c
   int k;
   for (k = 0; k < 4; k++)
   {
-    if (matrix_dims[k] != 0)
+    if (mat->dims[k] != 0)
     {
+      // printf("Dim[%d]: %d\n", k,mat->dims[k]);
       getline(&line, &len, fp);
     }
   }
   // Read planes
   int s, ch, i, j;
-  for (s = 0; s < MAX(matrix_dims[0], 1); s++)
+  for (s = 0; s < MAX(mat->dims[0], 1); s++)
   {
-    for (ch = 0; ch < MAX(matrix_dims[1], 1); ch++)
+    for (ch = 0; ch < MAX(mat->dims[1], 1); ch++)
     {
       // Read Matrix breaker line
       getline(&line, &len, fp);
-      // printf("Line: %s\n", line);
-      for (i = 0; i < matrix_dims[2]; i++)
+       // printf("Line: %s\n", line);
+      for (i = 0; i < mat->dims[2]; i++)
       {
         // Read row
         getline(&line, &len, fp);
@@ -133,34 +162,35 @@ void read_matrix_vals(const char * filename, float * matrix, int matrix_dims[],c
         char * token;
         const char * delim = ",";
         token = strtok(line, delim);
-        for (j = 0; j < matrix_dims[3]; j++)
+        for (j = 0; j < mat->dims[3]; j++)
         {
           // printf("[%d, %d, %d, %d]\n", s, ch, i, j);
           float tok_f = atof(token);
-          if (is_col_order_flag){
-            matrix[index4DCol(s, ch, i, j, matrix_dims[1], matrix_dims[2], matrix_dims[3])] = tok_f;
+          if (is_column_first_flag){
+            mat->vals[index4DCol(s, ch, i, j, mat->dims[1], mat->dims[2], mat->dims[3])] = tok_f;
           }
           else{
-            matrix[index4D(s, ch, i, j, matrix_dims[1], matrix_dims[2], matrix_dims[3])] = tok_f;
+            mat->vals[index4D(s, ch, i, j, mat->dims[1], mat->dims[2], mat->dims[3])] = tok_f;
           }
           token = strtok(NULL, delim);
         }
       }
     }
   }
+  mat->is_column_first = is_column_first_flag;
   free(line);
   fclose(fp);
 }
 
 
-void print_matrix(float * matrix, int matrix_dims[],char is_col_order_flag)
+void print_matrix(struct Matrix *mat)
 {
   printf("Matrix dimensions: [%d, %d, %d, %d]\n",
-                              matrix_dims[0],
-                              matrix_dims[1],
-                              matrix_dims[2],
-                              matrix_dims[3]);
-
+                              mat->dims[0],
+                              mat->dims[1],
+                              mat->dims[2],
+                              mat->dims[3]);
+  // Write planes
   if (is_col_order_flag)
   {
     printf("Column major ordering\n");
@@ -169,18 +199,21 @@ void print_matrix(float * matrix, int matrix_dims[],char is_col_order_flag)
   {
     printf("Row major ordering\n");
   }
-  // Write planes
   int s, ch, i, j;
-
-  for (s = 0; s < MAX(matrix_dims[0], 1); s++)
+  for (s = 0; s < MAX(mat->dims[0], 1); s++)
   {
-    for (ch = 0; ch < MAX(matrix_dims[1], 1); ch++)
+    for (ch = 0; ch < MAX(mat->dims[1], 1); ch++)
     {
       printf("(Sample, Channel) = (%d, %d)\n", s, ch);
+<<<<<<< HEAD
       if (is_col_order_flag)
+=======
+      for (i = 0; i < mat->dims[2]; i++)
+>>>>>>> 762faced586b84dc842cc30f2a4feb43bb12c142
       {
-        for (j = 0; j < matrix_dims[3]; j++)
+        for (j = 0; j < mat->dims[3]; j++)
         {
+<<<<<<< HEAD
           for (i = 0; i < matrix_dims[2]; i++)
           {
             printf("%05.2f ", i, j, matrix[index4DCol(s, ch, i, j,
@@ -198,6 +231,15 @@ void print_matrix(float * matrix, int matrix_dims[],char is_col_order_flag)
           {
             printf("%05.2f ", matrix[index4D(s, ch, i, j,
               matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
+=======
+          if (mat->is_column_first){
+            printf("%05.2f ", mat->vals[index4DCol(s, ch, i, j,
+              mat->dims[1], mat->dims[2], mat->dims[3])]);
+          }
+          else{
+            printf("%05.2f ", mat->vals[index4D(s, ch, i, j,
+              mat->dims[1], mat->dims[2], mat->dims[3])]);
+>>>>>>> 762faced586b84dc842cc30f2a4feb43bb12c142
           }
           printf("\n");
         }
