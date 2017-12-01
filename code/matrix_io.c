@@ -205,45 +205,31 @@ void print_matrix(struct Matrix *mat)
     for (ch = 0; ch < MAX(mat->dims[1], 1); ch++)
     {
       printf("(Sample, Channel) = (%d, %d)\n", s, ch);
-<<<<<<< HEAD
-      if (is_col_order_flag)
-=======
-      for (i = 0; i < mat->dims[2]; i++)
->>>>>>> 762faced586b84dc842cc30f2a4feb43bb12c142
+      if (mat->is_column_first)
       {
-        for (j = 0; j < mat->dims[3]; j++)
+        for (j = 0; j < mat->dims[2]; j++)
         {
-<<<<<<< HEAD
-          for (i = 0; i < matrix_dims[2]; i++)
+          for (i = 0; i < mat->dims[3]; i++)
           {
-            printf("%05.2f ", i, j, matrix[index4DCol(s, ch, i, j,
-              matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
+            printf("%05.2f ", mat->vals[index4DCol(s, ch, i, j,
+              mat->dims[1], mat->dims[2], mat->dims[3])]);
+            printf("\n");
           }
           printf("\n");
         }
-        printf("\n");
       }
       else
       {
-        for (i = 0; i < matrix_dims[2]; i++)
+        for (i = 0; i < mat->dims[2]; i++)
         {
-          for (j = 0; j < matrix_dims[3]; j++)
+          for (j = 0; j < mat->dims[3]; j++)
           {
-            printf("%05.2f ", matrix[index4D(s, ch, i, j,
-              matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
-=======
-          if (mat->is_column_first){
-            printf("%05.2f ", mat->vals[index4DCol(s, ch, i, j,
-              mat->dims[1], mat->dims[2], mat->dims[3])]);
-          }
-          else{
             printf("%05.2f ", mat->vals[index4D(s, ch, i, j,
               mat->dims[1], mat->dims[2], mat->dims[3])]);
->>>>>>> 762faced586b84dc842cc30f2a4feb43bb12c142
+            printf("\n");
           }
           printf("\n");
         }
-        printf("\n");
       }
     }
   }
