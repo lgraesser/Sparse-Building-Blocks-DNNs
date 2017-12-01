@@ -7,6 +7,7 @@
 
 #include <cuda.h>
 #include <cusparse.h>
+#include "matrix_io.h"
 
 const float SMALL_NUM = 0.0000000001;
 struct SparseMat {
@@ -21,5 +22,8 @@ struct SparseMat {
   int total_non_zero;
 };
 
-struct SparseMat * convert_to_sparse(float *, int [], cusparseHandle_t, const cusparseMatDescr_t);
+struct SparseMat * convert_to_sparse(
+        struct Matrix * mat,
+        cusparseHandle_t,
+        const cusparseMatDescr_t);
 void print_sparse_matrix(struct SparseMat, int);

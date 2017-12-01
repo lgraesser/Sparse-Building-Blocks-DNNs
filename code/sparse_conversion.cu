@@ -13,13 +13,14 @@
 #include "indexing_defs.h"
 #include "safe_call_defs.h"
 
-struct SparseMat * convert_to_sparse(float * matrix,
-                              int matrix_dims[4],
+struct SparseMat * convert_to_sparse(struct Matrix * mat,
                               cusparseHandle_t handle,
                               cusparseMatDescr_t descrA)
 {
   // Example for 2D matrix
   struct SparseMat spm;
+  float * matrix = mat->vals;
+  int matrix_dims[4] = mat->dims;
   float * matrix_device;
   const int lda = matrix_dims[2];
   int num_non_zero = 0;

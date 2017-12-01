@@ -92,7 +92,7 @@ void convert_to_row_major(float * matrix_row_major,
 }
 
 
-void read_matrix_dims(const char * filename, int matrix_dims[],int* product)
+void read_matrix_dims(const char * filename, struct Matrix *mat ,int* product)
 {
   // Return the multiplication of the dimensions, a.k. number of elements
   FILE *fp = fopen(filename, "r");
@@ -191,7 +191,7 @@ void print_matrix(struct Matrix *mat)
                               mat->dims[2],
                               mat->dims[3]);
   // Write planes
-  if (is_col_order_flag)
+  if (mat->is_column_first)
   {
     printf("Column major ordering\n");
   }
