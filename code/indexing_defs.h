@@ -11,8 +11,10 @@
   */
  #define index2D(i, j, N) ((i)*(N)) + (j)
  #define index2DCol(i, j, M) ((j)*(M)) + (i)
+
  #define index3D(ch, i, j, M, N) ((ch)*(M)*(N)) + ((i)*(N)) + (j)
  #define index3DCol(ch, i, j, M, N) ((ch)*(M)*(N)) + ((j)*(M)) + (i)
+
  #define index4D(s, ch, i, j, K, M, N) ((s)*(K)*(M)*(N)) + ((ch)*(M)*(N)) + ((i)*(N)) + (j)
  #define index4DCol(s, ch, i, j, K, M, N) ((s)*(K)*(M)*(N)) + ((ch)*(M)*(N)) + ((j)*(M)) + (i)
 
