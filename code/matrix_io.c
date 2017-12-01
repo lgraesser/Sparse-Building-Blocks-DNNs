@@ -160,6 +160,15 @@ void print_matrix(float * matrix, int matrix_dims[],char is_col_order_flag)
                               matrix_dims[1],
                               matrix_dims[2],
                               matrix_dims[3]);
+
+  if (is_col_order_flag)
+  {
+    printf("Column major ordering\n");
+  }
+  else
+  {
+    printf("Row major ordering\n");
+  }
   // Write planes
   int s, ch, i, j;
 

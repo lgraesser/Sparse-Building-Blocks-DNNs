@@ -37,19 +37,25 @@ int main(int argc, char * argv[])
   cusparseSetMatIndexBase(descrX, CUSPARSE_INDEX_BASE_ZERO);
 
   // Call conversion func
-  struct SparseMat * spm = convert_to_sparse(
+  struct SparseMat * spm_ptr = convert_to_sparse(
                                 matrix,
                                 matrix_dims,
                                 handle,
                                 descrX);
+  struct SparseMat spm = *spm_ptr;
 
   printf("Num rows: %d\n",matrix_dims[2]);
   print_sparse_matrix(spm, matrix_dims[2]);
 
+  // Free memory
   cusparseDestroy(handle);
-  free((*spm).csrRowPtrA);
-  free((*spm).csrColIndA);
-  free((*spm).csrValA);
-  free((int *)(*spm).nz_per_row);
+  cudaFree(spm.csrRowPtrA_device);
+  cudaFree(spm.csrColIndA_device);
+  cudaFree(spm.csrValA_device);
+  cudaFree(spm.nz_per_row_device);
+  free(spm.csrRowPtrA);
+  free(spm.csrColIndA);
+  free(spm.csrValA);
+  free(spm.nz_per_row);
   free(matrix);
 }

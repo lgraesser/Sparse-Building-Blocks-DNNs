@@ -5,10 +5,13 @@
  * cuSPARSE assumes matrices are stored in column major order
  */
 
-#include <cuda.h>
-#include <cusparse.h>
+#include <cuda_runtime.h>
+#include <cusparse_v2.h>
 #include <stdio.h>
 #include "sparse_conversion.h"
+#include "matrix_io.h"
+#include "indexing_defs.h"
+#include "safe_call_defs.h"
 
 struct SparseMat * convert_to_sparse(float * matrix,
                               int matrix_dims[4],
@@ -16,65 +19,114 @@ struct SparseMat * convert_to_sparse(float * matrix,
                               cusparseMatDescr_t descrA)
 {
   // Example for 2D matrix
-  int i, j;
   struct SparseMat spm;
+  float * matrix_device;
+  const int lda = matrix_dims[2];
   int num_non_zero = 0;
-  int * non_zero_per_row = (int *)calloc(matrix_dims[2], sizeof(int));
-  for (i = 0; i < matrix_dims[2]; i++)
-  {
-    int nzpr = 0;
-    for (j = 0; j < matrix_dims[3]; j++)
-    {
-      if (matrix[index2D(i, j, matrix_dims[3])] < SMALL_NUM &&
-          matrix[index2D(i, j, matrix_dims[3])] > -SMALL_NUM)
-      {
-        num_non_zero++;
-        nzpr++;
-      }
-      non_zero_per_row[i] = nzpr;
-    }
-  }
-  spm.nz_per_row = (const int *) non_zero_per_row;
-  spm.csrRowPtrA = (int *)calloc(matrix_dims[2] + 1, sizeof(int));
-  spm.csrColIndA = (int *)calloc(num_non_zero, sizeof(int));
-  spm.csrValA = (float *)calloc(num_non_zero, sizeof(float));
-  spm.total_non_zero = num_non_zero;
-  struct SparseMat * spm_ptr = &spm;
 
-  cusparseStatus_t result = cusparseSdense2csr(
+  // Allocate device dense array and copy over
+  CudaSafeCall(cudaMalloc(&matrix_device,
+                        matrix_dims[2] * matrix_dims[3] * sizeof(float)));
+  CudaSafeCall(cudaMemcpy(matrix_device,
+                          matrix,
+                          matrix_dims[2] * matrix_dims[3] * sizeof(float),
+                          cudaMemcpyHostToDevice));
+
+  // Device side number of nonzero element per row of matrix
+  CudaSafeCall(cudaMalloc(&spm.nz_per_row_device,
+                          matrix_dims[2] * sizeof(int)));
+  cusparseSafeCall(cusparseSnnz(handle,
+                                CUSPARSE_DIRECTION_ROW,
+                                matrix_dims[2],
+                                matrix_dims[3],
+                                descrA,
+                                matrix_device,
+                                lda,
+                                spm.nz_per_row_device,
+                                &num_non_zero));
+
+  // Host side number of nonzero elements per row of matrix
+  spm.nz_per_row = (int *)calloc(matrix_dims[2], sizeof(int));
+  CudaSafeCall(cudaMemcpy(spm.nz_per_row,
+                          spm.nz_per_row_device,
+                          matrix_dims[2] * sizeof(int),
+                          cudaMemcpyDeviceToHost));
+  // // Error checking
+  // int i;
+  // printf("Num non zero elements: %d\n", num_non_zero);
+  // for (i = 0; i < matrix_dims[2]; i++)
+  // {
+  //   printf("row %d: %d\n", i, spm.nz_per_row[i]);
+  // }
+
+  // Allocate device sparse matrices
+  CudaSafeCall(cudaMalloc(&(spm.csrRowPtrA_device),
+                        (matrix_dims[2] + 1) * sizeof(int)));
+  CudaSafeCall(cudaMalloc(&(spm.csrColIndA_device),
+                        num_non_zero * sizeof(int)));
+  CudaSafeCall(cudaMalloc(&(spm.csrValA_device),
+                        num_non_zero * sizeof(float)));
+
+  // Call cusparse
+  cusparseSafeCall(cusparseSdense2csr(
                 handle, // cusparse handle
                 matrix_dims[2], // Number of rows
                 matrix_dims[3], // Number of cols
                 descrA, // cusparse matrix descriptor
-                (const float *) matrix, // Matrix
-                matrix_dims[2], // Leading dimension of the array
-                spm.nz_per_row, // Non zero elements per row
-                spm.csrValA, // Holds the matrix values
-                spm.csrRowPtrA,
-                spm.csrColIndA);
-  printf("%d\n",result);
+                matrix_device, // Matrix
+                lda, // Leading dimension of the array
+                spm.nz_per_row_device, // Non zero elements per row
+                spm.csrValA_device, // Holds the matrix values
+                spm.csrRowPtrA_device,
+                spm.csrColIndA_device));
+
+  // Allocate host memory and copy device vals back to host
+  spm.csrRowPtrA = (int *)calloc((matrix_dims[2] + 1), sizeof(int));
+  spm.csrColIndA = (int *)calloc(num_non_zero, sizeof(int));
+  spm.csrValA = (float *)calloc(num_non_zero, sizeof(float));
+  CudaSafeCall(cudaMemcpy(spm.csrRowPtrA,
+                          spm.csrRowPtrA_device,
+                          (matrix_dims[2] + 1) * sizeof(int),
+                          cudaMemcpyDeviceToHost));
+  CudaSafeCall(cudaMemcpy(spm.csrColIndA,
+                          spm.csrColIndA_device,
+                          num_non_zero * sizeof(int),
+                          cudaMemcpyDeviceToHost));
+  CudaSafeCall(cudaMemcpy(spm.csrValA,
+                          spm.csrValA_device,
+                          num_non_zero * sizeof(int),
+                          cudaMemcpyDeviceToHost));
+  cudaFree(matrix_device);
+  // Error checking
   printf("Converted matrix from dense to sparse\n");
-  for (i = 0; i < matrix_dims[2] + 1; i++)
-  {
-    printf("Row ptr: %d\n", spm.csrRowPtrA[i]);
-  }
+  // int i;
+  // for (i = 0; i < matrix_dims[2] + 1; i++)
+  // {
+  //   printf("Row ptr: %d\n", spm.csrRowPtrA[i]);
+  // }
+  // for (i = 0; i < num_non_zero; i++)
+  // {
+  //   printf("Vals: %f, \t", spm.csrValA[i]);
+  //   printf("Col idx: %d\n", spm.csrColIndA[i]);
+  // }
+  struct SparseMat *spm_ptr = &spm;
   return spm_ptr;
 }
 
 
-void print_sparse_matrix(struct SparseMat * spm, int num_rows)
+void print_sparse_matrix(struct SparseMat spm, int num_rows)
 {
+  printf("Sparse representation of the matrix\n");
   int i, j, row_st, row_end, col;
   float num;
   for (i = 0; i < num_rows; i++)
   {
-    row_st = (*spm).csrRowPtrA[i];
-    row_end = (*spm).csrRowPtrA[i + 1] - 1;
-    printf("Row start: {}, row_end: {}\n", row_st, row_end);
+    row_st = spm.csrRowPtrA[i];
+    row_end = spm.csrRowPtrA[i + 1] - 1;
     for (j = row_st; j <= row_end; j++)
     {
-      col = (*spm).csrColIndA[j];
-      num = (*spm).csrValA[j];
+      col = spm.csrColIndA[j];
+      num = spm.csrValA[j];
       printf("(%d, %d): %05.2f\n", i, col, num);
     }
   }
