@@ -20,26 +20,26 @@ struct SparseMat * convert_to_sparse(struct Matrix * mat,
   // Example for 2D matrix
   struct SparseMat spm;
   float * matrix = mat->vals;
-  int matrix_dims[4] = mat->dims;
+  printf("[%d, %d, %d, %d]\n", mat->dims[0], mat->dims[1], mat->dims[2], mat->dims[3]);
   float * matrix_device;
-  const int lda = matrix_dims[2];
+  const int lda = mat->dims[2];
   int num_non_zero = 0;
 
   // Allocate device dense array and copy over
   CudaSafeCall(cudaMalloc(&matrix_device,
-                        matrix_dims[2] * matrix_dims[3] * sizeof(float)));
+                        mat->dims[2] * mat->dims[3] * sizeof(float)));
   CudaSafeCall(cudaMemcpy(matrix_device,
                           matrix,
-                          matrix_dims[2] * matrix_dims[3] * sizeof(float),
+                          mat->dims[2] * mat->dims[3] * sizeof(float),
                           cudaMemcpyHostToDevice));
 
   // Device side number of nonzero element per row of matrix
   CudaSafeCall(cudaMalloc(&spm.nz_per_row_device,
-                          matrix_dims[2] * sizeof(int)));
+                          mat->dims[2] * sizeof(int)));
   cusparseSafeCall(cusparseSnnz(handle,
                                 CUSPARSE_DIRECTION_ROW,
-                                matrix_dims[2],
-                                matrix_dims[3],
+                                mat->dims[2],
+                                mat->dims[3],
                                 descrA,
                                 matrix_device,
                                 lda,
@@ -47,22 +47,22 @@ struct SparseMat * convert_to_sparse(struct Matrix * mat,
                                 &num_non_zero));
 
   // Host side number of nonzero elements per row of matrix
-  spm.nz_per_row = (int *)calloc(matrix_dims[2], sizeof(int));
+  spm.nz_per_row = (int *)calloc(mat->dims[2], sizeof(int));
   CudaSafeCall(cudaMemcpy(spm.nz_per_row,
                           spm.nz_per_row_device,
-                          matrix_dims[2] * sizeof(int),
+                          mat->dims[2] * sizeof(int),
                           cudaMemcpyDeviceToHost));
   // // Error checking
   // int i;
   // printf("Num non zero elements: %d\n", num_non_zero);
-  // for (i = 0; i < matrix_dims[2]; i++)
+  // for (i = 0; i < mat->dims[2]; i++)
   // {
   //   printf("row %d: %d\n", i, spm.nz_per_row[i]);
   // }
 
   // Allocate device sparse matrices
   CudaSafeCall(cudaMalloc(&(spm.csrRowPtrA_device),
-                        (matrix_dims[2] + 1) * sizeof(int)));
+                        (mat->dims[2] + 1) * sizeof(int)));
   CudaSafeCall(cudaMalloc(&(spm.csrColIndA_device),
                         num_non_zero * sizeof(int)));
   CudaSafeCall(cudaMalloc(&(spm.csrValA_device),
@@ -71,8 +71,8 @@ struct SparseMat * convert_to_sparse(struct Matrix * mat,
   // Call cusparse
   cusparseSafeCall(cusparseSdense2csr(
                 handle, // cusparse handle
-                matrix_dims[2], // Number of rows
-                matrix_dims[3], // Number of cols
+                mat->dims[2], // Number of rows
+                mat->dims[3], // Number of cols
                 descrA, // cusparse matrix descriptor
                 matrix_device, // Matrix
                 lda, // Leading dimension of the array
@@ -82,12 +82,12 @@ struct SparseMat * convert_to_sparse(struct Matrix * mat,
                 spm.csrColIndA_device));
 
   // Allocate host memory and copy device vals back to host
-  spm.csrRowPtrA = (int *)calloc((matrix_dims[2] + 1), sizeof(int));
+  spm.csrRowPtrA = (int *)calloc((mat->dims[2] + 1), sizeof(int));
   spm.csrColIndA = (int *)calloc(num_non_zero, sizeof(int));
   spm.csrValA = (float *)calloc(num_non_zero, sizeof(float));
   CudaSafeCall(cudaMemcpy(spm.csrRowPtrA,
                           spm.csrRowPtrA_device,
-                          (matrix_dims[2] + 1) * sizeof(int),
+                          (mat->dims[2] + 1) * sizeof(int),
                           cudaMemcpyDeviceToHost));
   CudaSafeCall(cudaMemcpy(spm.csrColIndA,
                           spm.csrColIndA_device,
@@ -101,7 +101,7 @@ struct SparseMat * convert_to_sparse(struct Matrix * mat,
   // Error checking
   printf("Converted matrix from dense to sparse\n");
   // int i;
-  // for (i = 0; i < matrix_dims[2] + 1; i++)
+  // for (i = 0; i < mat->dims[2] + 1; i++)
   // {
   //   printf("Row ptr: %d\n", spm.csrRowPtrA[i]);
   // }
