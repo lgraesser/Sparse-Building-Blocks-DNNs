@@ -1,3 +1,6 @@
+#ifndef __INDEX_DEFS_H__
+#define __INDEX_DEFS_H__
+
 /*
  * Header file for matrix indexing
  */
@@ -20,3 +23,4 @@
 
  #define MAX(x, y) (((x) > (y)) ? (x) : (y))
  #define MIN(x, y) (((x) < (y)) ? (x) : (y))
+#endif

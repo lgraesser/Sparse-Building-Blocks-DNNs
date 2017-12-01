@@ -1,3 +1,6 @@
+#ifndef _SAFE_CALLS_H__
+#define _SAFE_CALLS_H__
+
 #include <stdio.h>
 
 /*************************** End function declarations ****************************/
@@ -64,3 +67,4 @@ inline void __cudaCheckError( const char *file, const int line )
     return;
 }
 /********************************* End Error Checking ****************************/
+#endif

@@ -13,7 +13,7 @@
 
 int main(int argc, char * argv[])
 {
-  // struct Matrix mat;
+  struct Matrix mat;
   if (argc != 2){
     printf("usage ./sparse_conversion_test filename\n");
     exit(1);

@@ -1,3 +1,5 @@
+#ifndef _SPARSE_CONVERSION_H__
+#define _SPARSE_CONVERSION_H__
 /*
  * Header file for conversion between sparse and dense matrices
  * Matrices assumed to be generated using generate_sparse_mat.py
@@ -27,3 +29,5 @@ struct SparseMat * convert_to_sparse(
         cusparseHandle_t,
         const cusparseMatDescr_t);
 void print_sparse_matrix(struct SparseMat, int);
+
+#endif

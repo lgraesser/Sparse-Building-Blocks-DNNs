@@ -1,3 +1,5 @@
+#ifndef _MATRIX_IO_H__
+#define _MATRIX_IO_H__
 /*
  * Header file for matrix reading, writing, and conversion
  * Read and write operations for matrices of 2, 3, and 4 dimensions
@@ -23,3 +25,4 @@ int isMatricesHaveSameDim(struct Matrix *matrix_row_major,
                             struct Matrix *matrix_col_major);
 // void convert_dense_to_coo_4D(float *, float *, int *, int *, int *, int *, int [])
 /* ========================================================================= */
+#endif
