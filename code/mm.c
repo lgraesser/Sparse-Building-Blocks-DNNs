@@ -1,5 +1,6 @@
 #include "mm.h"
 #include "matrix_io.h"
+#include "indexing_defs.h"
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 

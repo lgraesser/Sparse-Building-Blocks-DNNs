@@ -2,7 +2,7 @@
 /*
  * Matrix multiplication experiments.
  */
-
+#include "indexing_defs.h"
 #include "matrix_io.h"
 #include "mm.h"
 #include <stdlib.h>

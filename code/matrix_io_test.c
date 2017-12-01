@@ -2,14 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "matrix_io.h"
-
-/* To index a 2D, 3D or 4D array stored as 1D, in row major order */
-/* Arrays always assumed to be S * K * M * N
- *  S: number of samples, s = index of a single sample
- *  K: number of channels, ch = index of a single channel
- *  M: number of rows, i = index of a single row
- *  N: number of columns, j = index of a single column
- */
+#include "indexing_defs.h"
 
 int main(int argc, char * argv[])
 {

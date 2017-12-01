@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "matrix_io.h"
+#include "indexing_defs.h"
 
 /* To index a 2D, 3D or 4D array stored as 1D, in row major order */
 /* Arrays always assumed to be S * K * M * N
