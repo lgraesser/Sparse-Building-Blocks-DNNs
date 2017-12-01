@@ -52,9 +52,9 @@ struct SparseMat * convert_to_sparse(struct Matrix * mat,
                           spm.nz_per_row_device,
                           mat->dims[2] * sizeof(int),
                           cudaMemcpyDeviceToHost));
+  printf("Num non zero elements: %d\n", num_non_zero);
   // // Error checking
   // int i;
-  // printf("Num non zero elements: %d\n", num_non_zero);
   // for (i = 0; i < mat->dims[2]; i++)
   // {
   //   printf("row %d: %d\n", i, spm.nz_per_row[i]);
