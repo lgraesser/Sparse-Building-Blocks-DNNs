@@ -174,7 +174,7 @@ void print_matrix(float * matrix, int matrix_dims[],char is_col_order_flag)
         {
           for (i = 0; i < matrix_dims[2]; i++)
           {
-            printf("(%d, %d): %05.2f ",i, j, matrix[index4DCol(s, ch, i, j,
+            printf("%05.2f ", i, j, matrix[index4DCol(s, ch, i, j,
               matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
           }
           printf("\n");
@@ -187,7 +187,7 @@ void print_matrix(float * matrix, int matrix_dims[],char is_col_order_flag)
         {
           for (j = 0; j < matrix_dims[3]; j++)
           {
-            printf("(%d, %d): %05.2f ",i, j, matrix[index4D(s, ch, i, j,
+            printf("%05.2f ", matrix[index4D(s, ch, i, j,
               matrix_dims[1], matrix_dims[2], matrix_dims[3])]);
           }
           printf("\n");
