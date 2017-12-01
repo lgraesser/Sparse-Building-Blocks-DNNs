@@ -7,8 +7,8 @@
 int main(int argc, char * argv[])
 {
   // TODO: add filename read in
-  struct Matrix matrix_row;
-  struct Matrix matrix_col;
+  struct MMatrix matrix_row;
+  struct MMatrix matrix_col;
   const char * filename = "test.mat";
   int num_elems;
   read_matrix_dims(filename, &matrix_row, &num_elems);

@@ -4,7 +4,7 @@
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 
-void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k) {
+void gpu_mm_dense(struct MMatrix *h_A, struct MMatrix *h_B, struct MMatrix *h_C, const int m, const int n, const int k) {
    int lda=m,ldb=k,ldc=m;
    const float alf = 1;
    const float bet = 0;
@@ -31,7 +31,7 @@ void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, co
    cublasDestroy(handle);
 }
 
-void cpu_mm(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, int m, int n, int k){
+void cpu_mm(struct MMatrix *h_A, struct MMatrix *h_B, struct MMatrix *h_C, int m, int n, int k){
     int i,j,r;
     float c_sum;
     for(i=0;i<m;i++){

@@ -23,7 +23,7 @@ struct SparseMat {
 };
 
 struct SparseMat * convert_to_sparse(
-        struct Matrix * mat,
+        struct MMatrix * mat,
         cusparseHandle_t,
         const cusparseMatDescr_t);
 void print_sparse_matrix(struct SparseMat, int);
