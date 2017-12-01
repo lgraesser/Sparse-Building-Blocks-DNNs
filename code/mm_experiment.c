@@ -1,6 +1,6 @@
 
 /*
- * MMatrix multiplication experiments.
+ * Matrix multiplication experiments.
  */
 #include "indexing_defs.h"
 #include "matrix_io.h"
@@ -10,7 +10,7 @@
 
 int main(int argc, char * argv[])
 {
-  struct MMatrix matrix1, matrix2, matrixRes;
+  struct Matrix matrix1, matrix2, matrixRes;
   int n_elements;
   const char * filename1 = "a.mat";
 

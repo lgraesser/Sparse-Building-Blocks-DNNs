@@ -20,8 +20,8 @@
  *  M: number of rows, i = index of a single row
  *  N: number of columns, j = index of a single column
  */
-int isMatricesHaveSameDim(struct MMatrix *matrix_row_major,
-                             struct MMatrix *matrix_col_major)
+int isMatricesHaveSameDim(struct Matrix *matrix_row_major,
+                             struct Matrix *matrix_col_major)
  {
    for (int i =0;i<4;i++){
      if (matrix_row_major->dims[i] != matrix_col_major->dims[i]){
@@ -31,14 +31,14 @@ int isMatricesHaveSameDim(struct MMatrix *matrix_row_major,
    return 1;
  }
 
-void convert_to_column_major(struct MMatrix *matrix_row_major,
-                             struct MMatrix *matrix_col_major)
+void convert_to_column_major(struct Matrix *matrix_row_major,
+                             struct Matrix *matrix_col_major)
 {
   // Write planes
   int s, ch, i, j;
   // TODO check whether they have same dimensions.
   if (! isMatricesHaveSameDim(matrix_row_major,matrix_col_major)){
-    printf("MMatrix dimensions doesn't match\n");
+    printf("Matrix dimensions doesn't match\n");
     exit(1);
   }
   else if (matrix_row_major->is_column_first!=0){
@@ -92,7 +92,7 @@ void convert_to_row_major(float * matrix_row_major,
 }
 
 
-void read_matrix_dims(const char * filename, struct MMatrix *mat ,int* product)
+void read_matrix_dims(const char * filename, struct Matrix *mat ,int* product)
 {
   // Return the multiplication of the dimensions, a.k. number of elements
   FILE *fp = fopen(filename, "r");
@@ -119,7 +119,7 @@ void read_matrix_dims(const char * filename, struct MMatrix *mat ,int* product)
     mat->dims[i + offset] = atoi(&line[5]);
     *product *= mat->dims[i + offset];
   }
-  printf("MMatrix dimensions: [%d, %d, %d, %d]\n",
+  printf("Matrix dimensions: [%d, %d, %d, %d]\n",
                               mat->dims[0],
                               mat->dims[1],
                               mat->dims[2],
@@ -129,7 +129,7 @@ void read_matrix_dims(const char * filename, struct MMatrix *mat ,int* product)
 }
 
 
-void read_matrix_vals(const char * filename, struct MMatrix *mat,int is_column_first_flag)
+void read_matrix_vals(const char * filename, struct Matrix *mat,int is_column_first_flag)
 {
   FILE *fp = fopen(filename, "r");
   size_t len = 0;
@@ -151,7 +151,7 @@ void read_matrix_vals(const char * filename, struct MMatrix *mat,int is_column_f
   {
     for (ch = 0; ch < MAX(mat->dims[1], 1); ch++)
     {
-      // Read MMatrix breaker line
+      // Read Matrix breaker line
       getline(&line, &len, fp);
        // printf("Line: %s\n", line);
       for (i = 0; i < mat->dims[2]; i++)
@@ -183,9 +183,9 @@ void read_matrix_vals(const char * filename, struct MMatrix *mat,int is_column_f
 }
 
 
-void print_matrix(struct MMatrix *mat)
+void print_matrix(struct Matrix *mat)
 {
-  printf("MMatrix dimensions: [%d, %d, %d, %d]\n",
+  printf("Matrix dimensions: [%d, %d, %d, %d]\n",
                               mat->dims[0],
                               mat->dims[1],
                               mat->dims[2],

@@ -13,7 +13,7 @@
 #include "indexing_defs.h"
 #include "safe_call_defs.h"
 
-struct SparseMat * convert_to_sparse(struct MMatrix * mat,
+struct SparseMat * convert_to_sparse(struct Matrix * mat,
                               cusparseHandle_t handle,
                               cusparseMatDescr_t descrA)
 {
@@ -74,7 +74,7 @@ struct SparseMat * convert_to_sparse(struct MMatrix * mat,
                 matrix_dims[2], // Number of rows
                 matrix_dims[3], // Number of cols
                 descrA, // cusparse matrix descriptor
-                matrix_device, // MMatrix
+                matrix_device, // Matrix
                 lda, // Leading dimension of the array
                 spm.nz_per_row_device, // Non zero elements per row
                 spm.csrValA_device, // Holds the matrix values
