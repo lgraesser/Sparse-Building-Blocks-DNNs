@@ -207,16 +207,16 @@ void print_matrix(struct Matrix *mat)
       printf("(Sample, Channel) = (%d, %d)\n", s, ch);
       if (mat->is_column_first)
       {
-        for (j = 0; j < mat->dims[2]; j++)
+        for (j = 0; j < mat->dims[3]; j++)
         {
-          for (i = 0; i < mat->dims[3]; i++)
+          for (i = 0; i < mat->dims[2]; i++)
           {
             printf("%05.2f ", mat->vals[index4DCol(s, ch, i, j,
               mat->dims[1], mat->dims[2], mat->dims[3])]);
-            printf("\n");
           }
           printf("\n");
         }
+        printf("\n");
       }
       else
       {
@@ -226,10 +226,10 @@ void print_matrix(struct Matrix *mat)
           {
             printf("%05.2f ", mat->vals[index4D(s, ch, i, j,
               mat->dims[1], mat->dims[2], mat->dims[3])]);
-            printf("\n");
           }
           printf("\n");
         }
+        printf("\n");
       }
     }
   }
