@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include "sparse_conversion.h"
 #include "matrix_io.h"
-#include "indexing_defs.h"
 #include "safe_call_defs.h"
 
 struct SparseMat * convert_to_sparse(struct Matrix * mat,

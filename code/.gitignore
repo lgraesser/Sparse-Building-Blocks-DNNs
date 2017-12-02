@@ -1,4 +1,2 @@
-*.o
-io
-mm
-sparse_test
+bin/*
+obj/*

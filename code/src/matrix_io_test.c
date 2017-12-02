@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "matrix_io.h"
-#include "indexing_defs.h"
 
 int main(int argc, char * argv[])
 {

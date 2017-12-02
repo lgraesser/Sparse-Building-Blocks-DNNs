@@ -1,5 +1,6 @@
 #ifndef _MATRIX_IO_H__
 #define _MATRIX_IO_H__
+#include "indexing_defs.h"
 /*
  * Header file for matrix reading, writing, and conversion
  * Read and write operations for matrices of 2, 3, and 4 dimensions

@@ -2,7 +2,6 @@
 /*
  * Matrix multiplication experiments.
  */
-#include "indexing_defs.h"
 #include "matrix_io.h"
 #include "mm.h"
 #include <stdlib.h>
@@ -12,14 +11,25 @@ int main(int argc, char * argv[])
 {
   struct Matrix matrix1, matrix2, matrixRes;
   int n_elements;
-  const char * filename1 = "a.mat";
+  const char * filename1;
+  const char * filename2;
+
+  if (argc != 3){
+    printf("usage ./mm matrixA matrixB\n");
+    printf("Default values are going to be used ./mm a.mat b.mat\n");
+    filename1 = "a.mat";
+    filename2 = "b.mat";
+  }
+  else{
+    filename1 = argv[1];
+    filename2 = argv[2];
+  }
 
   read_matrix_dims(filename1, &matrix1, &n_elements);
   matrix1.vals = (float *)calloc(n_elements, sizeof(float));
   read_matrix_vals(filename1, &matrix1,1);
   print_matrix(&matrix1);
 
-  const char * filename2 = "b.mat";
   read_matrix_dims(filename2, &matrix2, &n_elements);
   matrix2.vals = (float *)calloc(n_elements, sizeof(float));
   read_matrix_vals(filename2, &matrix2,1);
