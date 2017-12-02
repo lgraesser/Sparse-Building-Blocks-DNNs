@@ -36,29 +36,38 @@ void destroyMatrix(struct Matrix *mat){
 float calculateDistanceMatrix(struct Matrix *matrix1,struct Matrix *matrix2){
   char flag;
   float result=0;
+  long counter=0;
   int s, ch, i, j,iCol,iRow;
   if (isMatricesHaveSameDim(matrix1,matrix2)){
     if (matrix1->is_column_first == matrix2->is_column_first)
     {
       if(matrix1->is_column_first){
         flag=1 ;
+        #ifdef DEBUG
         printf("Comparing two column-based matrices\n");
+        #endif
       }
       else
       {
         flag=0 ;
+        #ifdef DEBUG
         printf("Comparing two column-based matrices\n");
+        #endif
       }
     }
     else{
       if(matrix1->is_column_first){
         flag=110;
+        #ifdef DEBUG
         printf("Comparing mat1(col) with mat2(row)\n");
+        #endif
       }
       else
       {
         flag=101;
+        #ifdef DEBUG
         printf("Comparing mat1(row) with mat2(col)\n");
+        #endif
       }
     }
 
@@ -73,32 +82,36 @@ float calculateDistanceMatrix(struct Matrix *matrix1,struct Matrix *matrix2){
             if (flag==1){
               iCol = index4DCol(s, ch, i, j,
                 matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
-              result += ABS(matrix1->vals[iCol] - matrix2->vals[iCol]);
+              result += fabsf(matrix1->vals[iCol] - matrix2->vals[iCol]);
             }
             else if(flag==0){
               iRow = index4D(s, ch, i, j,
                 matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
-              result += ABS(matrix1->vals[iRow] - matrix2->vals[iRow]);
+              result += fabsf(matrix1->vals[iRow] - matrix2->vals[iRow]);
             }
             else if(flag==110){
               iCol = index4DCol(s, ch, i, j,
                 matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
               iRow = index4D(s, ch, i, j,
                 matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
-              result += ABS(matrix1->vals[iCol] - matrix2->vals[iRow]);
+              result += fabsf(matrix1->vals[iCol] - matrix2->vals[iRow]);
             }
             else if(flag==101){
               iCol = index4DCol(s, ch, i, j,
                 matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
               iRow = index4D(s, ch, i, j,
                 matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
-              result += ABS(matrix1->vals[iRow] - matrix2->vals[iCol]);
+              result += fabsf(matrix1->vals[iRow] - matrix2->vals[iCol]);
             }
+            counter ++;
           }
         }
       }
     }
-    return result;
+    #ifdef DEBUG
+    printf("Total elements:%ld\n",counter);
+    #endif
+    return result/counter;
   }
   else{
     printf("[WARNING]: You just tried to compare to matrices with different sizes\n");
@@ -185,9 +198,13 @@ void read_matrix_dims(const char * filename, struct Matrix *mat ,int* product)
   size_t len = 0;
   char *line = NULL;
   getline(&line, &len, fp);
-  printf("%s", line);
   int dim = atoi(&line[6]);
-  printf("DIM: %d\n", dim);
+
+  #ifdef DEBUG
+    printf("DIM: %d\n", dim);
+    printf("%s", line);
+  #endif
+
   int i;
   //initiliaze dimensions to 0
   for (i = 0; i < 4; i ++)
@@ -201,15 +218,21 @@ void read_matrix_dims(const char * filename, struct Matrix *mat ,int* product)
   for (i = 0; i < dim; i ++)
   {
     getline(&line, &len, fp);
-    printf("%d: %s", i, line);
     mat->dims[i + offset] = atoi(&line[5]);
     *product *= mat->dims[i + offset];
+
+    #ifdef DEBUG
+        printf("%d: %s", i, line);
+    #endif
   }
-  printf("Matrix dimensions: [%d, %d, %d, %d]\n",
-                              mat->dims[0],
-                              mat->dims[1],
-                              mat->dims[2],
-                              mat->dims[3]);
+  #ifdef DEBUG
+    printf("Matrix dimensions: [%d, %d, %d, %d]\n",
+                                mat->dims[0],
+                                mat->dims[1],
+                                mat->dims[2],
+                                mat->dims[3]);
+  #endif
+
   free(line);
   fclose(fp);
 }
@@ -297,11 +320,11 @@ void print_matrix(struct Matrix *mat)
           for (j = 0; j < mat->dims[3]; j++)
           {
             if (mat->is_column_first){
-              printf("%05.2f ", mat->vals[index4DCol(s, ch, i, j,
+              printf("%.7f ", mat->vals[index4DCol(s, ch, i, j,
                 mat->dims[1], mat->dims[2], mat->dims[3])]);
             }
             else{
-              printf("%05.2f ", mat->vals[index4D(s, ch, i, j,
+              printf("%.7f ", mat->vals[index4D(s, ch, i, j,
                 mat->dims[1], mat->dims[2], mat->dims[3])]);
             }
           }
