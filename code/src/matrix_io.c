@@ -19,6 +19,93 @@
  *  M: number of rows, i = index of a single row
  *  N: number of columns, j = index of a single column
  */
+
+void initiliaze2dMatrix(struct Matrix *mat,int nRow,int nCol){
+  mat->dims[0] = mat->dims[1] = 0;
+  mat->dims[2]=nRow;
+  mat->dims[3]=nCol;
+
+  mat->vals = (float *)calloc(nRow*nCol,sizeof(float));
+}
+
+void destroyMatrix(struct Matrix *mat){
+  mat->dims[0] = mat->dims[1]=mat->dims[2]=mat->dims[3] = 0;
+  free(mat->vals);
+}
+
+float calculateDistanceMatrix(struct Matrix *matrix1,struct Matrix *matrix2){
+  char flag;
+  float result=0;
+  int s, ch, i, j,iCol,iRow;
+  if (isMatricesHaveSameDim(matrix1,matrix2)){
+    if (matrix1->is_column_first == matrix2->is_column_first)
+    {
+      if(matrix1->is_column_first){
+        flag=1 ;
+        printf("Comparing two column-based matrices\n");
+      }
+      else
+      {
+        flag=0 ;
+        printf("Comparing two column-based matrices\n");
+      }
+    }
+    else{
+      if(matrix1->is_column_first){
+        flag=110;
+        printf("Comparing mat1(col) with mat2(row)\n");
+      }
+      else
+      {
+        flag=101;
+        printf("Comparing mat1(row) with mat2(col)\n");
+      }
+    }
+
+    for (s = 0; s < MAX(matrix1->dims[0], 1); s++)
+    {
+      for (ch = 0; ch < MAX(matrix1->dims[1], 1); ch++)
+      {
+        for (i = 0; i < matrix1->dims[2]; i++)
+        {
+          for (j = 0; j < matrix1->dims[3]; j++)
+          {
+            if (flag==1){
+              iCol = index4DCol(s, ch, i, j,
+                matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
+              result += ABS(matrix1->vals[iCol] - matrix2->vals[iCol]);
+            }
+            else if(flag==0){
+              iRow = index4D(s, ch, i, j,
+                matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
+              result += ABS(matrix1->vals[iRow] - matrix2->vals[iRow]);
+            }
+            else if(flag==110){
+              iCol = index4DCol(s, ch, i, j,
+                matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
+              iRow = index4D(s, ch, i, j,
+                matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
+              result += ABS(matrix1->vals[iCol] - matrix2->vals[iRow]);
+            }
+            else if(flag==101){
+              iCol = index4DCol(s, ch, i, j,
+                matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
+              iRow = index4D(s, ch, i, j,
+                matrix1->dims[1], matrix1->dims[2], matrix1->dims[3]);
+              result += ABS(matrix1->vals[iRow] - matrix2->vals[iCol]);
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+  else{
+    printf("[WARNING]: You just tried to compare to matrices with different sizes\n");
+    return -1;
+  }
+}
+
 int isMatricesHaveSameDim(struct Matrix *matrix_row_major,
                              struct Matrix *matrix_col_major)
  {
