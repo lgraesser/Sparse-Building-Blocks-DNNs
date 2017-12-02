@@ -8,7 +8,17 @@ int main(int argc, char * argv[])
   // TODO: add filename read in
   struct Matrix matrix_row;
   struct Matrix matrix_col;
-  const char * filename = "test.mat";
+  const char * filename ;
+
+  if (argc != 2){
+    printf("usage ./io matrix\n");
+    printf("Default values are going to be used ./mm data/test.mat\n");
+    filename = "data/test.mat";
+  }
+  else{
+    filename = argv[1];
+  }
+
   int num_elems;
   read_matrix_dims(filename, &matrix_row, &num_elems);
   read_matrix_dims(filename, &matrix_col, &num_elems);

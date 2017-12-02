@@ -17,7 +17,7 @@ int main(int argc, char * argv[])
 
   if (argc != 3){
     printf("usage ./mm matrixA matrixB\n");
-    printf("Default values are going to be used ./mm a.mat b.mat\n");
+    printf("Default values are going to be used ./mm data/a.mat data/b.mat\n");
     filename1 = "a.mat";
     filename2 = "b.mat";
   }
