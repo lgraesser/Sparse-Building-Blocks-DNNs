@@ -2,22 +2,25 @@ NVCC=nvcc -arch=sm_35
 SRC = src
 BIN = bin
 OBJ = obj
-all: mm io sparse_test
+TARGETS = mm io sparse_test
 
-mm: matrix_io.o mm_experiment.o mm.o
-	$(NVCC) -lcublas -o $(BIN)/$@ $(patsubst %.o,$(OBJ)/%.o,$^)
+all: $(patsubst %,$(BIN)/%,$(TARGETS)) 
 
-sparse_test: sparse_conversion_test.o sparse_conversion.o matrix_io.o
-	$(NVCC) -lcusparse -o $(BIN)/$@ $(patsubst %.o,$(OBJ)/%.o,$^)
+# the first two are the patterns the rest is the list of strings, e.g. x.o->obj/x.o
+$(BIN)/mm: $(patsubst %.o,$(OBJ)/%.o,matrix_io.o mm_experiment.o mm.o)
+	$(NVCC) -lcublas -o $@ $^
 
-io: matrix_io.o matrix_io_test.o
-	$(NVCC) -o $(BIN)/$@ $(patsubst %.o,$(OBJ)/%.o,$^)
+$(BIN)/sparse_test: $(patsubst %.o,$(OBJ)/%.o,sparse_conversion_test.o sparse_conversion.o matrix_io.o)
+	$(NVCC) -lcusparse -o $@ $^
 
-%.o: $(SRC)/%.c
-	$(NVCC) -x cu -I. -dc $< -o $(OBJ)/$@
+$(BIN)/io: $(patsubst %.o,$(OBJ)/%.o,matrix_io.o matrix_io_test.o)
+	$(NVCC) -o $@ $^
 
-%.o: $(SRC)/%.cu
-	$(NVCC) -x cu -I. -dc $< -o $(OBJ)/$@
+$(OBJ)/%.o: $(SRC)/%.c
+	$(NVCC) -x cu -I. -dc $< -o $@
+
+$(OBJ)/%.o: $(SRC)/%.cu
+	$(NVCC) -x cu -I. -dc $< -o $@
 
 .PHONY: clean
 clean:
