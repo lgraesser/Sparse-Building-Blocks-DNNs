@@ -17,4 +17,12 @@ Check scripts folder to understand how to use binaries.
 
 
 ## utku notes
-- Why spares matrices on cpu? copying takes extra time since. 
+- Why spares matrices on cpu? copying takes extra time since.
+- why not fill the descrbtiors inside the sparse convertation and include them in the sparse struct
+```  
+cusparseMatDescr_t descrX;
+  cusparseCreateMatDescr(&descrX);
+  cusparseSetMatType(descrX, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatIndexBase(descrX, CUSPARSE_INDEX_BASE_ZERO);
+```
+- do dense2csr work both on host and device? We need a sparse2dense conversation. 
