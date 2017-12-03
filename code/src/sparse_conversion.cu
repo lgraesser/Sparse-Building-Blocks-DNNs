@@ -85,6 +85,7 @@ void convert_to_sparse(struct SparseMat * spm,
 void copyDeviceCSR2Host(struct SparseMat * spm_ptr, struct Matrix * mat)
 {
   // Allocate host memory and copy device vals back to host
+  // WARNING this may result in memory leak if you continously call this function
   spm_ptr->csrRowPtrA = (int *)calloc((mat->dims[2] + 1), sizeof(int));
   spm_ptr->csrColIndA = (int *)calloc(spm_ptr->total_non_zero, sizeof(int));
   spm_ptr->csrValA = (float *)calloc(spm_ptr->total_non_zero, sizeof(float));
