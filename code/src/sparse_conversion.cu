@@ -13,6 +13,7 @@
 #include "matrix_io.h"
 #include "safe_call_defs.h"
 
+
 void convert_to_sparse(struct SparseMat * spm,
                       struct Matrix * mat,
                       cusparseHandle_t handle)
@@ -82,6 +83,42 @@ void convert_to_sparse(struct SparseMat * spm,
   printf("Converted matrix from dense to sparse\n");
 }
 
+
+void convert_to_dense(struct SparseMat * spm,
+                      struct Matrix * mat,
+                      cusparseHandle_t handle)
+{
+  /* Assumes that csrValA_device, csrRowPtrA_device, csrColIndA_device
+   * all exist on the device and have been correctly populated
+   * Also assumes the cusparse matrix descriptor in the spm has between
+   * properly initialized
+   */
+  int num_elems = mat->dims[2] * mat->dims[3];
+  float * matrix_device;
+  const int lda = mat->dims[2];
+  // Allocate device dense array
+  CudaSafeCall(cudaMalloc(&matrix_device,
+                        num_elems * sizeof(float)));
+
+  cusparseSafeCall(cusparseScsr2dense(handle,
+                                      mat->dims[2],
+                                      mat->dims[3],
+                                      spm->descrA,
+                                      spm->csrValA_device,
+                                      spm->csrRowPtrA_device,
+                                      spm->csrColIndA_device,
+                                      matrix_device,
+                                      lda));
+
+  // Copy matrix back to cpu and free device storage
+  CudaSafeCall(cudaMemcpy(mat->vals,
+                          matrix_device,
+                          num_elems * sizeof(float),
+                          cudaMemcpyDeviceToHost));
+  cudaFree(matrix_device);
+}
+
+
 void copyDeviceCSR2Host(struct SparseMat * spm_ptr, struct Matrix * mat)
 {
   // Allocate host memory and copy device vals back to host
@@ -103,6 +140,7 @@ void copyDeviceCSR2Host(struct SparseMat * spm_ptr, struct Matrix * mat)
   printf("Copied sparse matrix from device to host\n");
 }
 
+
 void destroySparseMatrix(struct SparseMat *spm){
   cudaFree(spm->csrRowPtrA_device);
   cudaFree(spm->csrColIndA_device);
@@ -113,6 +151,7 @@ void destroySparseMatrix(struct SparseMat *spm){
   free(spm->csrValA);
   free(spm->nz_per_row);
 }
+
 
 void print_sparse_matrix(struct SparseMat spm, int num_rows)
 {

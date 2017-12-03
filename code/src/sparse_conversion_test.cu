@@ -37,8 +37,19 @@ int main(int argc, char * argv[])
   printf("Num rows: %d\n", mat.dims[2]);
   print_sparse_matrix(spm, mat.dims[2]);
 
+  struct Matrix mat2;
+  mat2.vals = (float *)calloc(num_elems, sizeof(float));
+  for (int i = 0; i < 4; i++)
+  {
+      mat2.dims[i] = mat.dims[i];
+  }
+  mat2.is_column_first = mat.is_column_first;
+  convert_to_dense(&spm, &mat2, handle);
+  print_matrix(&mat2);
+
   // Free memory
   cusparseDestroy(handle);
   destroySparseMatrix(&spm);
   destroyMatrix(&mat);
+  destroyMatrix(&mat2);
 }

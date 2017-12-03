@@ -29,6 +29,10 @@ void convert_to_sparse(
         struct SparseMat *,
         struct Matrix *,
         cusparseHandle_t);
+void convert_to_dense(
+        struct SparseMat *,
+        struct Matrix *,
+        cusparseHandle_t);
 void copyDeviceCSR2Host(struct SparseMat *, struct Matrix *);
 void destroySparseMatrix(struct SparseMat *);
 void print_sparse_matrix(struct SparseMat, int);
