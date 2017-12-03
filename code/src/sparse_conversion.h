@@ -28,6 +28,7 @@ struct SparseMat * convert_to_sparse(
         struct Matrix * mat,
         cusparseHandle_t,
         const cusparseMatDescr_t);
+void destroySparseMatrix(struct SparseMat *spm);
 void print_sparse_matrix(struct SparseMat, int);
 
 #endif

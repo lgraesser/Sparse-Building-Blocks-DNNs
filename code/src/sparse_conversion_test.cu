@@ -45,13 +45,6 @@ int main(int argc, char * argv[])
 
   // Free memory
   cusparseDestroy(handle);
-  cudaFree(spm.csrRowPtrA_device);
-  cudaFree(spm.csrColIndA_device);
-  cudaFree(spm.csrValA_device);
-  cudaFree(spm.nz_per_row_device);
-  free(spm.csrRowPtrA);
-  free(spm.csrColIndA);
-  free(spm.csrValA);
-  free(spm.nz_per_row);
-  free(mat.vals);
+  destroySparseMatrix(&spm);
+  destroyMatrix(&mat);
 }

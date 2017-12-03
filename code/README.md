@@ -14,3 +14,7 @@ bin/sparse_test data/test.mat
 ```
 
 Check scripts folder to understand how to use binaries.
+
+
+## utku notes
+- Why spares matrices on cpu? copying takes extra time since. 

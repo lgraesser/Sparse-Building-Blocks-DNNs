@@ -113,6 +113,16 @@ struct SparseMat * convert_to_sparse(struct Matrix * mat,
   return spm_ptr;
 }
 
+void destroySparseMatrix(struct SparseMat *spm){
+  cudaFree(spm->csrRowPtrA_device);
+  cudaFree(spm->csrColIndA_device);
+  cudaFree(spm->csrValA_device);
+  cudaFree(spm->nz_per_row_device);
+  free(spm->csrRowPtrA);
+  free(spm->csrColIndA);
+  free(spm->csrValA);
+  free(spm->nz_per_row);
+}
 
 void print_sparse_matrix(struct SparseMat spm, int num_rows)
 {
