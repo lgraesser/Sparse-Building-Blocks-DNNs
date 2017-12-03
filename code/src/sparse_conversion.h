@@ -13,6 +13,7 @@
 
 const float SMALL_NUM = 0.0000000001;
 struct SparseMat {
+  cusparseMatDescr_t descrA;
   int * csrRowPtrA;
   int * csrColIndA;
   float * csrValA;
@@ -24,11 +25,12 @@ struct SparseMat {
   int total_non_zero;
 };
 
-struct SparseMat * convert_to_sparse(
-        struct Matrix * mat,
-        cusparseHandle_t,
-        const cusparseMatDescr_t);
-void destroySparseMatrix(struct SparseMat *spm);
+void convert_to_sparse(
+        struct SparseMat *,
+        struct Matrix *,
+        cusparseHandle_t);
+void copyDeviceCSR2Host(struct SparseMat *, struct Matrix *);
+void destroySparseMatrix(struct SparseMat *);
 void print_sparse_matrix(struct SparseMat, int);
 
 #endif

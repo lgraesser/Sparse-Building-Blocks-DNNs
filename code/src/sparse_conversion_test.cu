@@ -28,17 +28,11 @@ int main(int argc, char * argv[])
   // Initialize cusparse library
   cusparseHandle_t handle;
   cusparseCreate(&handle);
-  cusparseMatDescr_t descrX;
-  cusparseCreateMatDescr(&descrX);
-  cusparseSetMatType(descrX, CUSPARSE_MATRIX_TYPE_GENERAL);
-  cusparseSetMatIndexBase(descrX, CUSPARSE_INDEX_BASE_ZERO);
 
   // Call conversion func
-  struct SparseMat * spm_ptr = convert_to_sparse(
-                                &mat,
-                                handle,
-                                descrX);
-  struct SparseMat spm = *spm_ptr;
+  struct SparseMat spm;
+  convert_to_sparse(&spm, &mat, handle);
+  copyDeviceCSR2Host(&spm, &mat);
 
   printf("Num rows: %d\n", mat.dims[2]);
   print_sparse_matrix(spm, mat.dims[2]);
