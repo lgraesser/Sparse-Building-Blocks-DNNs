@@ -28,4 +28,4 @@ cusparseMatDescr_t descrX;
 
 - maybe we don't need to keep have nz_per_row in the struct, it would be nice to have leading mat->dims[2]  inside the sparse struct so that we don't need to give/keep the whole dense matrix when we copy
 
-- I was thinking of unfiyng the device/host fields within sparse matrix struct, we can have a char flag saying where the sparse matrix is. Usually it is always going to be on device during the calculations. We can create a new struct and provide it to
+- I was thinking of unifying the device/host fields within sparse matrix struct, we can have a char flag saying where the sparse matrix is. Usually it is always going to be on device during the calculations. We can create a new struct and provide it to
