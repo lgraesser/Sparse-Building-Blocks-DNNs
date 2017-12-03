@@ -26,4 +26,6 @@ cusparseMatDescr_t descrX;
 ```
 - do dense2csr work both on host and device? We need a sparse2dense conversation.
 
-- maybe we don't need to keep have n_num_zeros and we may have a on_device flag to check whether the sparse matrix is there or here. This is better then having one big struct with both
+- maybe we don't need to keep have n_num_zeros in the struct, it would be nice to have leading mat->dims[2]  inside the sparse struct.
+
+- I was thinking of unfiyng the device/host fields within sparse matrix struct, we can have a char flag saying where the sparse matrix is. Usually it is always going to be on device during the calculations. We can create a new struct and provide it to
