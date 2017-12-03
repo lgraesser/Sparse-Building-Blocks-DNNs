@@ -32,10 +32,10 @@ int main(int argc, char * argv[])
   // Call conversion func
   struct SparseMat spm;
   convert_to_sparse(&spm, &mat, handle);
-  copyDeviceCSR2Host(&spm, &mat);
+  copyDeviceCSR2Host(&spm);
 
   printf("Num rows: %d\n", mat.dims[2]);
-  print_sparse_matrix(spm, mat.dims[2]);
+  print_sparse_matrix(&spm);
 
   struct Matrix mat2;
   mat2.vals = (float *)calloc(num_elems, sizeof(float));

@@ -17,12 +17,11 @@ struct SparseMat {
   int * csrRowPtrA;
   int * csrColIndA;
   float * csrValA;
-  int * nz_per_row;
   int * csrRowPtrA_device;
   int * csrColIndA_device;
   float * csrValA_device;
-  int * nz_per_row_device;
   int total_non_zero;
+  int num_rows;
 };
 
 void convert_to_sparse(
@@ -33,8 +32,8 @@ void convert_to_dense(
         struct SparseMat *,
         struct Matrix *,
         cusparseHandle_t);
-void copyDeviceCSR2Host(struct SparseMat *, struct Matrix *);
+void copyDeviceCSR2Host(struct SparseMat *);
 void destroySparseMatrix(struct SparseMat *);
-void print_sparse_matrix(struct SparseMat, int);
+void print_sparse_matrix(struct SparseMat *);
 
 #endif
