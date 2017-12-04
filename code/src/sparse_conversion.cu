@@ -78,6 +78,7 @@ void convert_to_sparse(struct SparseMat * spm,
                 spm->csrColIndA_device));
 
   cudaFree(matrix_device);
+  cudaFree(nz_per_row_device);
   printf("Converted matrix from dense to sparse\n");
 }
 
