@@ -21,7 +21,9 @@ void read_matrix_vals(const char * filename, struct Matrix *mat,int is_column_fi
 void read_matrix_dims(const char * filename, struct Matrix *mat, int* product);
 void print_matrix(struct Matrix *mat);
 void convert_to_column_major(struct Matrix *matrix_row_major,
-                             struct Matrix *matrix_col_major);
+                            struct Matrix *matrix_col_major);
+ void convert_to_row_major(struct Matrix *matrix_row_major,
+                            struct Matrix *matrix_col_major);
 int isMatricesHaveSameDim(struct Matrix *matrix_row_major,
                             struct Matrix *matrix_col_major);
 float calculateDistanceMatrix(struct Matrix *matrix1,struct Matrix *matrix2);
