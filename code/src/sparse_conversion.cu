@@ -27,9 +27,9 @@ void convert_to_sparse(struct SparseMat * spm,
   spm->total_non_zero = 0;
 
   // Create cusparse matrix descriptors
-  cusparseCreateMatDescr(&(spm->descrA));
-  cusparseSetMatType(spm->descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
-  cusparseSetMatIndexBase(spm->descrA, CUSPARSE_INDEX_BASE_ZERO);
+  cusparseCreateMatDescr(&(spm->descr));
+  cusparseSetMatType(spm->descr, CUSPARSE_MATRIX_TYPE_GENERAL);
+  cusparseSetMatIndexBase(spm->descr, CUSPARSE_INDEX_BASE_ZERO);
 
   // Allocate device dense array and copy over
   CudaSafeCall(cudaMalloc(&matrix_device,
@@ -46,7 +46,7 @@ void convert_to_sparse(struct SparseMat * spm,
                                 CUSPARSE_DIRECTION_ROW,
                                 mat->dims[2],
                                 mat->dims[3],
-                                spm->descrA,
+                                spm->descr,
                                 matrix_device,
                                 lda,
                                 nz_per_row_device,
@@ -69,7 +69,7 @@ void convert_to_sparse(struct SparseMat * spm,
                 handle, // cusparse handle
                 mat->dims[2], // Number of rows
                 mat->dims[3], // Number of cols
-                spm->descrA, // cusparse matrix descriptor
+                spm->descr, // cusparse matrix descriptor
                 matrix_device, // Matrix
                 lda, // Leading dimension of the array
                 nz_per_row_device, // Non zero elements per row
@@ -96,13 +96,14 @@ void convert_to_dense(struct SparseMat * spm,
   float * matrix_device;
   const int lda = mat->dims[2];
   // Allocate device dense array
+  printf("num_elems %d\n",num_elems);
   CudaSafeCall(cudaMalloc(&matrix_device,
                         num_elems * sizeof(float)));
 
   cusparseSafeCall(cusparseScsr2dense(handle,
                                       mat->dims[2],
                                       mat->dims[3],
-                                      spm->descrA,
+                                      spm->descr,
                                       spm->csrValA_device,
                                       spm->csrRowPtrA_device,
                                       spm->csrColIndA_device,
@@ -145,9 +146,10 @@ void destroySparseMatrix(struct SparseMat *spm){
   cudaFree(spm->csrRowPtrA_device);
   cudaFree(spm->csrColIndA_device);
   cudaFree(spm->csrValA_device);
-  free(spm->csrRowPtrA);
-  free(spm->csrColIndA);
-  free(spm->csrValA);
+  // One should clean this separately, since it throws and error if the pointers are not init.
+  // free(spm->csrRowPtrA);
+  // free(spm->csrColIndA);
+  // free(spm->csrValA);
 }
 
 
