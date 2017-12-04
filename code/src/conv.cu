@@ -117,6 +117,7 @@ void convolve2DDense(struct Matrix * mat,
   }
 
   // Convolve
+  printf("here 1\n");
   const float alpha = 1, beta = 0;
   checkCUDNN(cudnnConvolutionForward(cudnn,
                                      &alpha,
@@ -132,14 +133,26 @@ void convolve2DDense(struct Matrix * mat,
                                      output_descriptor,
                                      d_output));
 
+  printf("here 2\n");
   // Copy result back to host
+  result->vals = (float *)calloc(out_im_bytes, sizeof(float));
   CudaSafeCall(cudaMemcpy(result->vals, d_output, out_im_bytes, cudaMemcpyDeviceToHost));
   cudaFree(d_input);
   cudaFree(d_output);
   cudaFree(d_workspace);
   cudnnDestroyTensorDescriptor(input_descriptor);
   cudnnDestroyTensorDescriptor(output_descriptor);
+  printf("here 3\n");
 }
+
+
+void destroyKernel(struct Kernel * kernel, struct Matrix * kernel_mat)
+{
+  cudnnDestroyFilterDescriptor(kernel->kernel_descriptor);
+  cudaFree(kernel->vals_device);
+  destroyMatrix(kernel_mat);
+}
+
 
 void convolve2DSparse(struct SparseMat * mat,
                 struct Kernel * kernel,

@@ -28,4 +28,6 @@ void convolve2DDense(struct Matrix * mat,
 void convolve2DSparse(struct SparseMat * mat,
                 struct Kernel * kernel,
                 struct SparseMat * result);
+
+void destroyKernel(struct Kernel * kernel, struct Matrix * k_mat);
 #endif
