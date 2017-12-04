@@ -109,3 +109,36 @@ This function attempts all cuDNN algorithms for cudnnConvolutionForward(), using
 
 Note: This function is host blocking.
 Note: It is recommend to run this function prior to allocating layer data; doing otherwise may needlessly inhibit some algorithm options due to resource usage.
+
+
+Sparse convolution strategy: Convert to sparse matrix dense vector multiplication
+- Unroll matrix to sparse rep
+- Sparse matrix vector mult
+- Convert back
+- Put kernel in constant memory
+- Put matrix in constant memory if it is less than a certain size
+
+http://www.nvidia.com/docs/IO/66889/nvr-2008-004.pdf
+
+```C
+__global__ void
+spmv_csr_scalar_kernel ( const int num_rows ,
+                          const int * ptr ,
+                          const int * indices ,
+                          const float * data ,
+                          const float * x ,
+                          float * y)
+  {
+  int row = blockDim.x * blockIdx.x + threadIdx.x;
+  if ( row < num_rows ){
+    float dot = 0;
+    int row_start = ptr [ row ];
+    int row_end = ptr [ row +1];
+    for (int jj = row_start ; jj < row_end ; jj ++)
+    {
+      dot += data [ jj ] * x[ indices [ jj ]];
+    }
+    y[ row ] += dot ;
+  }
+}
+```
