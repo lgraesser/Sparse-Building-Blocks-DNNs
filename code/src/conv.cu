@@ -30,8 +30,10 @@ void convolve2DDense(struct Matrix * mat,
                                       /*image_height=*/mat->dims[2],
                                       /*image_width=*/mat->dims[3]));
 
-  int out_height = mat->dims[2] - kernel->dims[2] + 1;
-  int out_width = mat->dims[3] - kernel->dims[3] + 1;
+  int out_height = mat->dims[2];
+  int out_width = mat->dims[3];
+  int pad_height = kernel->dims[2] / 2;
+  int pad_width = kernel->dims[3] / 2;
   result->dims[0] = mat->dims[0];
   result->dims[1] = mat->dims[1];
   result->dims[2] = out_height;
@@ -51,8 +53,8 @@ void convolve2DDense(struct Matrix * mat,
   cudnnConvolutionDescriptor_t convolution_descriptor;
   checkCUDNN(cudnnCreateConvolutionDescriptor(&convolution_descriptor));
   checkCUDNN(cudnnSetConvolution2dDescriptor(convolution_descriptor,
-                                             /*pad_height=*/0,
-                                             /*pad_width=*/0,
+                                             /*pad_height=*/pad_height,
+                                             /*pad_width=*/pad_width,
                                              /*vertical_stride=*/1,
                                              /*horizontal_stride=*/1,
                                              /*dilation_height=*/1,
