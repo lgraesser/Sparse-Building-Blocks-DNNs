@@ -25,9 +25,18 @@ void convolve2DDense(struct Matrix * mat,
                 struct Matrix * result,
                 cudnnHandle_t cudnn);
 
-void convolve2DSparse(struct SparseMat * mat,
+void convolve2DDenseProjectImp(struct Matrix * mat,
                 struct Kernel * kernel,
-                struct SparseMat * result);
+                struct Matrix * result);
 
 void destroyKernel(struct Kernel * kernel, struct Matrix * k_mat);
+
+__global__ void convolve2DKernel(float * matrix,
+                        float * kernel,
+                        float * result,
+                        int mat_h,
+                        int mat_w,
+                        int k_h,
+                        int k_w);
+
 #endif

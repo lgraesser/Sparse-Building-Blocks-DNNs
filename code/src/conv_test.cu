@@ -19,7 +19,7 @@ int main(int argc, char * argv[])
   struct Matrix row_mat;
   struct Matrix k_mat;
   struct Kernel kernel;
-  struct Matrix col_mat;
+  struct Matrix col_kernel;
   struct Matrix dense_out;
   if (argc != 3){
     printf("usage ./conv_test filename kernel\n");
@@ -29,7 +29,7 @@ int main(int argc, char * argv[])
   char * kernel_name = argv[2];
   int k_elems;
   int num_elems;
-  
+
   // Read in matrix and kernel
   read_matrix_dims(filename, &row_mat, &num_elems);
   row_mat.vals = (float *)calloc(num_elems, sizeof(float));
@@ -60,19 +60,27 @@ int main(int argc, char * argv[])
                   &dense_out, // Not initialized
                   cudnn);
   print_matrix(&dense_out);
+  destroyMatrix(&dense_out);
 
-  // Convert to sparse matrix
+  // Convolve dense alternate
+  convolve2DDenseProjectImp(&row_mat,
+                            &kernel,
+                            &dense_out);
+  print_matrix(&dense_out);
+
+  // Convert kernel to sparse matrix
   for (int i = 0; i < 4; i++)
   {
-    col_mat.dims[i] = row_mat.dims[i];
+    col_kernel.dims[i] = kernel.dims[i];
   }
-  col_mat.vals = (float *)calloc(num_elems, sizeof(float));
-  convert_to_column_major(&row_mat, &col_mat);
-  print_matrix(&col_mat);
+  num_elems = kernel.dims[2] * kernel.dims[3];
+  col_kernel.vals = (float *)calloc(num_elems, sizeof(float));
+  convert_to_column_major(&k_mat, &col_kernel);
+  print_matrix(&col_kernel);
   struct SparseMat spm;
-  convert_to_sparse(&spm, &col_mat, handle);
+  convert_to_sparse(&spm, &col_kernel, handle);
   copyDeviceCSR2Host(&spm);
-  printf("Num rows: %d\n", col_mat.dims[2]);
+  printf("Num rows: %d\n", col_kernel.dims[2]);
   print_sparse_matrix(&spm);
 
   // Convolve sparse
@@ -82,7 +90,8 @@ int main(int argc, char * argv[])
   cusparseDestroy(handle);
   cudnnDestroy(cudnn);
   destroySparseMatrix(&spm);
-  destroyMatrix(&col_mat);
+  destroyMatrix(&col_kernel);
   destroyMatrix(&row_mat);
+  destroyMatrix(&dense_out);
   destroyKernel(&kernel, &k_mat);
 }
