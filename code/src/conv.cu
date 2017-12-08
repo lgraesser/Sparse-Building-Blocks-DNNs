@@ -13,7 +13,8 @@
 
 void convolve2DDenseProjectImp(struct Matrix * mat,
                 struct Kernel * kernel,
-                struct Matrix * result)
+                struct Matrix * result,
+                bool pitch)
 {
   // Initialize result matrix
   result->dims[0] = mat->dims[0];
@@ -25,11 +26,34 @@ void convolve2DDenseProjectImp(struct Matrix * mat,
   // Initialize cuda memory and copy in matrix and result to device
   float * d_input;
   float * d_output;
+  size_t pit = 0;
+  size_t * d_pitch = &pit;
   size_t image_bytes = mat->dims[2] * mat->dims[3] * sizeof(float);
+  size_t image_width_bytes = mat->dims[3] * sizeof(float);
   size_t out_im_bytes = result->dims[2] * result->dims[3] * sizeof(float);
   size_t kernel_bytes = kernel->dims[2] * kernel->dims[3] * sizeof(float);
-  CudaSafeCall(cudaMalloc(&d_input, image_bytes));
-  CudaSafeCall(cudaMemcpy(d_input, mat->vals, image_bytes, cudaMemcpyHostToDevice));
+
+  if (pitch)
+  {
+    printf("Adding pitch to input matrix\n");
+    CudaSafeCall(cudaMallocPitch(&d_input, d_pitch, image_width_bytes, (size_t) mat->dims[2]));
+    CudaSafeCall(cudaMemcpy2D(d_input,
+                        *d_pitch,
+                        mat->vals,
+                        image_width_bytes,
+                        image_width_bytes,
+                        mat->dims[2],
+                        cudaMemcpyHostToDevice));
+    printf("Pitch is: %d\n", *d_pitch);
+  }
+  else
+  {
+    CudaSafeCall(cudaMalloc(&d_input, image_bytes));
+    CudaSafeCall(cudaMemcpy(d_input, mat->vals, image_bytes, cudaMemcpyHostToDevice));
+    printf("No pitch, pitch is: %d\n", *d_pitch);
+  }
+
+
   CudaSafeCall(cudaMalloc(&d_output, out_im_bytes));
   CudaSafeCall(cudaMemset(d_output, 0, out_im_bytes));
 
@@ -51,6 +75,14 @@ void convolve2DDenseProjectImp(struct Matrix * mat,
   dim3 dimGrid(b_col, b_row);
   dim3 dimBlock(t_col, t_row);
 
+  // Actual matrix width
+  int actual_mat_width = image_width_bytes / 4;
+  if (pitch)
+  {
+    actual_mat_width = *d_pitch / 4;
+  }
+  printf("Actual matrix width: %d\n", actual_mat_width);
+
   // Call convolve kernel
   convolve2DKernel<<<dimGrid, dimBlock, kernel_bytes>>>(
                   d_input,
@@ -58,6 +90,7 @@ void convolve2DDenseProjectImp(struct Matrix * mat,
                   d_output,
                   mat->dims[2],
                   mat->dims[3],
+                  actual_mat_width,
                   kernel->dims[2],
                   kernel->dims[3]);
   CudaCheckError();
@@ -77,6 +110,7 @@ __global__ void convolve2DKernel(float * matrix,
                         float * result,
                         int mat_h,
                         int mat_w,
+                        int actual_mat_width,
                         int k_h,
                         int k_w)
 {
@@ -106,7 +140,7 @@ __global__ void convolve2DKernel(float * matrix,
           if (row_i + i >= 0 && col_i + j >= 0 &&
               row_i + i < mat_h && col_i + j < mat_w)
           {
-            out += k_shared[index2D(i, j, k_w)] * matrix[index2D(row_i + i, col_i + j, mat_w)];
+            out += k_shared[index2D(i, j, k_w)] * matrix[(row_i + i) * actual_mat_width + col_i + j];
           }
         }
       }

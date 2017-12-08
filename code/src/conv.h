@@ -27,7 +27,8 @@ void convolve2DDense(struct Matrix * mat,
 
 void convolve2DDenseProjectImp(struct Matrix * mat,
                 struct Kernel * kernel,
-                struct Matrix * result);
+                struct Matrix * result,
+                bool pitch);
 
 void destroyKernel(struct Kernel * kernel, struct Matrix * k_mat);
 
@@ -36,6 +37,7 @@ __global__ void convolve2DKernel(float * matrix,
                         float * result,
                         int mat_h,
                         int mat_w,
+                        int pitch, // from pitched matrix
                         int k_h,
                         int k_w);
 

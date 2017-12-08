@@ -65,8 +65,18 @@ int main(int argc, char * argv[])
   // Convolve dense alternate
   convolve2DDenseProjectImp(&row_mat,
                             &kernel,
-                            &dense_out);
+                            &dense_out,
+                            0);
   print_matrix(&dense_out);
+  destroyMatrix(&dense_out);
+
+  // Convolve dense alternate
+  convolve2DDenseProjectImp(&row_mat,
+                            &kernel,
+                            &dense_out,
+                            1);
+  print_matrix(&dense_out);
+  destroyMatrix(&dense_out);
 
   // Convert kernel to sparse matrix
   for (int i = 0; i < 4; i++)
@@ -92,6 +102,5 @@ int main(int argc, char * argv[])
   destroySparseMatrix(&spm);
   destroyMatrix(&col_kernel);
   destroyMatrix(&row_mat);
-  destroyMatrix(&dense_out);
   destroyKernel(&kernel, &k_mat);
 }
