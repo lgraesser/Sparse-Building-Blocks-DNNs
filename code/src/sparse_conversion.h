@@ -22,6 +22,7 @@ struct SparseMat {
   float * csrValA_device;
   int total_non_zero;
   int num_rows;
+  int is_on_device;
 };
 
 void convert_to_sparse(

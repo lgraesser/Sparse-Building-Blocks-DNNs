@@ -55,6 +55,7 @@ int main(int argc, char * argv[])
   checkCUDNN(cudnnCreate(&cudnn));
 
   // Convolve dense
+  printf(" ============= CUSPARSE CONVOLUTION ================= \n");
   convolve2DDense(&row_mat,
                   &kernel,
                   &dense_out, // Not initialized
@@ -63,6 +64,7 @@ int main(int argc, char * argv[])
   destroyMatrix(&dense_out);
 
   // Convolve dense alternate
+  printf(" ============= TILED CONVOLUTION ================= \n");
   convolve2DDenseProjectImp(&row_mat,
                             &kernel,
                             &dense_out,
@@ -70,7 +72,8 @@ int main(int argc, char * argv[])
   print_matrix(&dense_out);
   destroyMatrix(&dense_out);
 
-  // Convolve dense alternate
+  // Convolve dense alternate + pitch
+  printf(" ============= TILED, PITCHED, CONVOLUTION ================= \n");
   convolve2DDenseProjectImp(&row_mat,
                             &kernel,
                             &dense_out,
@@ -88,13 +91,32 @@ int main(int argc, char * argv[])
   convert_to_column_major(&k_mat, &col_kernel);
   print_matrix(&col_kernel);
   struct SparseMat spm;
+  spm.is_on_device = 0;
+  printf("Spm on device? %d\n", spm.is_on_device);
   convert_to_sparse(&spm, &col_kernel, handle);
+  printf("Spm on device? %d\n", spm.is_on_device);
   copyDeviceCSR2Host(&spm);
+  printf("Spm on device? %d\n", spm.is_on_device);
   printf("Num rows: %d\n", col_kernel.dims[2]);
   print_sparse_matrix(&spm);
 
   // Convolve sparse
-  // TODO
+  printf(" ============= SPARSE KERNEL, TILED CONVOLUTION =============== \n");
+  convolve2DSparseProjectImp(&row_mat,
+                            &spm,
+                            &dense_out,
+                            0);
+  print_matrix(&dense_out);
+  destroyMatrix(&dense_out);
+
+  // Convolve sparse + pitch
+  printf(" ============= SPARSE KERNEL, TILED, PITCHED CONVOLUTION =============== \n");
+  convolve2DSparseProjectImp(&row_mat,
+                            &spm,
+                            &dense_out,
+                            1);
+  print_matrix(&dense_out);
+  destroyMatrix(&dense_out);
 
   // Free memory
   cusparseDestroy(handle);

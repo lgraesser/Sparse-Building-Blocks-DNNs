@@ -20,6 +20,7 @@ struct Kernel {
   bool is_on_device;
 };
 
+
 void convolve2DDense(struct Matrix * mat,
                 struct Kernel * kernel,
                 struct Matrix * result,
@@ -27,6 +28,11 @@ void convolve2DDense(struct Matrix * mat,
 
 void convolve2DDenseProjectImp(struct Matrix * mat,
                 struct Kernel * kernel,
+                struct Matrix * result,
+                bool pitch);
+
+void convolve2DSparseProjectImp(struct Matrix * mat,
+                struct SparseMat * sparse_kernel,
                 struct Matrix * result,
                 bool pitch);
 
