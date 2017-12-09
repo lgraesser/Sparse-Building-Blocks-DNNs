@@ -41,4 +41,16 @@ __global__ void convolve2DKernel(float * matrix,
                         int k_h,
                         int k_w);
 
+__global__ void convolve2DKernelSparse(float * matrix,
+                        float * kernel_vals,
+                        int * kernel_rows,
+                        int * kernel_cols,
+                        int num_k_elems,
+                        float * result,
+                        int mat_h,
+                        int mat_w,
+                        int pitch, // from pitched matrix
+                        int k_h,
+                        int k_w);
+
 #endif
