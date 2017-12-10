@@ -113,7 +113,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
   }
   printf("Number of iterations: %d\n", num_its);
   start = clock();
-  if (alg_type_flag == 'a')
+  if (strcmp(alg_type_flag, "projdense") == 0)
   {
     printf(" ============= TILED CONVOLUTION ================= \n");
     convolve2DDenseProjectImp(&row_mat,
@@ -122,7 +122,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
                               0,
                               num_its);
   }
-  else if (alg_type_flag == 'b')
+  else if (strcmp(alg_type_flag, "projdensepitch") == 0)
   {
     printf(" ============= TILED, PITCHED, CONVOLUTION ================= \n");
     convolve2DDenseProjectImp(&row_mat,
@@ -131,7 +131,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
                               1,
                               num_its);
   }
-  else if (alg_type_flag == 'c')
+  else if (strcmp(alg_type_flag, "densecudnn") == 0)
   {
     printf(" =============  CUDNN CONVOLUTION ================= \n");
     cudnnHandle_t cudnn;
@@ -143,7 +143,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
                     num_its);
     cudnnDestroy(cudnn);
   }
-  else if (alg_type_flag == 'd')
+  else if (strcmp(alg_type_flag, "sparse") == 0)
   {
     printf(" ============= SPARSE KERNEL, TILED CONVOLUTION =============== \n");
     clock_t handle_start = clock();
@@ -180,7 +180,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
     destroySparseMatrix(&spm);
     cusparseDestroy(handle);
   }
-  else if (alg_type_flag == 'e')
+  else if (strcmp(alg_type_flag, "sparsepitch") == 0)
   {
     printf(" ============= SPARSE KERNEL, TILED CONVOLUTION =============== \n");
     clock_t handle_start = clock();
