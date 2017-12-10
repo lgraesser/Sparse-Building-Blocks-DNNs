@@ -8,6 +8,7 @@ int main(int argc, char * argv[])
   // TODO: add filename read in
   struct Matrix matrix_row;
   struct Matrix matrix_col;
+  struct Matrix matrix_transposed;
   const char * filename ;
 
   if (argc != 2){
@@ -31,6 +32,11 @@ int main(int argc, char * argv[])
   read_matrix_vals(filename, &matrix_col,1);
   print_matrix(&matrix_row);
   print_matrix(&matrix_col);
+
+  //
+  transpose2dMatrix(&matrix_col,&matrix_transposed);
+  printf("Matrix_col transposed:\n");
+  print_matrix(&matrix_transposed);
 
   // Check row major and col major layout
   int k;

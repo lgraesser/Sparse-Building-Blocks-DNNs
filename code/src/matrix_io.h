@@ -29,6 +29,7 @@ int isMatricesHaveSameDim(struct Matrix *matrix_row_major,
 float calculateDistanceMatrix(struct Matrix *matrix1,struct Matrix *matrix2);
 void initiliaze2dMatrix(struct Matrix *mat,int nRow,int nCol);
 void destroyMatrix(struct Matrix *mat);
+void transpose2dMatrix(struct Matrix *original,struct Matrix *transposed);
 
 // void convert_dense_to_coo_4D(float *, float *, int *, int *, int *, int *, int [])
 /* ========================================================================= */

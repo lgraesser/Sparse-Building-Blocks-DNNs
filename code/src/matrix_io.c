@@ -28,6 +28,29 @@ void initiliaze2dMatrix(struct Matrix *mat,int nRow,int nCol){
   mat->vals = (float *)calloc(nRow*nCol,sizeof(float));
 }
 
+void transpose2dMatrix(struct Matrix *original,struct Matrix *transposed){
+  // Creates a new matrix, so destroy it.
+  int temp;
+  for (int i = 0; i < 4; i++)
+  {
+    transposed->dims[i] = original->dims[i];
+  }
+  int num_elems = transposed->dims[2] * transposed->dims[3]
+                  * MAX(transposed->dims[0], 1)
+                  * MAX(transposed->dims[1], 1);
+  transposed->vals = (float *)calloc(num_elems, sizeof(float));
+  transposed->is_column_first = original->is_column_first;
+  if (original->is_column_first){//This is a code reuse. In the future implement convert_to_column major by using transpos maybe.
+    convert_to_row_major(original,transposed);
+  }
+  else{
+    convert_to_column_major(original,transposed);
+  }
+  transposed->is_column_first  ^= 1;
+  temp = transposed->dims[2];
+  transposed->dims[2] = transposed->dims[3];
+  transposed->dims[3] = temp;
+}
 void destroyMatrix(struct Matrix *mat){
   mat->dims[0] = mat->dims[1]=mat->dims[2]=mat->dims[3] = 0;
   free(mat->vals);
@@ -166,8 +189,8 @@ void convert_to_column_major(struct Matrix *matrix_row_major,
 }
 
 
-void convert_to_row_major(struct Matrix *matrix_row_major,
-                             struct Matrix *matrix_col_major)
+void convert_to_row_major(struct Matrix *matrix_col_major,
+                             struct Matrix *matrix_row_major)
 {
   // Write planes
   int s, ch, i, j;
