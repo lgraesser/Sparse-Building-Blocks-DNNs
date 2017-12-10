@@ -201,31 +201,6 @@ void convert_to_row_major(struct Matrix *matrix_row_major,
 }
 
 
-void convert_to_row_major(float * matrix_row_major,
-                             float * matrix_col_major,
-                             int matrix_dims[])
-{
-  // Write planes
-  int s, ch, i, j;
-  for (s = 0; s < MAX(matrix_dims[0], 1); s++)
-  {
-    for (ch = 0; ch < MAX(matrix_dims[1], 1); ch++)
-    {
-      for (i = 0; i < matrix_dims[2]; i++)
-      {
-        for (j = 0; j < matrix_dims[3]; j++)
-        {
-          matrix_row_major[index4D(s, ch, i, j,
-            matrix_dims[1], matrix_dims[2], matrix_dims[3])] =
-            matrix_col_major[index4DCol(s, ch, i, j,
-            matrix_dims[1], matrix_dims[2], matrix_dims[3])];
-        }
-      }
-    }
-  }
-}
-
-
 void read_matrix_dims(const char * filename, struct Matrix *mat ,int* product)
 {
   // Return the multiplication of the dimensions, a.k. number of elements
