@@ -14,7 +14,8 @@
 void convolve2DDenseProjectImp(struct Matrix * mat,
                 struct Kernel * kernel,
                 struct Matrix * result,
-                bool pitch)
+                bool pitch,
+                int num_its)
 {
   // Initialize result matrix
   result->dims[0] = mat->dims[0];
@@ -98,16 +99,20 @@ void convolve2DDenseProjectImp(struct Matrix * mat,
                                     kernel_bytes / 4);
 
   // Call convolve kernel
-  convolve2DKernel<<<dimGrid, dimBlock, shared_mem_size>>>(
-                  d_input,
-                  kernel->vals_device,
-                  d_output,
-                  mat->dims[2],
-                  mat->dims[3],
-                  actual_mat_width,
-                  kernel->dims[2],
-                  kernel->dims[3]);
+  int i;
+  for (i = 0; i < num_its; i++)
+  {
+    convolve2DKernel<<<dimGrid, dimBlock, shared_mem_size>>>(
+                    d_input,
+                    kernel->vals_device,
+                    d_output,
+                    mat->dims[2],
+                    mat->dims[3],
+                    actual_mat_width,
+                    kernel->dims[2],
+                    kernel->dims[3]);
   CudaCheckError();
+  }
 
   // Copy result back to host
   result->vals = (float *)calloc(out_im_bytes, sizeof(float));
@@ -208,7 +213,8 @@ __global__ void convolve2DKernel(float * matrix,
 void convolve2DSparseProjectImp(struct Matrix * mat,
                 struct SparseMat * kernel,
                 struct Matrix * result,
-                bool pitch)
+                bool pitch,
+                int num_its)
 {
   // Initialize result matrix
   result->dims[0] = mat->dims[0];
@@ -311,19 +317,23 @@ void convolve2DSparseProjectImp(struct Matrix * mat,
                                     kernel_bytes / 4);
 
   // Call convolve kernel
-  convolve2DKernelSparse<<<dimGrid, dimBlock, shared_mem_size>>>(
-                  d_input,
-                  kernel->csrValA_device,
-                  kernel->csrRowPtrA_device,
-                  kernel->csrColIndA_device,
-                  kernel->total_non_zero,
-                  d_output,
-                  mat->dims[2],
-                  mat->dims[3],
-                  actual_mat_width,
-                  kernel->num_rows,
-                  kernel->num_rows);
-  CudaCheckError();
+  int i;
+  for (i = 0; i < num_its; i++)
+  {
+    convolve2DKernelSparse<<<dimGrid, dimBlock, shared_mem_size>>>(
+                    d_input,
+                    kernel->csrValA_device,
+                    kernel->csrRowPtrA_device,
+                    kernel->csrColIndA_device,
+                    kernel->total_non_zero,
+                    d_output,
+                    mat->dims[2],
+                    mat->dims[3],
+                    actual_mat_width,
+                    kernel->num_rows,
+                    kernel->num_rows);
+    CudaCheckError();
+  }
 
   // Copy result back to host
   result->vals = (float *)calloc(out_im_bytes, sizeof(float));
@@ -420,7 +430,8 @@ __global__ void convolve2DKernelSparse(float * matrix,
 void convolve2DDense(struct Matrix * mat,
                 struct Kernel * kernel,
                 struct Matrix * result, // Not initialized
-                cudnnHandle_t cudnn)
+                cudnnHandle_t cudnn,
+                int num_its)
 {
   //Initialize input, kernel and output descriptors
   cudnnTensorDescriptor_t input_descriptor;
@@ -523,19 +534,23 @@ void convolve2DDense(struct Matrix * mat,
 
   // Convolve
   const float alpha = 1, beta = 0;
-  checkCUDNN(cudnnConvolutionForward(cudnn,
-                                     &alpha,
-                                     input_descriptor,
-                                     d_input,
-                                     kernel->kernel_descriptor,
-                                     kernel->vals_device,
-                                     convolution_descriptor,
-                                     convolution_algorithm,
-                                     d_workspace,
-                                     workspace_bytes,
-                                     &beta,
-                                     output_descriptor,
-                                     d_output));
+  int i;
+  for (i = 0; i < num_its; i++)
+  {
+    checkCUDNN(cudnnConvolutionForward(cudnn,
+                                       &alpha,
+                                       input_descriptor,
+                                       d_input,
+                                       kernel->kernel_descriptor,
+                                       kernel->vals_device,
+                                       convolution_descriptor,
+                                       convolution_algorithm,
+                                       d_workspace,
+                                       workspace_bytes,
+                                       &beta,
+                                       output_descriptor,
+                                       d_output));
+  }
 
   // Copy result back to host
   result->vals = (float *)calloc(out_im_bytes, sizeof(float));

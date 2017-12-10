@@ -55,11 +55,12 @@ int main(int argc, char * argv[])
   checkCUDNN(cudnnCreate(&cudnn));
 
   // Convolve dense
-  printf(" ============= CUSPARSE CONVOLUTION ================= \n");
+  printf(" =============  CUDNN CONVOLUTION ================= \n");
   convolve2DDense(&row_mat,
                   &kernel,
                   &dense_out, // Not initialized
-                  cudnn);
+                  cudnn,
+                  1);
   print_matrix(&dense_out);
   destroyMatrix(&dense_out);
 
@@ -68,7 +69,8 @@ int main(int argc, char * argv[])
   convolve2DDenseProjectImp(&row_mat,
                             &kernel,
                             &dense_out,
-                            0);
+                            0,
+                            1);
   print_matrix(&dense_out);
   destroyMatrix(&dense_out);
 
@@ -77,6 +79,7 @@ int main(int argc, char * argv[])
   convolve2DDenseProjectImp(&row_mat,
                             &kernel,
                             &dense_out,
+                            1,
                             1);
   print_matrix(&dense_out);
   destroyMatrix(&dense_out);
@@ -105,7 +108,8 @@ int main(int argc, char * argv[])
   convolve2DSparseProjectImp(&row_mat,
                             &spm,
                             &dense_out,
-                            0);
+                            0,
+                            1);
   print_matrix(&dense_out);
   destroyMatrix(&dense_out);
 
@@ -114,6 +118,7 @@ int main(int argc, char * argv[])
   convolve2DSparseProjectImp(&row_mat,
                             &spm,
                             &dense_out,
+                            1,
                             1);
   print_matrix(&dense_out);
   destroyMatrix(&dense_out);

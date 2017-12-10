@@ -24,17 +24,20 @@ struct Kernel {
 void convolve2DDense(struct Matrix * mat,
                 struct Kernel * kernel,
                 struct Matrix * result,
-                cudnnHandle_t cudnn);
+                cudnnHandle_t cudnn,
+                int num_its);
 
 void convolve2DDenseProjectImp(struct Matrix * mat,
                 struct Kernel * kernel,
                 struct Matrix * result,
-                bool pitch);
+                bool pitch,
+                int num_its);
 
 void convolve2DSparseProjectImp(struct Matrix * mat,
                 struct SparseMat * sparse_kernel,
                 struct Matrix * result,
-                bool pitch);
+                bool pitch,
+                int num_its);
 
 void destroyKernel(struct Kernel * kernel, struct Matrix * k_mat);
 
