@@ -6,6 +6,9 @@
 #include "mm.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <cublas_v2.h>
+#include <cusparse_v2.h>
+
 // #define DEBUG
 
 int main(int argc, char * argv[])
@@ -28,6 +31,7 @@ int main(int argc, char * argv[])
     filename1 = argv[1];
     filename2 = argv[2];
   }
+  cudaFree(0);
   read_matrix_dims(filename1, &matrix1, &n_elements);
   matrix1.vals = (float *)calloc(n_elements, sizeof(float));
   read_matrix_vals(filename1, &matrix1,1);
@@ -63,8 +67,13 @@ int main(int argc, char * argv[])
   #endif
 
   ///gpu_mm_dense
+
+  // Create a handle for CUBLAS
+  cublasHandle_t handleBLAS;
+  cublasCreate(&handleBLAS);
+
   start = clock();
-  gpu_mm_dense(&matrix1,&matrix2,&matrixResGPU,m,n,k);
+  gpu_mm_dense(&matrix1,&matrix2,&matrixResGPU,m,n,k,handleBLAS);
   end = clock();
   time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
   printf("Time taken for the gpu_mm_dense is %lf\n", time_taken);
@@ -86,8 +95,12 @@ int main(int argc, char * argv[])
   initiliaze2dMatrix(&matrixResGPU,m,n);
 
   ///gpu_mm_sparse
+  // Initialize cusparse library
+  cusparseHandle_t handleSparse;
+  cusparseCreate(&handleSparse);
+
   start = clock();
-  gpu_mm_sparse(&matrix1,&matrix2,&matrixResGPU,m,n,k);
+  gpu_mm_sparse(&matrix1,&matrix2,&matrixResGPU,m,n,k,handleSparse);
   end = clock();
   time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
   printf("Time taken for gpu_mm_sparse is %lf\n", time_taken);
@@ -105,8 +118,33 @@ int main(int argc, char * argv[])
       printf("Diff is less then 1e-7\n",diff);
   }
 
+  destroyMatrix(&matrixResGPU);
+  initiliaze2dMatrix(&matrixResGPU,m,n);
+
+  //gpu_mm_sparse_ProjectImp
+  start = clock();
+  gpu_mm_sparse_ProjectImp(&matrix1,&matrix2,&matrixResGPU,m,n,k);
+  end = clock();
+  time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+  printf("Time taken for gpu_mm_sparse_ProjectImp is %lf\n", time_taken);
+  #ifdef DEBUG
+    printf("cuSparse result:\n");
+    print_matrix(&matrixResGPU);
+  #endif
+
+  diff = calculateDistanceMatrix(&matrixResCPU,&matrixResGPU);
+  if (diff>1e-7){
+      printf("Diff is %.8f\n",diff);
+      printf("There might be a problem\n");
+  }
+  else{
+      printf("Diff is less then 1e-7\n",diff);
+  }
   destroyMatrix(&matrix1);
   destroyMatrix(&matrix2);
   destroyMatrix(&matrixResCPU);
   destroyMatrix(&matrixResGPU);
+  // Destroy the handle
+  cublasDestroy(handleBLAS);
+  cusparseDestroy(handleSparse);
 }
