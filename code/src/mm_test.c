@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <cublas_v2.h>
 #include <cusparse_v2.h>
+#include <unistd.h>
+#include <ctype.h>
 
 // #define DEBUG
 
@@ -21,15 +23,57 @@ int main(int argc, char * argv[])
   clock_t start, end;
   float diff;
 
-  if (argc != 3){
+ int time_flag = 0;
+ int correctness_check_flag = 0;
+ char *alg_type_flag = NULL;
+ int c,i;
+
+ opterr = 0;
+
+ while ((c = getopt (argc, argv, "tca:")) != -1)
+   switch (c)
+     {
+     case 't':
+       time_flag = 1;
+       break;
+     case 'c':
+       correctness_check_flag = 1;
+       break;
+     case 'a':
+       alg_type_flag = optarg;
+       break;
+     case '?':
+       if (optopt == 'a')
+         fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+       else if (isprint (optopt))
+         fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+       else
+         fprintf (stderr,
+                  "Unknown option character `\\x%x'.\n",
+                  optopt);
+       return 1;
+     default:
+       abort ();
+     }
+
+ printf ("time_flag = %d, correctness_check_flag = %d, alg_type_flag = %s\n",
+         time_flag, correctness_check_flag, alg_type_flag);
+
+ for (i = optind; i < argc; i++)
+   printf ("Non-option argument %s\n", argv[i]);
+
+printf("optind:%d,argc:%d\n",optind,argc);
+
+
+  if (argc-optind != 2){
     printf("usage ./mm matrixA matrixB\n");
     printf("Default values are going to be used ./mm data/a.mat data/b.mat\n");
     filename1 = "data/a.mat";
     filename2 = "data/b.mat";
   }
   else{
-    filename1 = argv[1];
-    filename2 = argv[2];
+    filename1 = argv[optind];
+    filename2 = argv[optind+1];
   }
   cudaFree(0);
   read_matrix_dims(filename1, &matrix1, &n_elements);

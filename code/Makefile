@@ -7,7 +7,7 @@ TARGETS = mm io sparse_test conv_test
 all: $(patsubst %,$(BIN)/%,$(TARGETS))
 
 # the first two are the patterns the rest is the list of strings, e.g. x.o->obj/x.o
-$(BIN)/mm: $(patsubst %.o,$(OBJ)/%.o,matrix_io.o mm_experiment.o mm.o sparse_conversion.o)
+$(BIN)/mm: $(patsubst %.o,$(OBJ)/%.o,matrix_io.o mm_test.o mm.o sparse_conversion.o)
 	$(NVCC) -lcublas -lcusparse -o $@ $^
 
 $(BIN)/sparse_test: $(patsubst %.o,$(OBJ)/%.o,sparse_conversion_test.o sparse_conversion.o matrix_io.o)
