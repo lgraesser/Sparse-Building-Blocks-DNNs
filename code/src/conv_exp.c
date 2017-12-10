@@ -33,12 +33,12 @@ int main(int argc, char * argv[])
   clock_t start, end;
 
  int iterate_flag = 0;
- char* alg_type_flag;
+ char* alg_type_flag = NULL;
  int c,i;
 
  opterr = 0;
 
- while ((c = getopt (argc, argv, "an:")) != -1)
+ while ((c = getopt (argc, argv, "na:")) != -1)
    switch (c)
      {
      case 'n':
@@ -61,7 +61,7 @@ int main(int argc, char * argv[])
        abort ();
      }
 
- printf ("iterations_flag = %d, alg_type_flag = %c\n",
+ printf ("iterations_flag = %d, alg_type_flag = %s\n",
          iterate_flag, alg_type_flag);
 
  for (i = optind; i < argc; i++)
@@ -134,14 +134,19 @@ printf("optind:%d,argc:%d\n",optind,argc);
   else if (strcmp(alg_type_flag, "densecudnn") == 0)
   {
     printf(" =============  CUDNN CONVOLUTION ================= \n");
+    clock_t handle_start = clock();
     cudnnHandle_t cudnn;
     checkCUDNN(cudnnCreate(&cudnn));
+    clock_t handle_end = clock();
+    time_taken = ((double)(handle_end - handle_start))/ CLOCKS_PER_SEC;
+    printf("Time taken to create handle: %lf \n",time_taken);
     convolve2DDense(&row_mat,
                     &kernel,
                     &dense_out, // Not initialized
                     cudnn,
                     num_its);
     cudnnDestroy(cudnn);
+    cudnnDestroyFilterDescriptor(kernel.kernel_descriptor);
   }
   else if (strcmp(alg_type_flag, "sparse") == 0)
   {
@@ -151,7 +156,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
     cusparseCreate(&handle);
     clock_t handle_end = clock();
     time_taken = ((double)(handle_end - handle_start))/ CLOCKS_PER_SEC;
-    printf("Time taken to convert matrix: %lf \n",time_taken);
+    printf("Time taken to create handle: %lf \n",time_taken);
     // Convert kernel to sparse matrix
     clock_t convert_start = clock();
     for (int i = 0; i < 4; i++)
@@ -179,6 +184,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
     printf("Time taken to convolve matrix: %lf \n",time_taken);
     destroySparseMatrix(&spm);
     cusparseDestroy(handle);
+    destroyMatrix(&col_kernel);
   }
   else if (strcmp(alg_type_flag, "sparsepitch") == 0)
   {
@@ -188,7 +194,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
     cusparseCreate(&handle);
     clock_t handle_end = clock();
     time_taken = ((double)(handle_end - handle_start))/ CLOCKS_PER_SEC;
-    printf("Time taken to convert matrix: %lf \n",time_taken);
+    printf("Time taken to create handle: %lf \n",time_taken);
     // Convert kernel to sparse matrix
     clock_t convert_start = clock();
     for (int i = 0; i < 4; i++)
@@ -216,6 +222,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
     printf("Time taken to convolve matrix: %lf \n",time_taken);
     destroySparseMatrix(&spm);
     cusparseDestroy(handle);
+    destroyMatrix(&col_kernel);
   }
   else
   {
@@ -231,10 +238,8 @@ printf("optind:%d,argc:%d\n",optind,argc);
     printf("Convolution result:\n");
     print_matrix(&dense_out);
   #endif
-  destroyMatrix(&dense_out);
-
   // Free memory
-  destroyMatrix(&col_kernel);
+  destroyMatrix(&dense_out);
   destroyMatrix(&row_mat);
   destroyKernel(&kernel, &k_mat);
 }

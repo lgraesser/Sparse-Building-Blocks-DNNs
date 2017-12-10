@@ -3,13 +3,15 @@
  *
  * Matrices are assumed to be stored in row major order
  */
-
+#include <cuda.h>
 #include <cudnn.h>
 #include "conv.h"
 #include "indexing_defs.h"
 #include "safe_call_defs.h"
 #include "sparse_conversion.h"
 #include "matrix_io.h"
+double time_taken;
+clock_t start, end;
 
 void convolve2DDenseProjectImp(struct Matrix * mat,
                 struct Kernel * kernel,
@@ -17,6 +19,7 @@ void convolve2DDenseProjectImp(struct Matrix * mat,
                 bool pitch,
                 int num_its)
 {
+  start = clock();
   // Initialize result matrix
   result->dims[0] = mat->dims[0];
   result->dims[1] = mat->dims[1];
@@ -97,8 +100,11 @@ void convolve2DDenseProjectImp(struct Matrix * mat,
                                     shared_mem_size / 4,
                                     tile_size / 4,
                                     kernel_bytes / 4);
-
+  end = clock();
+  time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+  printf("Time taken to allocate mem and copy to device: %lf \n",time_taken);
   // Call convolve kernel
+  start = clock();
   int i;
   for (i = 0; i < num_its; i++)
   {
@@ -113,12 +119,19 @@ void convolve2DDenseProjectImp(struct Matrix * mat,
                     kernel->dims[3]);
   CudaCheckError();
   }
-
+  cudaDeviceSynchronize();
+  end = clock();
+  time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+  printf("Time taken to execute kernel: %lf \n",time_taken);
+  start = clock();
   // Copy result back to host
   result->vals = (float *)calloc(out_im_bytes, sizeof(float));
   CudaSafeCall(cudaMemcpy(result->vals, d_output, out_im_bytes, cudaMemcpyDeviceToHost));
   cudaFree(d_input);
   cudaFree(d_output);
+  end = clock();
+  time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+  printf("Time taken to copy memory back to host and free device mem: %lf \n",time_taken);
 }
 
 
@@ -216,6 +229,7 @@ void convolve2DSparseProjectImp(struct Matrix * mat,
                 bool pitch,
                 int num_its)
 {
+  start = clock();
   // Initialize result matrix
   result->dims[0] = mat->dims[0];
   result->dims[1] = mat->dims[1];
@@ -316,7 +330,11 @@ void convolve2DSparseProjectImp(struct Matrix * mat,
                                     tile_size / 4,
                                     kernel_bytes / 4);
 
+  end = clock();
+  time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+  printf("Time taken to allocate mem and copy to device: %lf \n",time_taken);
   // Call convolve kernel
+  start = clock();
   int i;
   for (i = 0; i < num_its; i++)
   {
@@ -334,12 +352,19 @@ void convolve2DSparseProjectImp(struct Matrix * mat,
                     kernel->num_rows);
     CudaCheckError();
   }
-
+  cudaDeviceSynchronize();
+  end = clock();
+  time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+  printf("Time taken to execute kernel: %lf \n",time_taken);
+  start = clock();
   // Copy result back to host
   result->vals = (float *)calloc(out_im_bytes, sizeof(float));
   CudaSafeCall(cudaMemcpy(result->vals, d_output, out_im_bytes, cudaMemcpyDeviceToHost));
   cudaFree(d_input);
   cudaFree(d_output);
+  end = clock();
+  time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+  printf("Time taken to copy memory back to host and free device mem: %lf \n",time_taken);
 }
 
 
@@ -433,6 +458,7 @@ void convolve2DDense(struct Matrix * mat,
                 cudnnHandle_t cudnn,
                 int num_its)
 {
+  start = clock();
   //Initialize input, kernel and output descriptors
   cudnnTensorDescriptor_t input_descriptor;
   checkCUDNN(cudnnCreateTensorDescriptor(&input_descriptor));
@@ -532,7 +558,11 @@ void convolve2DDense(struct Matrix * mat,
     kernel->is_on_device = 1;
   }
 
+  end = clock();
+  time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+  printf("Time taken to allocate mem and copy to device: %lf \n",time_taken);
   // Convolve
+  start = clock();
   const float alpha = 1, beta = 0;
   int i;
   for (i = 0; i < num_its; i++)
@@ -551,7 +581,11 @@ void convolve2DDense(struct Matrix * mat,
                                        output_descriptor,
                                        d_output));
   }
-
+  cudaDeviceSynchronize();
+  end = clock();
+  time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+  printf("Time taken to execute kernel: %lf \n",time_taken);
+  start = clock();
   // Copy result back to host
   result->vals = (float *)calloc(out_im_bytes, sizeof(float));
   CudaSafeCall(cudaMemcpy(result->vals, d_output, out_im_bytes, cudaMemcpyDeviceToHost));
@@ -560,12 +594,15 @@ void convolve2DDense(struct Matrix * mat,
   cudaFree(d_workspace);
   cudnnDestroyTensorDescriptor(input_descriptor);
   cudnnDestroyTensorDescriptor(output_descriptor);
+  end = clock();
+  time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+  printf("Time taken to copy memory back to host and free device mem: %lf \n",time_taken);
 }
 
 
 void destroyKernel(struct Kernel * kernel, struct Matrix * kernel_mat)
 {
-  cudnnDestroyFilterDescriptor(kernel->kernel_descriptor);
+  // cudnnDestroyFilterDescriptor(kernel->kernel_descriptor);
   cudaFree(kernel->vals_device);
   destroyMatrix(kernel_mat);
 }
