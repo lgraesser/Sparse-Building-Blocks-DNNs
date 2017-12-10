@@ -4,37 +4,56 @@
 #include "safe_call_defs.h"
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
+double time_taken;
+clock_t start, end;
 
-void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k, cublasHandle_t handle) {
+void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k, cublasHandle_t handle,int time_flag) {
    int lda=m,ldb=k,ldc=m;
    const float alf = 1;
    const float bet = 0;
    const float *alpha = &alf;
    const float *beta = &bet;
    float *d_A, *d_B, *d_C;
+
+   if(time_flag) start = clock();
    cudaMalloc(&d_A,m*k*sizeof(float));
    cudaMalloc(&d_B,k*n*sizeof(float));
    cudaCalloc(&d_C,m*n*sizeof(float));
 
    cudaMemcpy(d_A,h_A->vals,m*k * sizeof(float),cudaMemcpyHostToDevice);
    cudaMemcpy(d_B,h_B->vals,k*n * sizeof(float),cudaMemcpyHostToDevice);
+   if(time_flag){
+     end = clock();
+     time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+     printf("Time for gpu_mm_dense:data=%lf\n", time_taken);
+     start = clock();
+   }
 
    // Do the actual multiplication
    cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, alpha, d_A, lda, d_B, ldb, beta, d_C, ldc);
-
    cudaMemcpy(h_C->vals,d_C,m*n * sizeof(float),cudaMemcpyDeviceToHost);
+   if(time_flag){
+     end = clock();
+     time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+     printf("Time for gpu_mm_dense:mult=%lf\n", time_taken);
+   }
    h_C->is_column_first=1;
 }
 
 
-void gpu_mm_sparse(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k,cusparseHandle_t handle) {
+void gpu_mm_sparse(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k,cusparseHandle_t handle,int time_flag) {
    cusparseOperation_t nop = CUSPARSE_OPERATION_NON_TRANSPOSE;
 
    struct SparseMat spmA,spmB,spmC;
-
+   if(time_flag) start = clock();
    convert_to_sparse(&spmA, h_A, handle);
    convert_to_sparse(&spmB, h_B, handle);
-
+   if(time_flag){
+     end = clock();
+     time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+     printf("Time for gpu_mm_sparse:conversion=%lf\n", time_taken);
+     start = clock();
+   }
    // init result sparse matrix
    cusparseCreateMatDescr(&(spmC.descr));
    cusparseSetMatType(spmC.descr, CUSPARSE_MATRIX_TYPE_GENERAL);
@@ -57,10 +76,19 @@ void gpu_mm_sparse(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, c
                     spmA.descr,spmA.total_non_zero,spmA.csrValA_device,spmA.csrRowPtrA_device,spmA.csrColIndA_device,
                     spmB.descr,spmB.total_non_zero,spmB.csrValA_device,spmB.csrRowPtrA_device,spmB.csrColIndA_device,
                     spmC.descr,spmC.csrValA_device,spmC.csrRowPtrA_device,spmC.csrColIndA_device));
-
+  if(time_flag){
+    end = clock();
+    time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+    printf("Time for gpu_mm_sparse:cusparsemm=%lf\n", time_taken);
+    start = clock();
+  }
   convert_to_dense(&spmC, h_C, handle);
   h_C->is_column_first=1;
-
+  if(time_flag){
+    end = clock();
+    time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+    printf("Time for gpu_mm_sparse:back2dense=%lf\n", time_taken);
+  }
    // Destroy the handle
   destroySparseMatrix(&spmA);
   destroySparseMatrix(&spmB);
@@ -117,14 +145,18 @@ __global__ void sparseMM(float *a_csrVal, int *a_csrRowPtr, int *a_csrColInd,
       c_matrix[id] = sum;
    }
 
-void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k){
+void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k,cusparseHandle_t handle,int time_flag){
   struct Matrix h_B_transposed;
-  transpose2dMatrix(h_B,&h_B_transposed);
-
-  cusparseHandle_t handle;
-  cusparseCreate(&handle);
   struct SparseMat spmA,spmB;
 
+  if(time_flag) start = clock();
+  transpose2dMatrix(h_B,&h_B_transposed);
+  if(time_flag){
+    end = clock();
+    time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+    printf("Time for gpu_mm_sparse_ProjectImp:transpose=%lf\n", time_taken);
+    start = clock();
+  }
   convert_to_sparse(&spmA, h_A, handle);
   // copyDeviceCSR2Host(&spmA);
   // print_sparse_matrix(&spmA);
@@ -138,18 +170,32 @@ void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Mat
   // Allocate device dense array
   CudaSafeCall(cudaMalloc(&matrix_device,
                         num_elems * sizeof(float)));
-
+  if(time_flag){
+    end = clock();
+    time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+    printf("Time for gpu_mm_sparse_ProjectImp:conversion=%lf\n", time_taken);
+    start = clock();
+  }
   sparseMM<<<m,n>>>(spmA.csrValA_device,spmA.csrRowPtrA_device,spmA.csrColIndA_device,
                       spmB.csrValA_device,spmB.csrRowPtrA_device,spmB.csrColIndA_device,matrix_device);
-
+  if(time_flag){
+    end = clock();
+    time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+    printf("Time for gpu_mm_sparse_ProjectImp:sparsemm=%lf\n", time_taken);
+    start = clock();
+  }
   CudaSafeCall(cudaMemcpy(h_C->vals,
                           matrix_device,
                           num_elems * sizeof(float),
                           cudaMemcpyDeviceToHost));
+  if(time_flag){
+    end = clock();
+    time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
+    printf("Time for gpu_mm_sparse_ProjectImp:back2host=%lf\n", time_taken);
+    start = clock();
+  }
   h_C->is_column_first=1;
   // cudaFree(matrix_device);
-  cusparseDestroy(handle);
-
  destroyMatrix(&h_B_transposed);
  destroySparseMatrix(&spmA);
  destroySparseMatrix(&spmB);
