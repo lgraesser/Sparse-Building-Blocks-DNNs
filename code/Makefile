@@ -2,7 +2,7 @@ NVCC=nvcc -arch=sm_35
 SRC = src
 BIN = bin
 OBJ = obj
-TARGETS = mm io sparse_test
+TARGETS = mm io sparse_test conv_test
 
 all: $(patsubst %,$(BIN)/%,$(TARGETS))
 
@@ -12,6 +12,9 @@ $(BIN)/mm: $(patsubst %.o,$(OBJ)/%.o,matrix_io.o mm_experiment.o mm.o sparse_con
 
 $(BIN)/sparse_test: $(patsubst %.o,$(OBJ)/%.o,sparse_conversion_test.o sparse_conversion.o matrix_io.o)
 	$(NVCC) -lcusparse -o $@ $^
+
+$(BIN)/conv_test: $(patsubst %.o,$(OBJ)/%.o,conv_test.o conv.o sparse_conversion.o matrix_io.o)
+	$(NVCC) -lcusparse -lcudnn -o $@ $^
 
 $(BIN)/io: $(patsubst %.o,$(OBJ)/%.o,matrix_io.o matrix_io_test.o)
 	$(NVCC) -o $@ $^

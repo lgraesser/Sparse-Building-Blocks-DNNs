@@ -166,6 +166,41 @@ void convert_to_column_major(struct Matrix *matrix_row_major,
 }
 
 
+void convert_to_row_major(struct Matrix *matrix_row_major,
+                             struct Matrix *matrix_col_major)
+{
+  // Write planes
+  int s, ch, i, j;
+  if (! isMatricesHaveSameDim(matrix_row_major,matrix_col_major)){
+    printf("Matrix dimensions doesn't match\n");
+    exit(1);
+  }
+  else if (matrix_col_major->is_column_first!=1){
+    printf("Col major matrix should be col major ordered\n");
+    exit(1);
+  }
+
+  //Otherwise lets change
+  for (s = 0; s < MAX(matrix_row_major->dims[0], 1); s++)
+  {
+    for (ch = 0; ch < MAX(matrix_row_major->dims[1], 1); ch++)
+    {
+      for (i = 0; i < matrix_row_major->dims[2]; i++)
+      {
+        for (j = 0; j < matrix_row_major->dims[3]; j++)
+        {
+          matrix_row_major->vals[index4D(s, ch, i, j,
+            matrix_col_major->dims[1], matrix_col_major->dims[2], matrix_col_major->dims[3])] =
+            matrix_col_major->vals[index4DCol(s, ch, i, j,
+            matrix_col_major->dims[1], matrix_col_major->dims[2], matrix_col_major->dims[3])];
+        }
+      }
+    }
+  }
+  matrix_row_major->is_column_first=0;
+}
+
+
 void convert_to_row_major(float * matrix_row_major,
                              float * matrix_col_major,
                              int matrix_dims[])
