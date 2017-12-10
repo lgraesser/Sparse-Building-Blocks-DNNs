@@ -8,7 +8,7 @@
     } while (0)
 
 
-void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k, cublasHandle_t handle);
+void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k, cublasHandle_t handle,int time_flag);
 void cpu_mm(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, int m, int n, int k);
-void gpu_mm_sparse(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k, cusparseHandle_t handle);
-void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k);
+void gpu_mm_sparse(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k, cusparseHandle_t handle,int time_flag);
+void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k, cusparseHandle_t handle,int time_flag);
