@@ -20,7 +20,9 @@ void convert_to_sparse(struct SparseMat * spm,
 {
   int * nz_per_row_device;
   float * matrix = mat->vals;
+  #ifdef DEBUG
   printf("[%d, %d, %d, %d]\n", mat->dims[0], mat->dims[1], mat->dims[2], mat->dims[3]);
+  #endif
   float * matrix_device;
   const int lda = mat->dims[2];
   spm->num_rows = mat->dims[2];
@@ -53,8 +55,9 @@ void convert_to_sparse(struct SparseMat * spm,
                                 &(spm->total_non_zero)));
 
   // Host side number of nonzero elements per row of matrix
-
+  #ifdef DEBUG
   printf("Num non zero elements: %d\n", spm->total_non_zero);
+  #endif
 
   // Allocate device sparse matrices
   CudaSafeCall(cudaMalloc(&(spm->csrRowPtrA_device),
@@ -80,7 +83,9 @@ void convert_to_sparse(struct SparseMat * spm,
   cudaFree(matrix_device);
   cudaFree(nz_per_row_device);
   spm->is_on_device = 1;
+  #ifdef DEBUG
   printf("Converted matrix from dense to sparse\n");
+  #endif
 }
 
 
@@ -97,7 +102,9 @@ void convert_to_dense(struct SparseMat * spm,
   float * matrix_device;
   const int lda = mat->dims[2];
   // Allocate device dense array
+  #ifdef DEBUG
   printf("num_elems %d\n",num_elems);
+  #endif
   CudaSafeCall(cudaMalloc(&matrix_device,
                         num_elems * sizeof(float)));
 
@@ -139,7 +146,9 @@ void copyDeviceCSR2Host(struct SparseMat * spm_ptr)
                           spm_ptr->csrValA_device,
                           spm_ptr->total_non_zero * sizeof(int),
                           cudaMemcpyDeviceToHost));
+  #ifdef DEBUG
   printf("Copied sparse matrix from device to host\n");
+  #endif
 }
 
 

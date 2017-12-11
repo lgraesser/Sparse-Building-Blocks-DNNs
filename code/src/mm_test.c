@@ -27,11 +27,11 @@ int main(int argc, char * argv[])
  int repetation_flag = 0;
  int correctness_check_flag = 0;
  char *alg_type_flag = NULL;
- int c,i;
+ int c;
 
  opterr = 0;
 
- while ((c = getopt (argc, argv, "tca:")) != -1)
+ while ((c = getopt (argc, argv, "trca:")) != -1)
    switch (c)
      {
      case 't':
@@ -63,10 +63,11 @@ int main(int argc, char * argv[])
  printf ("time_flag = %d, correctness_check_flag = %d, repetation_flag = %d, alg_type_flag = %s\n",
          time_flag, correctness_check_flag, repetation_flag, alg_type_flag);
 
- for (i = optind; i < argc; i++)
+ #ifdef DEBUG
+ for (int i = optind; i < argc; i++)
    printf ("Non-option argument %s\n", argv[i]);
-
-printf("optind:%d,argc:%d\n",optind,argc);
+  printf("optind:%d,argc:%d\n",optind,argc);
+ #endif
   if (argc-optind != 2){
     printf("usage ./mm matrixA matrixB\n");
     printf("Default values are going to be used ./mm data/a.mat data/b.mat\n");
@@ -121,7 +122,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
     cublasCreate(&handleBLAS);
 
     start = clock();
-    gpu_mm_dense(&matrix1,&matrix2,&matrixResGPU,m,n,k,handleBLAS,time_flag);
+    gpu_mm_dense(&matrix1,&matrix2,&matrixResGPU,m,n,k,handleBLAS,time_flag,repetation_flag);
     end = clock();
     time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
     printf("Time taken for the gpu_mm_dense is %lf\n", time_taken);
@@ -151,7 +152,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
     cusparseCreate(&handleSparse);
 
     start = clock();
-    gpu_mm_sparse(&matrix1,&matrix2,&matrixResGPU,m,n,k,handleSparse,time_flag);
+    gpu_mm_sparse(&matrix1,&matrix2,&matrixResGPU,m,n,k,handleSparse,time_flag,repetation_flag);
     end = clock();
     time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
     printf("Time taken for gpu_mm_sparse is %lf\n", time_taken);
@@ -179,7 +180,7 @@ printf("optind:%d,argc:%d\n",optind,argc);
     cusparseHandle_t handleSparse;
     cusparseCreate(&handleSparse);
     start = clock();
-    gpu_mm_sparse_ProjectImp(&matrix1,&matrix2,&matrixResGPU,m,n,k,handleSparse,time_flag);
+    gpu_mm_sparse_ProjectImp(&matrix1,&matrix2,&matrixResGPU,m,n,k,handleSparse,time_flag,repetation_flag);
     end = clock();
     time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
     printf("Time taken for gpu_mm_sparse_ProjectImp is %lf\n", time_taken);

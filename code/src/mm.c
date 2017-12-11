@@ -6,8 +6,9 @@
 #include <cublas_v2.h>
 double time_taken;
 clock_t start, end;
+int mm_repet = 1000;
 
-void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k, cublasHandle_t handle,int time_flag) {
+void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k, cublasHandle_t handle,int time_flag,int repetation_flag) {
    int lda=m,ldb=k,ldc=m;
    const float alf = 1;
    const float bet = 0;
@@ -30,7 +31,12 @@ void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, co
    }
 
    // Do the actual multiplication
-   cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, alpha, d_A, lda, d_B, ldb, beta, d_C, ldc);
+   int i;
+   if (!repetation_flag){
+     mm_repet = 1;
+   }
+   for(i=0;i<mm_repet;i++)
+    cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, alpha, d_A, lda, d_B, ldb, beta, d_C, ldc);
    cudaMemcpy(h_C->vals,d_C,m*n * sizeof(float),cudaMemcpyDeviceToHost);
    if(time_flag){
      end = clock();
@@ -41,7 +47,7 @@ void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, co
 }
 
 
-void gpu_mm_sparse(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k,cusparseHandle_t handle,int time_flag) {
+void gpu_mm_sparse(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k,cusparseHandle_t handle,int time_flag,int repetation_flag) {
    cusparseOperation_t nop = CUSPARSE_OPERATION_NON_TRANSPOSE;
 
    struct SparseMat spmA,spmB,spmC;
@@ -72,10 +78,15 @@ void gpu_mm_sparse(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, c
   CudaSafeCall(cudaMalloc(&(spmC.csrValA_device),
                         spmC.total_non_zero * sizeof(float)));
    // Do the actual multiplication
-   cusparseSafeCall(cusparseScsrgemm(handle, nop, nop, m, n, k,
-                    spmA.descr,spmA.total_non_zero,spmA.csrValA_device,spmA.csrRowPtrA_device,spmA.csrColIndA_device,
-                    spmB.descr,spmB.total_non_zero,spmB.csrValA_device,spmB.csrRowPtrA_device,spmB.csrColIndA_device,
-                    spmC.descr,spmC.csrValA_device,spmC.csrRowPtrA_device,spmC.csrColIndA_device));
+   int i;
+   if (!repetation_flag){
+     mm_repet = 1;
+   }
+   for(i=0;i<mm_repet;i++)
+     cusparseSafeCall(cusparseScsrgemm(handle, nop, nop, m, n, k,
+                      spmA.descr,spmA.total_non_zero,spmA.csrValA_device,spmA.csrRowPtrA_device,spmA.csrColIndA_device,
+                      spmB.descr,spmB.total_non_zero,spmB.csrValA_device,spmB.csrRowPtrA_device,spmB.csrColIndA_device,
+                      spmC.descr,spmC.csrValA_device,spmC.csrRowPtrA_device,spmC.csrColIndA_device));
   if(time_flag){
     end = clock();
     time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
@@ -95,7 +106,7 @@ void gpu_mm_sparse(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, c
   destroySparseMatrix(&spmC);
 }
 
-__global__ void sparseMM(float *a_csrVal, int *a_csrRowPtr, int *a_csrColInd,
+__global__ void sparseMM(int m, int n, float *a_csrVal, int *a_csrRowPtr, int *a_csrColInd,
    float *b_csrVal, int *b_csrRowPtr, int *b_csrColInd,
    float *c_matrix)
    /* blockDim.x-> n,  threadIdx.x-> j
@@ -107,45 +118,68 @@ __global__ void sparseMM(float *a_csrVal, int *a_csrRowPtr, int *a_csrColInd,
       - And j th row of B and add the matching values to the sum
    */
    {
+     #ifdef DEBUG
+       if(blockIdx.x==0 && threadIdx.x==1){
+         printf("m:%d,n:%d\n",m,n);
+       }
+     #endif
      float sum = 0;
      int b_i,a_i,b_lim,a_lim,b_j,a_j;
-     int id = index2DCol(blockIdx.x,threadIdx.x,gridDim.x);
-     a_lim = a_csrRowPtr[blockIdx.x+1];
-     b_lim = b_csrRowPtr[threadIdx.x+1];
-     a_i = a_csrRowPtr[blockIdx.x];
-     b_i = b_csrRowPtr[threadIdx.x];
-     // if(blockIdx.x==0 && threadIdx.x==0){
-     //   printf("Before:a_i=%d,b_i:%d,a_lim=%d,b_lim:%d\n",a_i,b_i,a_lim,b_lim);
-     // }
-     while((a_i<a_lim) && (b_i <b_lim))
-        {
-            b_j = b_csrColInd[b_i];
-            a_j = a_csrColInd[a_i];
-            // if(blockIdx.x==0 && threadIdx.x==0){
-            //   printf("a_i=%d,b_i:%d,a_j=%d,b_j:%d\n",a_i,b_i,a_j,b_j);
-            // }
-            if ( a_j==b_j ){
-              sum += a_csrVal[a_i]*b_csrVal[b_i];
-            //   if(blockIdx.x==0 && threadIdx.x==0){
-            //   printf("HIT:%f=%f*%f\n",a_csrVal[a_j]*b_csrVal[b_j],a_csrVal[a_j],b_csrVal[b_j]);
-            // }
-              a_i++;
-              b_i++;
-            }
-            else if (a_j<b_j){
-              a_i++;
-            }
-            else{
-              b_i++;
-            }
-        }
-        // if(blockIdx.x==0 && threadIdx.x==0){
-        //   printf("sum:%d,id:%d\n",sum,id);
-        // }
-      c_matrix[id] = sum;
+     int id = blockIdx.x*blockDim.x+threadIdx.x;
+     int c_i = id/n;
+     int c_j = id%n;
+     #ifdef DEBUG
+       if(blockIdx.x==0 && threadIdx.x==1){
+         printf("c_i:%d,c_j:%d,id:%d\n",c_i,c_j,id);
+       }
+     #endif
+     if (c_i<m){
+       id = index2DCol(c_i,c_j,m);
+       a_lim = a_csrRowPtr[c_i+1];
+       b_lim = b_csrRowPtr[c_j+1];
+       a_i = a_csrRowPtr[c_i];
+       b_i = b_csrRowPtr[c_j];
+       #ifdef DEBUG
+         if(blockIdx.x==0 && threadIdx.x==1){
+           printf("Before:a_i=%d,b_i:%d,a_lim=%d,b_lim:%d\n",a_i,b_i,a_lim,b_lim);
+         }
+       #endif
+       while((a_i<a_lim) && (b_i <b_lim))
+          {
+              b_j = b_csrColInd[b_i];
+              a_j = a_csrColInd[a_i];
+              #ifdef DEBUG
+                if(blockIdx.x==0 && threadIdx.x==1){
+                  printf("a_i=%d,b_i:%d,a_j=%d,b_j:%d\n",a_i,b_i,a_j,b_j);
+                }
+              #endif
+              if ( a_j==b_j ){
+                sum += a_csrVal[a_i]*b_csrVal[b_i];
+                a_i++;
+                b_i++;
+                #ifdef DEBUG
+                  if(blockIdx.x==0 && threadIdx.x==1){
+                  printf("HIT:%f=%f*%f\n",a_csrVal[a_i]*b_csrVal[b_i],a_csrVal[a_i],b_csrVal[b_i]);
+                  }
+                #endif
+              }
+              else if (a_j<b_j){
+                a_i++;
+              }
+              else{
+                b_i++;
+              }
+          }
+          #ifdef DEBUG
+          if(blockIdx.x==0 && threadIdx.x==1){
+            printf("sum:%f,id:%d\n",sum,id);
+          }
+          #endif
+        c_matrix[id] = sum;
+     }
    }
 
-void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k,cusparseHandle_t handle,int time_flag){
+void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k,cusparseHandle_t handle,int time_flag,int repetation_flag){
   struct Matrix h_B_transposed;
   struct SparseMat spmA,spmB;
 
@@ -158,14 +192,18 @@ void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Mat
     start = clock();
   }
   convert_to_sparse(&spmA, h_A, handle);
-  // copyDeviceCSR2Host(&spmA);
-  // print_sparse_matrix(&spmA);
-
   convert_to_sparse(&spmB, &h_B_transposed, handle);
-  // copyDeviceCSR2Host(&spmB);
-  // print_sparse_matrix(&spmB);
+  #ifdef DEBUG
+  copyDeviceCSR2Host(&spmA);
+  print_sparse_matrix(&spmA);
+  copyDeviceCSR2Host(&spmB);
+  print_sparse_matrix(&spmB);
+  #endif
 
-  int num_elems = h_C->dims[2] * h_C->dims[3];
+  //TODO check that m,n == h_C->dims[2] * h_C->dims[3]
+  int num_elems = m*n;
+  int nThreads = 1024;
+  int nBlocks = (num_elems / nThreads)+1;
   float * matrix_device;
   // Allocate device dense array
   CudaSafeCall(cudaMalloc(&matrix_device,
@@ -176,8 +214,15 @@ void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Mat
     printf("Time for gpu_mm_sparse_ProjectImp:conversion=%lf\n", time_taken);
     start = clock();
   }
-  sparseMM<<<m,n>>>(spmA.csrValA_device,spmA.csrRowPtrA_device,spmA.csrColIndA_device,
+  int i;
+  if (!repetation_flag){
+    mm_repet = 1;
+  }
+  for(i=0;i<mm_repet;i++)
+    sparseMM<<<nBlocks,nThreads>>>(m,n,spmA.csrValA_device,spmA.csrRowPtrA_device,spmA.csrColIndA_device,
                       spmB.csrValA_device,spmB.csrRowPtrA_device,spmB.csrColIndA_device,matrix_device);
+
+  cudaDeviceSynchronize();
   if(time_flag){
     end = clock();
     time_taken = ((double)(end - start))/ CLOCKS_PER_SEC;
@@ -195,7 +240,7 @@ void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Mat
     start = clock();
   }
   h_C->is_column_first=1;
-  // cudaFree(matrix_device);
+ cudaFree(matrix_device);
  destroyMatrix(&h_B_transposed);
  destroySparseMatrix(&spmA);
  destroySparseMatrix(&spmB);
