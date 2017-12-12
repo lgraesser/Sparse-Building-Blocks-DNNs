@@ -1,0 +1,960 @@
+m=32 k=256 n=128 sparsity=0.5 ITER=50000
+bin/mm ../data/32_256_0.5.mat ../data/256_128_0.5.mat -t -a cusparse -r50000
+Time for gpu_mm_sparse:conversion=0.020000
+Time for gpu_mm_sparse:cusparsemm=78.020000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 78.040000
+bin/mm ../data/32_256_0.5.mat ../data/256_128_0.5.mat -t -a denseblas -r50000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=1.560000
+Time taken for the gpu_mm_dense is 1.560000
+bin/mm ../data/32_256_0.5.mat ../data/256_128_0.5.mat -t -a sparseimp -r50000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=17.880000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 17.910000
+m=32 k=256 n=128 sparsity=0.8 ITER=50000
+bin/mm ../data/32_256_0.8.mat ../data/256_128_0.8.mat -t -a cusparse -r50000
+Time for gpu_mm_sparse:conversion=0.010000
+Time for gpu_mm_sparse:cusparsemm=76.370000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 76.380000
+bin/mm ../data/32_256_0.8.mat ../data/256_128_0.8.mat -t -a denseblas -r50000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=1.500000
+Time taken for the gpu_mm_dense is 1.500000
+bin/mm ../data/32_256_0.8.mat ../data/256_128_0.8.mat -t -a sparseimp -r50000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.020000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=8.810000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 8.830000
+m=32 k=256 n=128 sparsity=0.9 ITER=50000
+bin/mm ../data/32_256_0.9.mat ../data/256_128_0.9.mat -t -a cusparse -r50000
+Time for gpu_mm_sparse:conversion=0.010000
+Time for gpu_mm_sparse:cusparsemm=65.860000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 65.870000
+bin/mm ../data/32_256_0.9.mat ../data/256_128_0.9.mat -t -a denseblas -r50000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=1.670000
+Time taken for the gpu_mm_dense is 1.670000
+bin/mm ../data/32_256_0.9.mat ../data/256_128_0.9.mat -t -a sparseimp -r50000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=4.600000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 4.640000
+m=32 k=256 n=128 sparsity=0.95 ITER=50000
+bin/mm ../data/32_256_0.95.mat ../data/256_128_0.95.mat -t -a cusparse -r50000
+Time for gpu_mm_sparse:conversion=0.000000
+Time for gpu_mm_sparse:cusparsemm=68.880000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 68.880000
+bin/mm ../data/32_256_0.95.mat ../data/256_128_0.95.mat -t -a denseblas -r50000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=2.540000
+Time taken for the gpu_mm_dense is 2.540000
+bin/mm ../data/32_256_0.95.mat ../data/256_128_0.95.mat -t -a sparseimp -r50000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.020000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=4.930000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 4.950000
+m=32 k=256 n=128 sparsity=0.99 ITER=50000
+bin/mm ../data/32_256_0.99.mat ../data/256_128_0.99.mat -t -a cusparse -r50000
+Time for gpu_mm_sparse:conversion=0.020000
+Time for gpu_mm_sparse:cusparsemm=132.160000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 132.180000
+bin/mm ../data/32_256_0.99.mat ../data/256_128_0.99.mat -t -a denseblas -r50000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=2.660000
+Time taken for the gpu_mm_dense is 2.660000
+bin/mm ../data/32_256_0.99.mat ../data/256_128_0.99.mat -t -a sparseimp -r50000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=1.880000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 1.920000
+m=32 k=512 n=256 sparsity=0.5 ITER=10000
+bin/mm ../data/32_512_0.5.mat ../data/512_256_0.5.mat -t -a cusparse -r10000
+Time for gpu_mm_sparse:conversion=0.010000
+Time for gpu_mm_sparse:cusparsemm=36.050000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 36.060000
+bin/mm ../data/32_512_0.5.mat ../data/512_256_0.5.mat -t -a denseblas -r10000
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=2.340000
+Time taken for the gpu_mm_dense is 2.350000
+bin/mm ../data/32_512_0.5.mat ../data/512_256_0.5.mat -t -a sparseimp -r10000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.040000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=11.960000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 12.000000
+m=32 k=512 n=256 sparsity=0.8 ITER=10000
+bin/mm ../data/32_512_0.8.mat ../data/512_256_0.8.mat -t -a cusparse -r10000
+Time for gpu_mm_sparse:conversion=0.020000
+Time for gpu_mm_sparse:cusparsemm=28.860000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 28.880000
+bin/mm ../data/32_512_0.8.mat ../data/512_256_0.8.mat -t -a denseblas -r10000
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=2.240000
+Time taken for the gpu_mm_dense is 2.250000
+bin/mm ../data/32_512_0.8.mat ../data/512_256_0.8.mat -t -a sparseimp -r10000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.020000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=5.780000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 5.810000
+m=32 k=512 n=256 sparsity=0.9 ITER=10000
+bin/mm ../data/32_512_0.9.mat ../data/512_256_0.9.mat -t -a cusparse -r10000
+Time for gpu_mm_sparse:conversion=0.020000
+Time for gpu_mm_sparse:cusparsemm=29.100000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 29.120000
+bin/mm ../data/32_512_0.9.mat ../data/512_256_0.9.mat -t -a denseblas -r10000
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=2.570000
+Time taken for the gpu_mm_dense is 2.580000
+bin/mm ../data/32_512_0.9.mat ../data/512_256_0.9.mat -t -a sparseimp -r10000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.020000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=3.140000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 3.170000
+m=32 k=512 n=256 sparsity=0.95 ITER=10000
+bin/mm ../data/32_512_0.95.mat ../data/512_256_0.95.mat -t -a cusparse -r10000
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=27.710000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 27.750000
+bin/mm ../data/32_512_0.95.mat ../data/512_256_0.95.mat -t -a denseblas -r10000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=2.340000
+Time taken for the gpu_mm_dense is 2.340000
+bin/mm ../data/32_512_0.95.mat ../data/512_256_0.95.mat -t -a sparseimp -r10000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=1.810000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 1.840000
+m=32 k=512 n=256 sparsity=0.99 ITER=10000
+bin/mm ../data/32_512_0.99.mat ../data/512_256_0.99.mat -t -a cusparse -r10000
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=26.860000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 26.890000
+bin/mm ../data/32_512_0.99.mat ../data/512_256_0.99.mat -t -a denseblas -r10000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=2.400000
+Time taken for the gpu_mm_dense is 2.400000
+bin/mm ../data/32_512_0.99.mat ../data/512_256_0.99.mat -t -a sparseimp -r10000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.020000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=0.520000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 0.540000
+m=32 k=1024 n=512 sparsity=0.5 ITER=2500
+bin/mm ../data/32_1024_0.5.mat ../data/1024_512_0.5.mat -t -a cusparse -r2500
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=15.610000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 15.640000
+bin/mm ../data/32_1024_0.5.mat ../data/1024_512_0.5.mat -t -a denseblas -r2500
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=1.100000
+Time taken for the gpu_mm_dense is 1.100000
+bin/mm ../data/32_1024_0.5.mat ../data/1024_512_0.5.mat -t -a sparseimp -r2500
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=5.980000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 6.030000
+m=32 k=1024 n=512 sparsity=0.8 ITER=2500
+bin/mm ../data/32_1024_0.8.mat ../data/1024_512_0.8.mat -t -a cusparse -r2500
+Time for gpu_mm_sparse:conversion=0.020000
+Time for gpu_mm_sparse:cusparsemm=7.680000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 7.700000
+bin/mm ../data/32_1024_0.8.mat ../data/1024_512_0.8.mat -t -a denseblas -r2500
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=1.180000
+Time taken for the gpu_mm_dense is 1.180000
+bin/mm ../data/32_1024_0.8.mat ../data/1024_512_0.8.mat -t -a sparseimp -r2500
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=3.350000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 3.390000
+m=32 k=1024 n=512 sparsity=0.9 ITER=2500
+bin/mm ../data/32_1024_0.9.mat ../data/1024_512_0.9.mat -t -a cusparse -r2500
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=6.720000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 6.770000
+bin/mm ../data/32_1024_0.9.mat ../data/1024_512_0.9.mat -t -a denseblas -r2500
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=1.120000
+Time taken for the gpu_mm_dense is 1.120000
+bin/mm ../data/32_1024_0.9.mat ../data/1024_512_0.9.mat -t -a sparseimp -r2500
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=2.200000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 2.240000
+m=32 k=1024 n=512 sparsity=0.95 ITER=2500
+bin/mm ../data/32_1024_0.95.mat ../data/1024_512_0.95.mat -t -a cusparse -r2500
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=7.820000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 7.850000
+bin/mm ../data/32_1024_0.95.mat ../data/1024_512_0.95.mat -t -a denseblas -r2500
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.930000
+Time taken for the gpu_mm_dense is 0.930000
+bin/mm ../data/32_1024_0.95.mat ../data/1024_512_0.95.mat -t -a sparseimp -r2500
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=0.890000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 0.930000
+m=32 k=1024 n=512 sparsity=0.99 ITER=2500
+bin/mm ../data/32_1024_0.99.mat ../data/1024_512_0.99.mat -t -a cusparse -r2500
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=7.540000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 7.570000
+bin/mm ../data/32_1024_0.99.mat ../data/1024_512_0.99.mat -t -a denseblas -r2500
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=1.020000
+Time taken for the gpu_mm_dense is 1.020000
+bin/mm ../data/32_1024_0.99.mat ../data/1024_512_0.99.mat -t -a sparseimp -r2500
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.020000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=0.280000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 0.300000
+m=32 k=2048 n=1024 sparsity=0.5 ITER=1000
+bin/mm ../data/32_2048_0.5.mat ../data/2048_1024_0.5.mat -t -a cusparse -r1000
+Time for gpu_mm_sparse:conversion=0.020000
+Time for gpu_mm_sparse:cusparsemm=17.760000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 17.780000
+bin/mm ../data/32_2048_0.5.mat ../data/2048_1024_0.5.mat -t -a denseblas -r1000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.940000
+Time taken for the gpu_mm_dense is 0.940000
+bin/mm ../data/32_2048_0.5.mat ../data/2048_1024_0.5.mat -t -a sparseimp -r1000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.040000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.020000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=7.400000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 7.460000
+m=32 k=2048 n=1024 sparsity=0.8 ITER=1000
+bin/mm ../data/32_2048_0.8.mat ../data/2048_1024_0.8.mat -t -a cusparse -r1000
+Time for gpu_mm_sparse:conversion=0.020000
+Time for gpu_mm_sparse:cusparsemm=4.810000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 4.830000
+bin/mm ../data/32_2048_0.8.mat ../data/2048_1024_0.8.mat -t -a denseblas -r1000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.880000
+Time taken for the gpu_mm_dense is 0.880000
+bin/mm ../data/32_2048_0.8.mat ../data/2048_1024_0.8.mat -t -a sparseimp -r1000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.030000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=4.760000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 4.820000
+m=32 k=2048 n=1024 sparsity=0.9 ITER=1000
+bin/mm ../data/32_2048_0.9.mat ../data/2048_1024_0.9.mat -t -a cusparse -r1000
+Time for gpu_mm_sparse:conversion=0.020000
+Time for gpu_mm_sparse:cusparsemm=3.430000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 3.450000
+bin/mm ../data/32_2048_0.9.mat ../data/2048_1024_0.9.mat -t -a denseblas -r1000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.840000
+Time taken for the gpu_mm_dense is 0.840000
+bin/mm ../data/32_2048_0.9.mat ../data/2048_1024_0.9.mat -t -a sparseimp -r1000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.040000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=2.040000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 2.110000
+m=32 k=2048 n=1024 sparsity=0.95 ITER=1000
+bin/mm ../data/32_2048_0.95.mat ../data/2048_1024_0.95.mat -t -a cusparse -r1000
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=3.310000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 3.360000
+bin/mm ../data/32_2048_0.95.mat ../data/2048_1024_0.95.mat -t -a denseblas -r1000
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=1.010000
+Time taken for the gpu_mm_dense is 1.020000
+bin/mm ../data/32_2048_0.95.mat ../data/2048_1024_0.95.mat -t -a sparseimp -r1000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.050000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=1.450000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 1.530000
+m=32 k=2048 n=1024 sparsity=0.99 ITER=1000
+bin/mm ../data/32_2048_0.99.mat ../data/2048_1024_0.99.mat -t -a cusparse -r1000
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=2.760000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 2.790000
+bin/mm ../data/32_2048_0.99.mat ../data/2048_1024_0.99.mat -t -a denseblas -r1000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.950000
+Time taken for the gpu_mm_dense is 0.950000
+bin/mm ../data/32_2048_0.99.mat ../data/2048_1024_0.99.mat -t -a sparseimp -r1000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.050000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=0.390000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 0.470000
+m=32 k=4096 n=2048 sparsity=0.5 ITER=250
+bin/mm ../data/32_4096_0.5.mat ../data/4096_2048_0.5.mat -t -a cusparse -r250
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=15.720000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 15.750000
+bin/mm ../data/32_4096_0.5.mat ../data/4096_2048_0.5.mat -t -a denseblas -r250
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.480000
+Time taken for the gpu_mm_dense is 0.490000
+bin/mm ../data/32_4096_0.5.mat ../data/4096_2048_0.5.mat -t -a sparseimp -r250
+Time for gpu_mm_sparse_ProjectImp:transpose=0.210000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.040000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=5.850000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 6.110000
+m=32 k=4096 n=2048 sparsity=0.8 ITER=250
+bin/mm ../data/32_4096_0.8.mat ../data/4096_2048_0.8.mat -t -a cusparse -r250
+Time for gpu_mm_sparse:conversion=0.050000
+Time for gpu_mm_sparse:cusparsemm=3.300000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 3.360000
+bin/mm ../data/32_4096_0.8.mat ../data/4096_2048_0.8.mat -t -a denseblas -r250
+Time for gpu_mm_dense:data=0.040000
+Time for gpu_mm_dense:mult=0.490000
+Time taken for the gpu_mm_dense is 0.530000
+bin/mm ../data/32_4096_0.8.mat ../data/4096_2048_0.8.mat -t -a sparseimp -r250
+Time for gpu_mm_sparse_ProjectImp:transpose=0.220000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=3.060000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 3.310000
+m=32 k=4096 n=2048 sparsity=0.9 ITER=250
+bin/mm ../data/32_4096_0.9.mat ../data/4096_2048_0.9.mat -t -a cusparse -r250
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=1.430000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 1.480000
+bin/mm ../data/32_4096_0.9.mat ../data/4096_2048_0.9.mat -t -a denseblas -r250
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.510000
+Time taken for the gpu_mm_dense is 0.510000
+bin/mm ../data/32_4096_0.9.mat ../data/4096_2048_0.9.mat -t -a sparseimp -r250
+Time for gpu_mm_sparse_ProjectImp:transpose=0.270000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=1.430000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 1.730000
+m=32 k=4096 n=2048 sparsity=0.95 ITER=250
+bin/mm ../data/32_4096_0.95.mat ../data/4096_2048_0.95.mat -t -a cusparse -r250
+Time for gpu_mm_sparse:conversion=0.050000
+Time for gpu_mm_sparse:cusparsemm=0.960000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 1.010000
+bin/mm ../data/32_4096_0.95.mat ../data/4096_2048_0.95.mat -t -a denseblas -r250
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.510000
+Time taken for the gpu_mm_dense is 0.520000
+bin/mm ../data/32_4096_0.95.mat ../data/4096_2048_0.95.mat -t -a sparseimp -r250
+Time for gpu_mm_sparse_ProjectImp:transpose=0.250000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=1.030000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 1.310000
+m=32 k=4096 n=2048 sparsity=0.99 ITER=250
+bin/mm ../data/32_4096_0.99.mat ../data/4096_2048_0.99.mat -t -a cusparse -r250
+Time for gpu_mm_sparse:conversion=0.050000
+Time for gpu_mm_sparse:cusparsemm=1.030000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 1.080000
+bin/mm ../data/32_4096_0.99.mat ../data/4096_2048_0.99.mat -t -a denseblas -r250
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.500000
+Time taken for the gpu_mm_dense is 0.510000
+bin/mm ../data/32_4096_0.99.mat ../data/4096_2048_0.99.mat -t -a sparseimp -r250
+Time for gpu_mm_sparse_ProjectImp:transpose=0.250000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.040000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=0.300000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 0.600000
+m=32 k=8192 n=4096 sparsity=0.5 ITER=100
+bin/mm ../data/32_8192_0.5.mat ../data/8192_4096_0.5.mat -t -a cusparse -r100
+Time for gpu_mm_sparse:conversion=0.080000
+Time for gpu_mm_sparse:cusparsemm=25.670000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 25.760000
+bin/mm ../data/32_8192_0.5.mat ../data/8192_4096_0.5.mat -t -a denseblas -r100
+Time for gpu_mm_dense:data=0.020000
+Time for gpu_mm_dense:mult=0.530000
+Time taken for the gpu_mm_dense is 0.550000
+bin/mm ../data/32_8192_0.5.mat ../data/8192_4096_0.5.mat -t -a sparseimp -r100
+Time for gpu_mm_sparse_ProjectImp:transpose=0.720000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.050000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=21.950000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 22.730000
+m=32 k=8192 n=4096 sparsity=0.8 ITER=100
+bin/mm ../data/32_8192_0.8.mat ../data/8192_4096_0.8.mat -t -a cusparse -r100
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=4.520000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 4.580000
+bin/mm ../data/32_8192_0.8.mat ../data/8192_4096_0.8.mat -t -a denseblas -r100
+Time for gpu_mm_dense:data=0.020000
+Time for gpu_mm_dense:mult=0.600000
+Time taken for the gpu_mm_dense is 0.620000
+bin/mm ../data/32_8192_0.8.mat ../data/8192_4096_0.8.mat -t -a sparseimp -r100
+Time for gpu_mm_sparse_ProjectImp:transpose=1.230000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.070000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=4.300000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 5.600000
+m=32 k=8192 n=4096 sparsity=0.9 ITER=100
+bin/mm ../data/32_8192_0.9.mat ../data/8192_4096_0.9.mat -t -a cusparse -r100
+Time for gpu_mm_sparse:conversion=0.060000
+Time for gpu_mm_sparse:cusparsemm=1.450000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 1.520000
+bin/mm ../data/32_8192_0.9.mat ../data/8192_4096_0.9.mat -t -a denseblas -r100
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.530000
+Time taken for the gpu_mm_dense is 0.540000
+bin/mm ../data/32_8192_0.9.mat ../data/8192_4096_0.9.mat -t -a sparseimp -r100
+Time for gpu_mm_sparse_ProjectImp:transpose=1.680000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.090000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=2.700000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 4.490000
+m=32 k=8192 n=4096 sparsity=0.95 ITER=100
+bin/mm ../data/32_8192_0.95.mat ../data/8192_4096_0.95.mat -t -a cusparse -r100
+Time for gpu_mm_sparse:conversion=0.050000
+Time for gpu_mm_sparse:cusparsemm=0.640000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 0.690000
+bin/mm ../data/32_8192_0.95.mat ../data/8192_4096_0.95.mat -t -a denseblas -r100
+Time for gpu_mm_dense:data=0.020000
+Time for gpu_mm_dense:mult=0.550000
+Time taken for the gpu_mm_dense is 0.570000
+bin/mm ../data/32_8192_0.95.mat ../data/8192_4096_0.95.mat -t -a sparseimp -r100
+Time for gpu_mm_sparse_ProjectImp:transpose=0.710000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.060000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=1.640000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 2.430000
+m=32 k=8192 n=4096 sparsity=0.99 ITER=100
+bin/mm ../data/32_8192_0.99.mat ../data/8192_4096_0.99.mat -t -a cusparse -r100
+Time for gpu_mm_sparse:conversion=0.050000
+Time for gpu_mm_sparse:cusparsemm=0.380000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 0.430000
+bin/mm ../data/32_8192_0.99.mat ../data/8192_4096_0.99.mat -t -a denseblas -r100
+Time for gpu_mm_dense:data=0.040000
+Time for gpu_mm_dense:mult=0.570000
+Time taken for the gpu_mm_dense is 0.610000
+bin/mm ../data/32_8192_0.99.mat ../data/8192_4096_0.99.mat -t -a sparseimp -r100
+Time for gpu_mm_sparse_ProjectImp:transpose=0.970000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.060000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=0.380000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 1.430000
+m=1024 k=256 n=128 sparsity=0.5 ITER=5000
+bin/mm ../data/1024_256_0.5.mat ../data/256_128_0.5.mat -t -a cusparse -r5000
+Time for gpu_mm_sparse:conversion=0.020000
+Time for gpu_mm_sparse:cusparsemm=21.950000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 21.990000
+bin/mm ../data/1024_256_0.5.mat ../data/256_128_0.5.mat -t -a denseblas -r5000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.620000
+Time taken for the gpu_mm_dense is 0.620000
+bin/mm ../data/1024_256_0.5.mat ../data/256_128_0.5.mat -t -a sparseimp -r5000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=34.110000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 34.140000
+m=1024 k=256 n=128 sparsity=0.8 ITER=5000
+bin/mm ../data/1024_256_0.8.mat ../data/256_128_0.8.mat -t -a cusparse -r5000
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=16.570000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 16.610000
+bin/mm ../data/1024_256_0.8.mat ../data/256_128_0.8.mat -t -a denseblas -r5000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.730000
+Time taken for the gpu_mm_dense is 0.730000
+bin/mm ../data/1024_256_0.8.mat ../data/256_128_0.8.mat -t -a sparseimp -r5000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=20.040000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 20.070000
+m=1024 k=256 n=128 sparsity=0.9 ITER=5000
+bin/mm ../data/1024_256_0.9.mat ../data/256_128_0.9.mat -t -a cusparse -r5000
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=15.420000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 15.470000
+bin/mm ../data/1024_256_0.9.mat ../data/256_128_0.9.mat -t -a denseblas -r5000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.610000
+Time taken for the gpu_mm_dense is 0.610000
+bin/mm ../data/1024_256_0.9.mat ../data/256_128_0.9.mat -t -a sparseimp -r5000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=10.250000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 10.280000
+m=1024 k=256 n=128 sparsity=0.95 ITER=5000
+bin/mm ../data/1024_256_0.95.mat ../data/256_128_0.95.mat -t -a cusparse -r5000
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=14.840000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 14.870000
+bin/mm ../data/1024_256_0.95.mat ../data/256_128_0.95.mat -t -a denseblas -r5000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.620000
+Time taken for the gpu_mm_dense is 0.620000
+bin/mm ../data/1024_256_0.95.mat ../data/256_128_0.95.mat -t -a sparseimp -r5000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.010000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=4.680000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 4.690000
+m=1024 k=256 n=128 sparsity=0.99 ITER=5000
+bin/mm ../data/1024_256_0.99.mat ../data/256_128_0.99.mat -t -a cusparse -r5000
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=15.220000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 15.260000
+bin/mm ../data/1024_256_0.99.mat ../data/256_128_0.99.mat -t -a denseblas -r5000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.610000
+Time taken for the gpu_mm_dense is 0.610000
+bin/mm ../data/1024_256_0.99.mat ../data/256_128_0.99.mat -t -a sparseimp -r5000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=1.730000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 1.770000
+m=1024 k=512 n=256 sparsity=0.5 ITER=1000
+bin/mm ../data/1024_512_0.5.mat ../data/512_256_0.5.mat -t -a cusparse -r1000
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=14.760000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 14.800000
+bin/mm ../data/1024_512_0.5.mat ../data/512_256_0.5.mat -t -a denseblas -r1000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.300000
+Time taken for the gpu_mm_dense is 0.300000
+bin/mm ../data/1024_512_0.5.mat ../data/512_256_0.5.mat -t -a sparseimp -r1000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.020000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=22.050000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 22.080000
+m=1024 k=512 n=256 sparsity=0.8 ITER=1000
+bin/mm ../data/1024_512_0.8.mat ../data/512_256_0.8.mat -t -a cusparse -r1000
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=3.500000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 3.540000
+bin/mm ../data/1024_512_0.8.mat ../data/512_256_0.8.mat -t -a denseblas -r1000
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.310000
+Time taken for the gpu_mm_dense is 0.310000
+bin/mm ../data/1024_512_0.8.mat ../data/512_256_0.8.mat -t -a sparseimp -r1000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=11.180000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 11.220000
+m=1024 k=512 n=256 sparsity=0.9 ITER=1000
+bin/mm ../data/1024_512_0.9.mat ../data/512_256_0.9.mat -t -a cusparse -r1000
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=3.260000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 3.290000
+bin/mm ../data/1024_512_0.9.mat ../data/512_256_0.9.mat -t -a denseblas -r1000
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.290000
+Time taken for the gpu_mm_dense is 0.300000
+bin/mm ../data/1024_512_0.9.mat ../data/512_256_0.9.mat -t -a sparseimp -r1000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=5.420000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 5.450000
+m=1024 k=512 n=256 sparsity=0.95 ITER=1000
+bin/mm ../data/1024_512_0.95.mat ../data/512_256_0.95.mat -t -a cusparse -r1000
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=3.290000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 3.320000
+bin/mm ../data/1024_512_0.95.mat ../data/512_256_0.95.mat -t -a denseblas -r1000
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.310000
+Time taken for the gpu_mm_dense is 0.320000
+bin/mm ../data/1024_512_0.95.mat ../data/512_256_0.95.mat -t -a sparseimp -r1000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.020000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=3.680000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 3.710000
+m=1024 k=512 n=256 sparsity=0.99 ITER=1000
+bin/mm ../data/1024_512_0.99.mat ../data/512_256_0.99.mat -t -a cusparse -r1000
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=2.880000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 2.910000
+bin/mm ../data/1024_512_0.99.mat ../data/512_256_0.99.mat -t -a denseblas -r1000
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.270000
+Time taken for the gpu_mm_dense is 0.280000
+bin/mm ../data/1024_512_0.99.mat ../data/512_256_0.99.mat -t -a sparseimp -r1000
+Time for gpu_mm_sparse_ProjectImp:transpose=0.000000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.040000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=0.860000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 0.900000
+m=1024 k=1024 n=512 sparsity=0.5 ITER=250
+bin/mm ../data/1024_1024_0.5.mat ../data/1024_512_0.5.mat -t -a cusparse -r250
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=7.410000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 7.440000
+bin/mm ../data/1024_1024_0.5.mat ../data/1024_512_0.5.mat -t -a denseblas -r250
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.870000
+Time taken for the gpu_mm_dense is 0.880000
+bin/mm ../data/1024_1024_0.5.mat ../data/1024_512_0.5.mat -t -a sparseimp -r250
+Time for gpu_mm_sparse_ProjectImp:transpose=0.020000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.010000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=15.300000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 15.330000
+m=1024 k=1024 n=512 sparsity=0.8 ITER=250
+bin/mm ../data/1024_1024_0.8.mat ../data/1024_512_0.8.mat -t -a cusparse -r250
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=2.330000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 2.360000
+bin/mm ../data/1024_1024_0.8.mat ../data/1024_512_0.8.mat -t -a denseblas -r250
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.850000
+Time taken for the gpu_mm_dense is 0.850000
+bin/mm ../data/1024_1024_0.8.mat ../data/1024_512_0.8.mat -t -a sparseimp -r250
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=9.990000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 10.030000
+m=1024 k=1024 n=512 sparsity=0.9 ITER=250
+bin/mm ../data/1024_1024_0.9.mat ../data/1024_512_0.9.mat -t -a cusparse -r250
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=0.940000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 0.970000
+bin/mm ../data/1024_1024_0.9.mat ../data/1024_512_0.9.mat -t -a denseblas -r250
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.920000
+Time taken for the gpu_mm_dense is 0.930000
+bin/mm ../data/1024_1024_0.9.mat ../data/1024_512_0.9.mat -t -a sparseimp -r250
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=5.360000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 5.400000
+m=1024 k=1024 n=512 sparsity=0.95 ITER=250
+bin/mm ../data/1024_1024_0.95.mat ../data/1024_512_0.95.mat -t -a cusparse -r250
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=0.840000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 0.870000
+bin/mm ../data/1024_1024_0.95.mat ../data/1024_512_0.95.mat -t -a denseblas -r250
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.710000
+Time taken for the gpu_mm_dense is 0.710000
+bin/mm ../data/1024_1024_0.95.mat ../data/1024_512_0.95.mat -t -a sparseimp -r250
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.040000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=2.260000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 2.310000
+m=1024 k=1024 n=512 sparsity=0.99 ITER=250
+bin/mm ../data/1024_1024_0.99.mat ../data/1024_512_0.99.mat -t -a cusparse -r250
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=0.850000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 0.900000
+bin/mm ../data/1024_1024_0.99.mat ../data/1024_512_0.99.mat -t -a denseblas -r250
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.880000
+Time taken for the gpu_mm_dense is 0.890000
+bin/mm ../data/1024_1024_0.99.mat ../data/1024_512_0.99.mat -t -a sparseimp -r250
+Time for gpu_mm_sparse_ProjectImp:transpose=0.010000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.040000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=0.600000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 0.650000
+m=1024 k=2048 n=1024 sparsity=0.5 ITER=100
+bin/mm ../data/1024_2048_0.5.mat ../data/2048_1024_0.5.mat -t -a cusparse -r100
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=8.930000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 8.970000
+bin/mm ../data/1024_2048_0.5.mat ../data/2048_1024_0.5.mat -t -a denseblas -r100
+Time for gpu_mm_dense:data=0.000000
+Time for gpu_mm_dense:mult=0.380000
+Time taken for the gpu_mm_dense is 0.380000
+bin/mm ../data/1024_2048_0.5.mat ../data/2048_1024_0.5.mat -t -a sparseimp -r100
+Time for gpu_mm_sparse_ProjectImp:transpose=0.030000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.040000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=19.440000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 19.530000
+m=1024 k=2048 n=1024 sparsity=0.8 ITER=100
+bin/mm ../data/1024_2048_0.8.mat ../data/2048_1024_0.8.mat -t -a cusparse -r100
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=2.080000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 2.110000
+bin/mm ../data/1024_2048_0.8.mat ../data/2048_1024_0.8.mat -t -a denseblas -r100
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.350000
+Time taken for the gpu_mm_dense is 0.360000
+bin/mm ../data/1024_2048_0.8.mat ../data/2048_1024_0.8.mat -t -a sparseimp -r100
+Time for gpu_mm_sparse_ProjectImp:transpose=0.030000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=11.450000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 11.510000
+m=1024 k=2048 n=1024 sparsity=0.9 ITER=100
+bin/mm ../data/1024_2048_0.9.mat ../data/2048_1024_0.9.mat -t -a cusparse -r100
+Time for gpu_mm_sparse:conversion=0.040000
+Time for gpu_mm_sparse:cusparsemm=0.930000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 0.970000
+bin/mm ../data/1024_2048_0.9.mat ../data/2048_1024_0.9.mat -t -a denseblas -r100
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.380000
+Time taken for the gpu_mm_dense is 0.390000
+bin/mm ../data/1024_2048_0.9.mat ../data/2048_1024_0.9.mat -t -a sparseimp -r100
+Time for gpu_mm_sparse_ProjectImp:transpose=0.030000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=7.480000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 7.540000
+m=1024 k=2048 n=1024 sparsity=0.95 ITER=100
+bin/mm ../data/1024_2048_0.95.mat ../data/2048_1024_0.95.mat -t -a cusparse -r100
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=0.410000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 0.440000
+bin/mm ../data/1024_2048_0.95.mat ../data/2048_1024_0.95.mat -t -a denseblas -r100
+Time for gpu_mm_dense:data=0.020000
+Time for gpu_mm_dense:mult=0.380000
+Time taken for the gpu_mm_dense is 0.400000
+bin/mm ../data/1024_2048_0.95.mat ../data/2048_1024_0.95.mat -t -a sparseimp -r100
+Time for gpu_mm_sparse_ProjectImp:transpose=0.050000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.030000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=3.630000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 3.720000
+m=1024 k=2048 n=1024 sparsity=0.99 ITER=100
+bin/mm ../data/1024_2048_0.99.mat ../data/2048_1024_0.99.mat -t -a cusparse -r100
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=0.330000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 0.360000
+bin/mm ../data/1024_2048_0.99.mat ../data/2048_1024_0.99.mat -t -a denseblas -r100
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.380000
+Time taken for the gpu_mm_dense is 0.390000
+bin/mm ../data/1024_2048_0.99.mat ../data/2048_1024_0.99.mat -t -a sparseimp -r100
+Time for gpu_mm_sparse_ProjectImp:transpose=0.020000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.050000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=0.960000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 1.030000
+m=1024 k=4096 n=2048 sparsity=0.5 ITER=25
+bin/mm ../data/1024_4096_0.5.mat ../data/4096_2048_0.5.mat -t -a cusparse -r25
+Time for gpu_mm_sparse:conversion=0.050000
+Time for gpu_mm_sparse:cusparsemm=8.760000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 8.820000
+bin/mm ../data/1024_4096_0.5.mat ../data/4096_2048_0.5.mat -t -a denseblas -r25
+Time for gpu_mm_dense:data=0.020000
+Time for gpu_mm_dense:mult=0.330000
+Time taken for the gpu_mm_dense is 0.350000
+bin/mm ../data/1024_4096_0.5.mat ../data/4096_2048_0.5.mat -t -a sparseimp -r25
+Time for gpu_mm_sparse_ProjectImp:transpose=0.310000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.050000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=16.450000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 16.810000
+m=1024 k=4096 n=2048 sparsity=0.8 ITER=25
+bin/mm ../data/1024_4096_0.8.mat ../data/4096_2048_0.8.mat -t -a cusparse -r25
+Time for gpu_mm_sparse:conversion=0.050000
+Time for gpu_mm_sparse:cusparsemm=1.400000
+Time for gpu_mm_sparse:back2dense=0.020000
+Time taken for gpu_mm_sparse is 1.470000
+bin/mm ../data/1024_4096_0.8.mat ../data/4096_2048_0.8.mat -t -a denseblas -r25
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.300000
+Time taken for the gpu_mm_dense is 0.310000
+bin/mm ../data/1024_4096_0.8.mat ../data/4096_2048_0.8.mat -t -a sparseimp -r25
+Time for gpu_mm_sparse_ProjectImp:transpose=0.290000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.040000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=9.090000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 9.420000
+m=1024 k=4096 n=2048 sparsity=0.9 ITER=25
+bin/mm ../data/1024_4096_0.9.mat ../data/4096_2048_0.9.mat -t -a cusparse -r25
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=0.540000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 0.580000
+bin/mm ../data/1024_4096_0.9.mat ../data/4096_2048_0.9.mat -t -a denseblas -r25
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.340000
+Time taken for the gpu_mm_dense is 0.350000
+bin/mm ../data/1024_4096_0.9.mat ../data/4096_2048_0.9.mat -t -a sparseimp -r25
+Time for gpu_mm_sparse_ProjectImp:transpose=0.250000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.050000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=5.920000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 6.220000
+m=1024 k=4096 n=2048 sparsity=0.95 ITER=25
+bin/mm ../data/1024_4096_0.95.mat ../data/4096_2048_0.95.mat -t -a cusparse -r25
+Time for gpu_mm_sparse:conversion=0.070000
+Time for gpu_mm_sparse:cusparsemm=0.370000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 0.440000
+bin/mm ../data/1024_4096_0.95.mat ../data/4096_2048_0.95.mat -t -a denseblas -r25
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.310000
+Time taken for the gpu_mm_dense is 0.320000
+bin/mm ../data/1024_4096_0.95.mat ../data/4096_2048_0.95.mat -t -a sparseimp -r25
+Time for gpu_mm_sparse_ProjectImp:transpose=0.150000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.040000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=4.320000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 4.510000
+m=1024 k=4096 n=2048 sparsity=0.99 ITER=25
+bin/mm ../data/1024_4096_0.99.mat ../data/4096_2048_0.99.mat -t -a cusparse -r25
+Time for gpu_mm_sparse:conversion=0.030000
+Time for gpu_mm_sparse:cusparsemm=0.110000
+Time for gpu_mm_sparse:back2dense=0.000000
+Time taken for gpu_mm_sparse is 0.150000
+bin/mm ../data/1024_4096_0.99.mat ../data/4096_2048_0.99.mat -t -a denseblas -r25
+Time for gpu_mm_dense:data=0.010000
+Time for gpu_mm_dense:mult=0.300000
+Time taken for the gpu_mm_dense is 0.310000
+bin/mm ../data/1024_4096_0.99.mat ../data/4096_2048_0.99.mat -t -a sparseimp -r25
+Time for gpu_mm_sparse_ProjectImp:transpose=0.280000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.040000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=0.750000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 1.070000
+m=1024 k=8192 n=4096 sparsity=0.5 ITER=10
+bin/mm ../data/1024_8192_0.5.mat ../data/8192_4096_0.5.mat -t -a cusparse -r10
+Time for gpu_mm_sparse:conversion=0.070000
+Time for gpu_mm_sparse:cusparsemm=15.240000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 15.340000
+bin/mm ../data/1024_8192_0.5.mat ../data/8192_4096_0.5.mat -t -a denseblas -r10
+Time for gpu_mm_dense:data=0.020000
+Time for gpu_mm_dense:mult=0.310000
+Time taken for the gpu_mm_dense is 0.330000
+bin/mm ../data/1024_8192_0.5.mat ../data/8192_4096_0.5.mat -t -a sparseimp -r10
+Time for gpu_mm_sparse_ProjectImp:transpose=1.190000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.080000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=66.390000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.010000
+Time taken for gpu_mm_sparse_ProjectImp is 67.680000
+m=1024 k=8192 n=4096 sparsity=0.8 ITER=10
+bin/mm ../data/1024_8192_0.8.mat ../data/8192_4096_0.8.mat -t -a cusparse -r10
+Time for gpu_mm_sparse:conversion=0.160000
+Time for gpu_mm_sparse:cusparsemm=2.320000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 2.500000
+bin/mm ../data/1024_8192_0.8.mat ../data/8192_4096_0.8.mat -t -a denseblas -r10
+Time for gpu_mm_dense:data=0.080000
+Time for gpu_mm_dense:mult=0.340000
+Time taken for the gpu_mm_dense is 0.420000
+bin/mm ../data/1024_8192_0.8.mat ../data/8192_4096_0.8.mat -t -a sparseimp -r10
+Time for gpu_mm_sparse_ProjectImp:transpose=1.310000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.060000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=13.030000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.010000
+Time taken for gpu_mm_sparse_ProjectImp is 14.420000
+m=1024 k=8192 n=4096 sparsity=0.9 ITER=10
+bin/mm ../data/1024_8192_0.9.mat ../data/8192_4096_0.9.mat -t -a cusparse -r10
+Time for gpu_mm_sparse:conversion=0.080000
+Time for gpu_mm_sparse:cusparsemm=0.670000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 0.770000
+bin/mm ../data/1024_8192_0.9.mat ../data/8192_4096_0.9.mat -t -a denseblas -r10
+Time for gpu_mm_dense:data=0.030000
+Time for gpu_mm_dense:mult=0.310000
+Time taken for the gpu_mm_dense is 0.340000
+bin/mm ../data/1024_8192_0.9.mat ../data/8192_4096_0.9.mat -t -a sparseimp -r10
+Time for gpu_mm_sparse_ProjectImp:transpose=1.340000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.110000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=7.560000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 9.010000
+m=1024 k=8192 n=4096 sparsity=0.95 ITER=10
+bin/mm ../data/1024_8192_0.95.mat ../data/8192_4096_0.95.mat -t -a cusparse -r10
+Time for gpu_mm_sparse:conversion=0.070000
+Time for gpu_mm_sparse:cusparsemm=0.260000
+Time for gpu_mm_sparse:back2dense=0.020000
+Time taken for gpu_mm_sparse is 0.350000
+bin/mm ../data/1024_8192_0.95.mat ../data/8192_4096_0.95.mat -t -a denseblas -r10
+Time for gpu_mm_dense:data=0.080000
+Time for gpu_mm_dense:mult=0.310000
+Time taken for the gpu_mm_dense is 0.390000
+bin/mm ../data/1024_8192_0.95.mat ../data/8192_4096_0.95.mat -t -a sparseimp -r10
+Time for gpu_mm_sparse_ProjectImp:transpose=0.790000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.080000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=4.440000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 5.310000
+m=1024 k=8192 n=4096 sparsity=0.99 ITER=10
+bin/mm ../data/1024_8192_0.99.mat ../data/8192_4096_0.99.mat -t -a cusparse -r10
+Time for gpu_mm_sparse:conversion=0.070000
+Time for gpu_mm_sparse:cusparsemm=0.050000
+Time for gpu_mm_sparse:back2dense=0.010000
+Time taken for gpu_mm_sparse is 0.150000
+bin/mm ../data/1024_8192_0.99.mat ../data/8192_4096_0.99.mat -t -a denseblas -r10
+Time for gpu_mm_dense:data=0.020000
+Time for gpu_mm_dense:mult=0.300000
+Time taken for the gpu_mm_dense is 0.320000
+bin/mm ../data/1024_8192_0.99.mat ../data/8192_4096_0.99.mat -t -a sparseimp -r10
+Time for gpu_mm_sparse_ProjectImp:transpose=1.050000
+Time for gpu_mm_sparse_ProjectImp:conversion=0.080000
+Time for gpu_mm_sparse_ProjectImp:sparsemm=1.150000
+Time for gpu_mm_sparse_ProjectImp:back2host=0.000000
+Time taken for gpu_mm_sparse_ProjectImp is 2.300000

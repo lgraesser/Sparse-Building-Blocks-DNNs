@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+DATA_FOLDER=data
 # This line to get to the code file, no matter where it is called from
 mkn_s32=(32,256,128 32,512,256 32,1024,512 32,2048,1024 32,4096,2048 32,8192,4096 1024,256,128 1024,512,256 1024,1024,512 1024,2048,1024 1024,4096,2048 1024,8192,4096)
 iterations=(50000 10000 2500 1000 250 100 5000 1000 250 100 25 10)
@@ -13,6 +13,11 @@ if [ -e $RESULTFILE ]
 then
   echo Filename $RESULTFILE exists, "so we cant let this happen"
   exit 1
+fi
+if [ ! -e $DATA_FOLDER ]
+then
+  echo Folder $DATA_FOLDER "doesnt exists...creating new"
+  mkdir $DATA_FOLDER/
 fi
 
 
@@ -32,8 +37,8 @@ do
   for SPARSITY in "${sparsities[@]}";
   do
     echo m=$1 k=$2 n=$3 sparsity=$SPARSITY ITER=$ITER | tee -a $RESULTFILE
-    FILENAME1=../data/$1_$2_$SPARSITY.mat
-    FILENAME2=../data/$2_$3_$SPARSITY.mat
+    FILENAME1=$DATA_FOLDER/$1_$2_$SPARSITY.mat
+    FILENAME2=$DATA_FOLDER/$2_$3_$SPARSITY.mat
     # We want to generate new random matrices. Otherwise comment in the if clauses.
     # if [ ! -e $FILENAME1 ]
     # then
