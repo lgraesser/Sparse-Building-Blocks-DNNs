@@ -1,4 +1,10 @@
 #!/bin/bash
+DATA_FOLDER=data
+if [ ! -e ../$DATA_FOLDER ]
+then
+  echo Folder $DATA_FOLDER "doesnt exists...creating new"
+  mkdir ../$DATA_FOLDER/
+fi
 
 mat=224
 sparsity=0

@@ -1,12 +1,5 @@
 #!/bin/bash
 
-DATA_FOLDER=data
-if [ ! -e ../$DATA_FOLDER ]
-then
-  echo Folder $DATA_FOLDER "doesnt exists...creating new"
-  mkdir ../$DATA_FOLDER/
-fi
-
 matrices=("224.mat" "512.mat" "1024.mat" "2048.mat")
 k3=("k3_0.mat" "k3_05.mat" "k3_09.mat" "k3_095.mat" "k3_099.mat")
 k7=("k7_0.mat" "k7_05.mat" "k7_09.mat" "k7_095.mat" "k7_099.mat")
