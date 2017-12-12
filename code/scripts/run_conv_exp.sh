@@ -15,9 +15,9 @@ do
     do
       echo "===================== $k ALGORITHM =================="
       echo "===================== 1 iteration =================="
-      ../bin/conv_exp -a $k $i $j
+      ../bin/conv_exp -a $k ../data/$i ../data/$j
       echo "===================== 1000 iterations =================="
-      ../bin/conv_exp -n -a $k $i $j
+      ../bin/conv_exp -n -a $k ../data/$i ../data/$j
     done
   done
   for j in "${k7[@]}"
@@ -27,9 +27,9 @@ do
     do
       echo "===================== $k ALGORITHM =================="
       echo "===================== 1 iteration =================="
-      ../bin/conv_exp -a $k $i $j
+      ../bin/conv_exp -a $k ../data/$i ../data/$j
       echo "===================== 1000 iterations =================="
-      ../bin/conv_exp -n -a $k $i $j
+      ../bin/conv_exp -n -a $k ../data/$i ../data/$j
     done
   done
 done
