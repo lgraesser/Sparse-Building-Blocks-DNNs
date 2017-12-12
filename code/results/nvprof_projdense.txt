@@ -3,7 +3,7 @@ iterations_flag = 1, alg_type_flag = projdense
 Non-option argument ./data/128.mat
 Non-option argument ./data/k3_0.mat
 optind:4,argc:6
-==49810== NVPROF is profiling process 49810, command: ./bin/conv_exp -n -a projdense ./data/128.mat ./data/k3_0.mat
+ope
 Number of iterations: 1000
  ============= TILED CONVOLUTION ================= 
 No pitch, pitch is: 0
