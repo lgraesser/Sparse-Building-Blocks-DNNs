@@ -82,3 +82,10 @@ sparsity=0.99
 sp=099
 echo "Creating $kernel x $kernel kernel, $sparsity sparsity"
 ./generate_sparse_mat.py $mat,$mat $sparsity > ../data/k${kernel}_${sp}.mat
+
+echo "7 x 7 kernel 0% sparsity"
+cat ../data/k7_0.mat
+echo "7 x 7 kernel 90% sparsity"
+cat ../data/k7_09.mat
+echo "7 x 7 kernel 99% sparsity"
+cat ../data/k7_099.mat
