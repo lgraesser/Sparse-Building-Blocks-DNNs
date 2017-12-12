@@ -19,8 +19,9 @@ This would run the 180 feedforward experiments mentioned in the report sequencia
 
 ### Convolution
 ```bash
-./scripts/generate_conv_data.sh
-./scripts/run_conv_exp.sh
+cd code/scripts
+./generate_conv_data.sh
+./run_conv_exp.sh
 ```
 
 This runs the 200 convolutional experiments mentioned in the report sequentially, each time generating required matrices under `data/` folder and directing the experiment information to the stdout.
