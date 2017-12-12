@@ -37,6 +37,6 @@ clean:
 .PHONY: directories
 directories: ${OBJ} ${BIN}
 ${BIN}:
-        ${MKDIR_P} $@
+	${MKDIR_P} $@
 ${OBJ}:
-        ${MKDIR_P} $@
+	${MKDIR_P} $@
