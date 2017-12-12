@@ -3,8 +3,9 @@ SRC = src
 BIN = bin
 OBJ = obj
 TARGETS = mm io sparse_test conv_test conv_exp
+MKDIR_P = mkdir -p
 
-all: $(patsubst %,$(BIN)/%,$(TARGETS))
+all: directories $(patsubst %,$(BIN)/%,$(TARGETS))
 
 # the first two are the patterns the rest is the list of strings, e.g. x.o->obj/x.o
 $(BIN)/mm: $(patsubst %.o,$(OBJ)/%.o,matrix_io.o mm_test.o mm.o sparse_conversion.o)
@@ -32,3 +33,10 @@ $(OBJ)/%.o: $(SRC)/%.cu
 clean:
 	rm -f $(OBJ)/*
 	rm -f $(BIN)/*
+
+.PHONY: directories
+directories: ${OBJ} ${BIN}
+${BIN}:
+        ${MKDIR_P} $@
+${OBJ}:
+        ${MKDIR_P} $@
