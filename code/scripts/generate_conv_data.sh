@@ -25,9 +25,9 @@ fi
 
 kernel=3
 sparsity=0
-name=k3_0.mat
+sp=0
 echo "Creating $kernel x $kernel kernel, $sparsity sparsity"
-./generate_sparse_mat.py $mat,$mat $sparsity > ../data/$name
+./generate_sparse_mat.py $kernel,$kernel $sparsity > ../data/k${kernel}_${sp}.mat
 
 # kernel=3
 # sparsity=0.5
