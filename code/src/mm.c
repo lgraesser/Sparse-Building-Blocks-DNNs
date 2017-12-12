@@ -6,7 +6,7 @@
 #include <cublas_v2.h>
 double time_taken;
 clock_t start, end;
-int mm_repet = 1000;
+int mm_repet = 1;
 
 void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, const int m, const int n, const int k, cublasHandle_t handle,int time_flag,int repetation_flag) {
    int lda=m,ldb=k,ldc=m;
@@ -32,8 +32,8 @@ void gpu_mm_dense(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, co
 
    // Do the actual multiplication
    int i;
-   if (!repetation_flag){
-     mm_repet = 1;
+   if (repetation_flag){
+     mm_repet = repetation_flag;
    }
    for(i=0;i<mm_repet;i++)
     cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, alpha, d_A, lda, d_B, ldb, beta, d_C, ldc);
@@ -79,8 +79,8 @@ void gpu_mm_sparse(struct Matrix *h_A, struct Matrix *h_B, struct Matrix *h_C, c
                         spmC.total_non_zero * sizeof(float)));
    // Do the actual multiplication
    int i;
-   if (!repetation_flag){
-     mm_repet = 1;
+   if (repetation_flag){
+     mm_repet = repetation_flag;
    }
    for(i=0;i<mm_repet;i++)
      cusparseSafeCall(cusparseScsrgemm(handle, nop, nop, m, n, k,
@@ -215,8 +215,8 @@ void gpu_mm_sparse_ProjectImp(struct Matrix *h_A, struct Matrix *h_B, struct Mat
     start = clock();
   }
   int i;
-  if (!repetation_flag){
-    mm_repet = 1;
+  if (repetation_flag){
+    mm_repet = repetation_flag;
   }
   for(i=0;i<mm_repet;i++)
     sparseMM<<<nBlocks,nThreads>>>(m,n,spmA.csrValA_device,spmA.csrRowPtrA_device,spmA.csrColIndA_device,
