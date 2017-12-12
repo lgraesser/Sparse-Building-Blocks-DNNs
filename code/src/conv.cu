@@ -117,7 +117,7 @@ void convolve2DDenseProjectImp(struct Matrix * mat,
                     actual_mat_width,
                     kernel->dims[2],
                     kernel->dims[3]);
-  CudaCheckError();
+  //CudaCheckError();
   }
   cudaDeviceSynchronize();
   end = clock();
@@ -350,7 +350,7 @@ void convolve2DSparseProjectImp(struct Matrix * mat,
                     actual_mat_width,
                     kernel->num_rows,
                     kernel->num_rows);
-    CudaCheckError();
+    //CudaCheckError();
   }
   cudaDeviceSynchronize();
   end = clock();

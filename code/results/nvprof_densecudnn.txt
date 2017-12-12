@@ -1,0 +1,353 @@
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a densecudnn ./data/128.mat ./data/k3_0.mat 
+iterations_flag = 1, alg_type_flag = densecudnn
+Non-option argument ./data/128.mat
+Non-option argument ./data/k3_0.mat
+optind:4,argc:6
+==45405== NVPROF is profiling process 45405, command: ./bin/conv_exp -n -a densecudnn ./data/128.mat ./data/k3_0.mat
+Number of iterations: 1000
+ =============  CUDNN CONVOLUTION ================= 
+Time taken to create handle: 8.340000 
+Kernel is not on the device. Creating kernel descriptor
+Kernel is not on the device. Allocating memory
+Time taken to allocate mem and copy to device: 0.000000 
+Time taken to execute kernel: 0.130000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 8.470000
+Time taken per iteration 0.008470
+==45405== Profiling application: ./bin/conv_exp -n -a densecudnn ./data/128.mat ./data/k3_0.mat
+==45405== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 90.27%  60.137ms      1000  60.136us  28.352us  2.5894ms  maxwell_scudnn_winograd_128x128_tile148t_nt
+  9.70%  6.4599ms      1000  6.4590us  6.2400us  10.720us  void cudnn::winograd::generateWinogradTilesKernel<int=0, float, float>(cudnn::winograd::GenerateWinogradTilesParams<float, float>)
+  0.02%  10.464us         3  3.4880us     768ns  8.6080us  [CUDA memcpy HtoD]
+  0.01%  7.1040us         1  7.1040us  7.1040us  7.1040us  [CUDA memcpy DtoH]
+  0.00%     872ns         1     872ns     872ns     872ns  [CUDA memset]
+
+==45405== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 94.40%  8.68604s         8  1.08576s  14.428us  8.68563s  cudaStreamCreateWithFlags
+  4.16%  382.96ms        10  38.296ms     249ns  382.22ms  cudaFree
+  0.66%  60.817ms         2  30.409ms  11.983us  60.805ms  cudaDeviceSynchronize
+  0.64%  58.738ms      2000  29.369us  4.7960us  2.6019ms  cudaLaunch
+  0.05%  4.5949ms         4  1.1487ms  53.284us  2.0901ms  cudaMemcpy
+  0.05%  4.5011ms       664  6.7780us     107ns  354.21us  cuDeviceGetAttribute
+  0.01%  1.1581ms         8  144.76us  74.851us  202.46us  cuDeviceTotalMem
+  0.01%  729.52us         7  104.22us  7.6440us  229.21us  cudaMalloc
+  0.01%  470.56us      2000     235ns     159ns  6.1260us  cudaSetupArgument
+  0.00%  431.36us      2000     215ns     146ns  1.7690us  cudaConfigureCall
+  0.00%  428.38us         8  53.547us  47.613us  65.065us  cuDeviceGetName
+  0.00%  411.42us      2000     205ns     141ns  3.9220us  cudaGetLastError
+  0.00%  30.043us         8  3.7550us  2.7550us  8.8590us  cudaStreamDestroy
+  0.00%  24.558us        24  1.0230us     784ns  2.2480us  cudaEventDestroy
+  0.00%  21.901us        24     912ns     445ns  6.5960us  cudaEventCreateWithFlags
+  0.00%  10.250us         1  10.250us  10.250us  10.250us  cudaMemset
+  0.00%  7.9860us        20     399ns     248ns  1.4460us  cudaDeviceGetAttribute
+  0.00%  6.5300us         2  3.2650us  2.9860us  3.5440us  cudaThreadSynchronize
+  0.00%  4.7430us         2  2.3710us  1.0130us  3.7300us  cudaGetDevice
+  0.00%  2.7130us        12     226ns     141ns     299ns  cuDeviceGet
+  0.00%  2.7070us         3     902ns     243ns  2.1590us  cuDeviceGetCount
+  0.00%     751ns         1     751ns     751ns     751ns  cuInit
+  0.00%     693ns         1     693ns     693ns     693ns  cuDriverGetVersion
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a densecudnn ./data/224.mat ./data/k3_0.mat 
+iterations_flag = 1, alg_type_flag = densecudnn
+Non-option argument ./data/224.mat
+Non-option argument ./data/k3_0.mat
+optind:4,argc:6
+==45428== NVPROF is profiling process 45428, command: ./bin/conv_exp -n -a densecudnn ./data/224.mat ./data/k3_0.mat
+Number of iterations: 1000
+ =============  CUDNN CONVOLUTION ================= 
+Time taken to create handle: 7.820000 
+Kernel is not on the device. Creating kernel descriptor
+Kernel is not on the device. Allocating memory
+Time taken to allocate mem and copy to device: 0.000000 
+Time taken to execute kernel: 0.090000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 7.910000
+Time taken per iteration 0.007910
+==45428== Profiling application: ./bin/conv_exp -n -a densecudnn ./data/224.mat ./data/k3_0.mat
+==45428== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 95.41%  72.402ms      1000  72.402us  29.505us  2.4933ms  maxwell_scudnn_128x32_small_nn
+  4.54%  3.4444ms      1000  3.4440us  3.2960us  3.9040us  cudnn::maxwell::gemm::computeOffsetsKernel(cudnn::maxwell::gemm::ComputeOffsetsParams)
+  0.03%  21.057us         3  7.0190us     800ns  19.073us  [CUDA memcpy HtoD]
+  0.02%  18.368us         1  18.368us  18.368us  18.368us  [CUDA memcpy DtoH]
+  0.00%     704ns         1     704ns     704ns     704ns  [CUDA memset]
+
+==45428== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 94.86%  7.87748s         8  984.69ms  21.579us  7.87694s  cudaStreamCreateWithFlags
+  3.83%  318.09ms        10  31.809ms     430ns  317.28ms  cudaFree
+  0.61%  50.431ms         2  25.216ms  10.709us  50.420ms  cudaDeviceSynchronize
+  0.53%  44.042ms      2000  22.020us  7.9680us  4.6730ms  cudaLaunch
+  0.07%  5.9702ms       664  8.9910us     208ns  384.13us  cuDeviceGetAttribute
+  0.03%  2.7015ms         4  675.36us  80.895us  1.4067ms  cudaMemcpy
+  0.02%  1.6967ms         8  212.09us  100.19us  361.54us  cuDeviceTotalMem
+  0.01%  1.1293ms         7  161.33us  10.497us  285.78us  cudaMalloc
+  0.01%  837.31us      3000     279ns     182ns  1.8360us  cudaGetLastError
+  0.01%  686.06us      2000     343ns     244ns  7.4150us  cudaSetupArgument
+  0.01%  628.33us      2000     314ns     219ns  8.9620us  cudaConfigureCall
+  0.01%  566.92us         8  70.865us  56.576us  79.114us  cuDeviceGetName
+  0.00%  37.721us         1  37.721us  37.721us  37.721us  cudaMemset
+  0.00%  32.765us        24  1.3650us     883ns  8.8730us  cudaEventCreateWithFlags
+  0.00%  29.955us         8  3.7440us  2.7010us  9.5760us  cudaStreamDestroy
+  0.00%  19.832us        24     826ns     683ns  1.7290us  cudaEventDestroy
+  0.00%  14.011us        20     700ns     487ns  2.2260us  cudaDeviceGetAttribute
+  0.00%  7.2130us         2  3.6060us  1.5800us  5.6330us  cudaGetDevice
+  0.00%  5.7980us        12     483ns     308ns     688ns  cuDeviceGet
+  0.00%  5.6490us         2  2.8240us  2.5560us  3.0930us  cudaThreadSynchronize
+  0.00%  4.8460us         3  1.6150us     412ns  3.8350us  cuDeviceGetCount
+  0.00%  1.0570us         1  1.0570us  1.0570us  1.0570us  cuInit
+  0.00%  1.0180us         1  1.0180us  1.0180us  1.0180us  cuDriverGetVersion
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a densecudnn ./data/512.mat ./data/k3_0.mat 
+iterations_flag = 1, alg_type_flag = densecudnn
+Non-option argument ./data/512.mat
+Non-option argument ./data/k3_0.mat
+optind:4,argc:6
+==45520== NVPROF is profiling process 45520, command: ./bin/conv_exp -n -a densecudnn ./data/512.mat ./data/k3_0.mat
+Number of iterations: 1000
+ =============  CUDNN CONVOLUTION ================= 
+Time taken to create handle: 3.590000 
+Kernel is not on the device. Creating kernel descriptor
+Kernel is not on the device. Allocating memory
+Time taken to allocate mem and copy to device: 0.000000 
+Time taken to execute kernel: 0.210000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 3.800000
+Time taken per iteration 0.003800
+==45520== Profiling application: ./bin/conv_exp -n -a densecudnn ./data/512.mat ./data/k3_0.mat
+==45520== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 94.05%  169.68ms      1000  169.67us  125.63us  699.37us  maxwell_scudnn_128x32_small_nn
+  5.85%  10.551ms      1000  10.551us  10.112us  237.38us  cudnn::maxwell::gemm::computeOffsetsKernel(cudnn::maxwell::gemm::ComputeOffsetsParams)
+  0.05%  91.841us         3  30.613us  1.0240us  89.761us  [CUDA memcpy HtoD]
+  0.05%  84.833us         1  84.833us  84.833us  84.833us  [CUDA memcpy DtoH]
+  0.00%     928ns         1     928ns     928ns     928ns  [CUDA memset]
+
+==45520== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 81.44%  3.78221s         8  472.78ms  14.346us  3.78189s  cudaStreamCreateWithFlags
+ 14.16%  657.59ms        10  65.759ms     402ns  656.71ms  cudaFree
+  2.19%  101.85ms         2  50.924ms  7.9880us  101.84ms  cudaDeviceSynchronize
+  2.00%  93.042ms      2000  46.520us  5.4050us  700.60us  cudaLaunch
+  0.09%  4.3936ms       664  6.6160us     109ns  259.06us  cuDeviceGetAttribute
+  0.03%  1.1804ms         8  147.55us  75.041us  201.83us  cuDeviceTotalMem
+  0.02%  1.0595ms         7  151.36us  11.279us  218.30us  cudaMalloc
+  0.01%  633.24us         4  158.31us  22.148us  310.58us  cudaMemcpy
+  0.01%  528.49us      3000     176ns     135ns  1.5100us  cudaGetLastError
+  0.01%  447.71us         8  55.963us  47.867us  86.171us  cuDeviceGetName
+  0.01%  435.12us      2000     217ns     172ns  20.579us  cudaSetupArgument
+  0.01%  415.81us      2000     207ns     155ns  2.8260us  cudaConfigureCall
+  0.00%  39.546us         1  39.546us  39.546us  39.546us  cudaMemset
+  0.00%  26.194us         8  3.2740us  1.7090us  9.1090us  cudaStreamDestroy
+  0.00%  25.771us        24  1.0730us     447ns  13.086us  cudaEventCreateWithFlags
+  0.00%  14.949us        24     622ns     468ns  1.9180us  cudaEventDestroy
+  0.00%  8.2080us        20     410ns     254ns  1.8170us  cudaDeviceGetAttribute
+  0.00%  5.4300us         2  2.7150us  1.1730us  4.2570us  cudaGetDevice
+  0.00%  4.0060us         2  2.0030us  1.7740us  2.2320us  cudaThreadSynchronize
+  0.00%  2.9060us         3     968ns     240ns  2.1890us  cuDeviceGetCount
+  0.00%  2.7690us        12     230ns     149ns     375ns  cuDeviceGet
+  0.00%  1.6870us         1  1.6870us  1.6870us  1.6870us  cuDriverGetVersion
+  0.00%     816ns         1     816ns     816ns     816ns  cuInit
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a densecudnn ./data/1024.mat ./data/k3_0.mat 
+iterations_flag = 1, alg_type_flag = densecudnn
+Non-option argument ./data/1024.mat
+Non-option argument ./data/k3_0.mat
+optind:4,argc:6
+==45564== NVPROF is profiling process 45564, command: ./bin/conv_exp -n -a densecudnn ./data/1024.mat ./data/k3_0.mat
+Number of iterations: 1000
+ =============  CUDNN CONVOLUTION ================= 
+Time taken to create handle: 1.220000 
+Kernel is not on the device. Creating kernel descriptor
+Kernel is not on the device. Allocating memory
+Time taken to allocate mem and copy to device: 0.000000 
+Time taken to execute kernel: 0.640000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 1.860000
+Time taken per iteration 0.001860
+==45564== Profiling application: ./bin/conv_exp -n -a densecudnn ./data/1024.mat ./data/k3_0.mat
+==45564== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 93.06%  589.71ms      1000  589.71us  506.02us  1.8373ms  maxwell_scudnn_128x32_small_nn
+  6.27%  39.713ms      1000  39.713us  36.000us  346.47us  cudnn::maxwell::gemm::computeOffsetsKernel(cudnn::maxwell::gemm::ComputeOffsetsParams)
+  0.40%  2.5539ms         3  851.30us  1.0560us  2.5518ms  [CUDA memcpy HtoD]
+  0.27%  1.7290ms         1  1.7290ms  1.7290ms  1.7290ms  [CUDA memcpy DtoH]
+  0.00%     960ns         1     960ns     960ns     960ns  [CUDA memset]
+
+==45564== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 57.27%  1.23854s         8  154.82ms  14.833us  1.23820s  cudaStreamCreateWithFlags
+ 14.77%  319.43ms         2  159.72ms  8.8090us  319.42ms  cudaDeviceSynchronize
+ 14.75%  318.96ms      2000  159.48us  5.6810us  2.9280ms  cudaLaunch
+ 12.49%  270.15ms        10  27.015ms     312ns  268.58ms  cudaFree
+  0.28%  6.0386ms         4  1.5097ms  33.932us  3.6418ms  cudaMemcpy
+  0.23%  4.9225ms       664  7.4130us     119ns  338.81us  cuDeviceGetAttribute
+  0.06%  1.3083ms         8  163.53us  83.657us  223.68us  cuDeviceTotalMem
+  0.05%  987.25us         7  141.04us  12.139us  209.83us  cudaMalloc
+  0.03%  590.44us      3000     196ns     137ns  1.7590us  cudaGetLastError
+  0.02%  510.63us         8  63.828us  49.591us  96.203us  cuDeviceGetName
+  0.02%  499.14us      2000     249ns     177ns  11.497us  cudaSetupArgument
+  0.02%  438.46us      2000     219ns     150ns  7.3650us  cudaConfigureCall
+  0.00%  70.512us         1  70.512us  70.512us  70.512us  cudaMemset
+  0.00%  25.191us         8  3.1480us  1.8030us  10.550us  cudaStreamDestroy
+  0.00%  25.049us        24  1.0430us     449ns  11.853us  cudaEventCreateWithFlags
+  0.00%  12.773us        24     532ns     403ns  1.5180us  cudaEventDestroy
+  0.00%  8.7700us        20     438ns     255ns  1.9780us  cudaDeviceGetAttribute
+  0.00%  6.5980us         2  3.2990us  1.2010us  5.3970us  cudaGetDevice
+  0.00%  4.3630us        12     363ns     212ns     514ns  cuDeviceGet
+  0.00%  4.0380us         3  1.3460us     329ns  3.2630us  cuDeviceGetCount
+  0.00%  4.0070us         2  2.0030us  1.7570us  2.2500us  cudaThreadSynchronize
+  0.00%  2.1380us         1  2.1380us  2.1380us  2.1380us  cuDriverGetVersion
+  0.00%  1.1150us         1  1.1150us  1.1150us  1.1150us  cuInit
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a densecudnn ./data/2048.mat ./data/k3_0.mat 
+iterations_flag = 1, alg_type_flag = densecudnn
+Non-option argument ./data/2048.mat
+Non-option argument ./data/k3_0.mat
+optind:4,argc:6
+==45575== NVPROF is profiling process 45575, command: ./bin/conv_exp -n -a densecudnn ./data/2048.mat ./data/k3_0.mat
+Number of iterations: 1000
+ =============  CUDNN CONVOLUTION ================= 
+Time taken to create handle: 0.840000 
+Kernel is not on the device. Creating kernel descriptor
+Kernel is not on the device. Allocating memory
+Time taken to allocate mem and copy to device: 0.000000 
+Time taken to execute kernel: 2.720000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 3.560000
+Time taken per iteration 0.003560
+==45575== Profiling application: ./bin/conv_exp -n -a densecudnn ./data/2048.mat ./data/k3_0.mat
+==45575== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 93.75%  2.53388s      1000  2.5339ms  2.0045ms  2.8080ms  maxwell_scudnn_128x32_small_nn
+  5.89%  159.10ms      1000  159.10us  139.11us  701.70us  cudnn::maxwell::gemm::computeOffsetsKernel(cudnn::maxwell::gemm::ComputeOffsetsParams)
+  0.19%  5.0168ms         1  5.0168ms  5.0168ms  5.0168ms  [CUDA memcpy DtoH]
+  0.18%  4.7446ms         3  1.5815ms     992ns  4.7426ms  [CUDA memcpy HtoD]
+  0.00%     960ns         1     960ns     960ns     960ns  [CUDA memset]
+
+==45575== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 38.65%  1.49574s         2  747.87ms  22.458us  1.49572s  cudaDeviceSynchronize
+ 31.28%  1.21066s      2000  605.33us  12.596us  2.8097ms  cudaLaunch
+ 21.51%  832.43ms         8  104.05ms  15.039us  831.97ms  cudaStreamCreateWithFlags
+  7.99%  309.06ms        10  30.906ms     247ns  304.59ms  cudaFree
+  0.27%  10.589ms         4  2.6472ms  28.112us  5.6383ms  cudaMemcpy
+  0.13%  5.0790ms       664  7.6490us     119ns  344.72us  cuDeviceGetAttribute
+  0.04%  1.5575ms         8  194.69us  79.481us  331.43us  cuDeviceTotalMem
+  0.04%  1.3666ms         7  195.22us  24.657us  361.20us  cudaMalloc
+  0.03%  1.1376ms      3000     379ns     137ns  6.7770us  cudaGetLastError
+  0.02%  884.31us      2000     442ns     200ns  7.6230us  cudaSetupArgument
+  0.02%  795.89us      2000     397ns     164ns  12.485us  cudaConfigureCall
+  0.01%  498.63us         8  62.328us  47.670us  76.201us  cuDeviceGetName
+  0.00%  160.23us         1  160.23us  160.23us  160.23us  cudaMemset
+  0.00%  40.113us         8  5.0140us  3.5280us  13.095us  cudaStreamDestroy
+  0.00%  28.669us        24  1.1940us     862ns  2.5850us  cudaEventDestroy
+  0.00%  18.687us        24     778ns     463ns  5.6090us  cudaEventCreateWithFlags
+  0.00%  9.6150us         2  4.8070us  3.7730us  5.8420us  cudaThreadSynchronize
+  0.00%  8.3130us        20     415ns     255ns  1.8600us  cudaDeviceGetAttribute
+  0.00%  6.0710us         2  3.0350us  1.0040us  5.0670us  cudaGetDevice
+  0.00%  4.4420us         3  1.4800us     312ns  3.7490us  cuDeviceGetCount
+  0.00%  4.0740us        12     339ns     203ns     501ns  cuDeviceGet
+  0.00%  1.9700us         1  1.9700us  1.9700us  1.9700us  cuDriverGetVersion
+  0.00%     819ns         1     819ns     819ns     819ns  cuInit
+
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a densecudnn ./data/2048.mat ./data/k7_0.mat 
+iterations_flag = 1, alg_type_flag = densecudnn
+Non-option argument ./data/2048.mat
+Non-option argument ./data/k7_0.mat
+optind:4,argc:6
+==46219== NVPROF is profiling process 46219, command: ./bin/conv_exp -n -a densecudnn ./data/2048.mat ./data/k7_0.mat
+Number of iterations: 1000
+ =============  CUDNN CONVOLUTION ================= 
+Time taken to create handle: 37.930000 
+Kernel is not on the device. Creating kernel descriptor
+Kernel is not on the device. Allocating memory
+Time taken to allocate mem and copy to device: 0.030000 
+Time taken to execute kernel: 48.120000 
+Time taken to copy memory back to host and free device mem: 0.020000 
+Time taken is 86.100000
+Time taken per iteration 0.086100
+==46219== Profiling application: ./bin/conv_exp -n -a densecudnn ./data/2048.mat ./data/k7_0.mat
+==46219== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 97.51%  46.0242s      1000  46.024ms  12.339ms  66.537ms  maxwell_scudnn_128x32_medium_nn
+  2.47%  1.16690s      1000  1.1669ms  146.69us  13.040ms  cudnn::maxwell::gemm::computeOffsetsKernel(cudnn::maxwell::gemm::ComputeOffsetsParams)
+  0.01%  5.3898ms         1  5.3898ms  5.3898ms  5.3898ms  [CUDA memcpy DtoH]
+  0.01%  4.5176ms         3  1.5059ms  1.0880us  4.5154ms  [CUDA memcpy HtoD]
+  0.00%     992ns         1     992ns     992ns     992ns  [CUDA memset]
+
+==46219== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 44.01%  38.1705s         8  4.77131s  14.020us  38.1701s  cudaStreamCreateWithFlags
+ 27.73%  24.0497s      2000  12.025ms  5.8190us  64.088ms  cudaLaunch
+ 27.71%  24.0355s         2  12.0177s  11.282us  24.0355s  cudaDeviceSynchronize
+  0.51%  439.87ms        10  43.987ms     413ns  434.39ms  cudaFree
+  0.04%  34.191ms         4  8.5478ms  5.7734ms  13.396ms  cudaMemcpy
+  0.01%  5.8488ms       664  8.8080us     161ns  627.30us  cuDeviceGetAttribute
+  0.00%  1.4537ms         7  207.67us  15.369us  507.56us  cudaMalloc
+  0.00%  1.3326ms         8  166.57us  100.60us  244.30us  cuDeviceTotalMem
+  0.00%  800.95us      3000     266ns     138ns  19.207us  cudaGetLastError
+  0.00%  655.10us      2000     327ns     174ns  27.294us  cudaSetupArgument
+  0.00%  563.51us         8  70.439us  58.825us  92.302us  cuDeviceGetName
+  0.00%  559.93us      2000     279ns     152ns  19.119us  cudaConfigureCall
+  0.00%  46.964us         8  5.8700us  1.9230us  17.968us  cudaStreamDestroy
+  0.00%  43.702us         1  43.702us  43.702us  43.702us  cudaMemset
+  0.00%  34.878us        24  1.4530us     453ns  17.819us  cudaEventCreateWithFlags
+  0.00%  12.549us        24     522ns     398ns  1.7480us  cudaEventDestroy
+  0.00%  10.919us        20     545ns     268ns  2.2850us  cudaDeviceGetAttribute
+  0.00%  7.5320us         2  3.7660us  1.1070us  6.4250us  cudaGetDevice
+  0.00%  5.3920us        12     449ns     302ns     623ns  cuDeviceGet
+  0.00%  5.1700us         2  2.5850us  2.2860us  2.8840us  cudaThreadSynchronize
+  0.00%  4.3030us         3  1.4340us     547ns  3.1220us  cuDeviceGetCount
+  0.00%  2.1480us         1  2.1480us  2.1480us  2.1480us  cuDriverGetVersion
+  0.00%  1.2430us         1  1.2430us  1.2430us  1.2430us  cuInit
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a densecudnn ./data/2048.mat ./data/k7_0.mat 
+iterations_flag = 1, alg_type_flag = densecudnn
+Non-option argument ./data/2048.mat
+Non-option argument ./data/k7_0.mat
+optind:4,argc:6
+==46826== NVPROF is profiling process 46826, command: ./bin/conv_exp -n -a densecudnn ./data/2048.mat ./data/k7_0.mat
+Number of iterations: 1000
+ =============  CUDNN CONVOLUTION ================= 
+Time taken to create handle: 25.340000 
+Kernel is not on the device. Creating kernel descriptor
+Kernel is not on the device. Allocating memory
+Time taken to allocate mem and copy to device: 0.010000 
+Time taken to execute kernel: 30.280000 
+Time taken to copy memory back to host and free device mem: 0.020000 
+Time taken is 55.650000
+Time taken per iteration 0.055650
+==46826== Profiling application: ./bin/conv_exp -n -a densecudnn ./data/2048.mat ./data/k7_0.mat
+==46826== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 97.70%  29.0852s      1000  29.085ms  5.5956ms  54.682ms  maxwell_scudnn_128x32_medium_nn
+  2.26%  672.37ms      1000  672.37us  145.70us  8.5497ms  cudnn::maxwell::gemm::computeOffsetsKernel(cudnn::maxwell::gemm::ComputeOffsetsParams)
+  0.03%  9.3759ms         1  9.3759ms  9.3759ms  9.3759ms  [CUDA memcpy DtoH]
+  0.01%  3.6015ms         3  1.2005ms  1.0560us  3.5993ms  [CUDA memcpy HtoD]
+  0.00%  1.3760us         1  1.3760us  1.3760us  1.3760us  [CUDA memset]
+
+==46826== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 45.09%  25.5742s         8  3.19677s  21.142us  25.5736s  cudaStreamCreateWithFlags
+ 29.02%  16.4615s         2  8.23073s  14.327us  16.4615s  cudaDeviceSynchronize
+ 24.95%  14.1486s      2000  7.0743ms  8.5720us  54.681ms  cudaLaunch
+  0.80%  450.92ms        10  45.092ms     422ns  445.28ms  cudaFree
+  0.07%  40.131ms         8  5.0164ms  55.416us  39.691ms  cuDeviceGetName
+  0.05%  27.603ms         4  6.9007ms  1.9958ms  10.697ms  cudaMemcpy
+  0.01%  5.4204ms       664  8.1630us     142ns  368.27us  cuDeviceGetAttribute
+  0.01%  3.9048ms         8  488.10us  91.356us  2.5515ms  cuDeviceTotalMem
+  0.00%  1.4323ms         7  204.61us  17.885us  318.72us  cudaMalloc
+  0.00%  1.3288ms      3000     442ns     137ns  29.279us  cudaGetLastError
+  0.00%  1.0331ms      2000     516ns     198ns  24.933us  cudaSetupArgument
+  0.00%  931.73us      2000     465ns     162ns  20.110us  cudaConfigureCall
+  0.00%  95.692us         1  95.692us  95.692us  95.692us  cudaMemset
+  0.00%  34.643us        24  1.4430us     873ns  9.3210us  cudaEventCreateWithFlags
+  0.00%  31.411us         8  3.9260us  1.7690us  14.942us  cudaStreamDestroy
+  0.00%  13.796us        24     574ns     408ns  1.5490us  cudaEventDestroy
+  0.00%  11.481us        20     574ns     314ns  1.8390us  cudaDeviceGetAttribute
+  0.00%  9.1700us         2  4.5850us  1.3330us  7.8370us  cudaGetDevice
+  0.00%  5.7320us         2  2.8660us  2.2540us  3.4780us  cudaThreadSynchronize
+  0.00%  4.9560us        12     413ns     283ns     602ns  cuDeviceGet
+  0.00%  4.6950us         3  1.5650us     466ns  3.7220us  cuDeviceGetCount
+  0.00%  2.1820us         1  2.1820us  2.1820us  2.1820us  cuDriverGetVersion
+  0.00%  1.2410us         1  1.2410us  1.2410us  1.2410us  cuInit
+
+

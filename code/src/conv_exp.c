@@ -16,7 +16,7 @@
 #include "sparse_conversion.h"
 #include "matrix_io.h"
 
-// #define DEBUG
+//#define DEBUG
 
 int main(int argc, char * argv[])
 {
@@ -86,14 +86,14 @@ printf("optind:%d,argc:%d\n",optind,argc);
   row_mat.vals = (float *)calloc(num_elems, sizeof(float));
   read_matrix_vals(filename1, &row_mat, 0);
   #ifdef DEBUG
-    print_matrix(&rowmat);
+    //print_matrix(&row_mat);
   #endif
 
   read_matrix_dims(filename2, &k_mat, &k_elems);
   k_mat.vals = (float *)calloc(k_elems, sizeof(float));
   read_matrix_vals(filename2, &k_mat, 0);
   #ifdef DEBUG
-    print_matrix(&k_mat);
+    //print_matrix(&k_mat);
   #endif
 
   kernel.vals = (float *)calloc(k_elems, sizeof(float));

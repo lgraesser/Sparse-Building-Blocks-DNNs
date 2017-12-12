@@ -1,0 +1,252 @@
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a projdense ./data/128.mat ./data/k3_0.mat 
+iterations_flag = 1, alg_type_flag = projdense
+Non-option argument ./data/128.mat
+Non-option argument ./data/k3_0.mat
+optind:4,argc:6
+==49810== NVPROF is profiling process 49810, command: ./bin/conv_exp -n -a projdense ./data/128.mat ./data/k3_0.mat
+Number of iterations: 1000
+ ============= TILED CONVOLUTION ================= 
+No pitch, pitch is: 0
+Kernel is not on the device. Allocating to device memory
+Grid dim: (8, 8), block dim: (18, 18)
+Total threads: 20736
+Actual matrix width: 128
+Shared mem is: 333 elems, tile: 324, kernel: 9
+Time taken to allocate mem and copy to device: 0.000000 
+Time taken to execute kernel: 0.020000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 0.020000
+Time taken per iteration 0.000020
+==49810== Profiling application: ./bin/conv_exp -n -a projdense ./data/128.mat ./data/k3_0.mat
+==49810== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 99.14%  2.6889ms      1000  2.6880us  2.6240us  4.1280us  convolve2DKernel(float*, float*, float*, int, int, int, int, int)
+  0.45%  12.320us         1  12.320us  12.320us  12.320us  [CUDA memcpy DtoH]
+  0.34%  9.0880us         2  4.5440us  1.0240us  8.0640us  [CUDA memcpy HtoD]
+  0.07%  1.9230us         1  1.9230us  1.9230us  1.9230us  [CUDA memset]
+
+==49810== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 93.74%  359.97ms         4  89.991ms  10.822us  359.64ms  cudaFree
+  2.97%  11.393ms         1  11.393ms  11.393ms  11.393ms  cudaDeviceSynchronize
+  1.33%  5.1222ms      1000  5.1220us  4.7810us  27.445us  cudaLaunch
+  0.67%  2.5697ms       332  7.7400us     170ns  308.67us  cuDeviceGetAttribute
+  0.52%  2.0086ms         3  669.55us  34.578us  1.9246ms  cudaMemcpy
+  0.32%  1.2179ms      8000     152ns     138ns  1.9230us  cudaSetupArgument
+  0.21%  821.48us         4  205.37us  98.643us  278.97us  cuDeviceTotalMem
+  0.12%  456.53us         3  152.18us  7.4690us  234.93us  cudaMalloc
+  0.06%  245.38us         4  61.344us  55.380us  63.947us  cuDeviceGetName
+  0.05%  184.36us      1000     184ns     165ns  2.5030us  cudaConfigureCall
+  0.00%  11.891us         1  11.891us  11.891us  11.891us  cudaMemset
+  0.00%  4.2000us         2  2.1000us     227ns  3.9730us  cuDeviceGetCount
+  0.00%  2.1430us         8     267ns     172ns     389ns  cuDeviceGet
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a projdense ./data/224.mat ./data/k3_0.mat 
+iterations_flag = 1, alg_type_flag = projdense
+Non-option argument ./data/224.mat
+Non-option argument ./data/k3_0.mat
+optind:4,argc:6
+==49820== NVPROF is profiling process 49820, command: ./bin/conv_exp -n -a projdense ./data/224.mat ./data/k3_0.mat
+Number of iterations: 1000
+ ============= TILED CONVOLUTION ================= 
+No pitch, pitch is: 0
+Kernel is not on the device. Allocating to device memory
+Grid dim: (14, 14), block dim: (18, 18)
+Total threads: 63504
+Actual matrix width: 224
+Shared mem is: 333 elems, tile: 324, kernel: 9
+Time taken to allocate mem and copy to device: 0.000000 
+Time taken to execute kernel: 0.030000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 0.030000
+Time taken per iteration 0.000030
+==49820== Profiling application: ./bin/conv_exp -n -a projdense ./data/224.mat ./data/k3_0.mat
+==49820== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 99.27%  5.3901ms      1000  5.3900us  5.2800us  6.8160us  convolve2DKernel(float*, float*, float*, int, int, int, int, int)
+  0.37%  20.320us         2  10.160us  1.0240us  19.296us  [CUDA memcpy HtoD]
+  0.33%  18.144us         1  18.144us  18.144us  18.144us  [CUDA memcpy DtoH]
+  0.02%     960ns         1     960ns     960ns     960ns  [CUDA memset]
+
+==49820== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 92.28%  367.97ms         4  91.992ms  11.029us  367.65ms  cudaFree
+  4.28%  17.060ms         1  17.060ms  17.060ms  17.060ms  cudaDeviceSynchronize
+  1.49%  5.9347ms      1000  5.9340us  5.6190us  24.631us  cudaLaunch
+  0.69%  2.7337ms       332  8.2340us     192ns  321.83us  cuDeviceGetAttribute
+  0.45%  1.8056ms         3  601.88us  41.703us  1.6414ms  cudaMemcpy
+  0.32%  1.2580ms      8000     157ns     139ns  3.9120us  cudaSetupArgument
+  0.24%  942.20us         4  235.55us  104.18us  350.96us  cuDeviceTotalMem
+  0.12%  495.91us         3  165.30us  7.1580us  268.15us  cudaMalloc
+  0.08%  313.08us         4  78.270us  58.380us  121.40us  cuDeviceGetName
+  0.05%  211.25us      1000     211ns     200ns  2.4670us  cudaConfigureCall
+  0.01%  22.612us         1  22.612us  22.612us  22.612us  cudaMemset
+  0.00%  3.5950us         2  1.7970us     311ns  3.2840us  cuDeviceGetCount
+  0.00%  3.0270us         8     378ns     251ns     547ns  cuDeviceGet
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a projdense ./data/512.mat ./data/k3_0.mat 
+iterations_flag = 1, alg_type_flag = projdense
+Non-option argument ./data/512.mat
+Non-option argument ./data/k3_0.mat
+optind:4,argc:6
+==49849== NVPROF is profiling process 49849, command: ./bin/conv_exp -n -a projdense ./data/512.mat ./data/k3_0.mat
+Number of iterations: 1000
+ ============= TILED CONVOLUTION ================= 
+No pitch, pitch is: 0
+Kernel is not on the device. Allocating to device memory
+Grid dim: (32, 32), block dim: (18, 18)
+Total threads: 331776
+Actual matrix width: 512
+Shared mem is: 333 elems, tile: 324, kernel: 9
+Time taken to allocate mem and copy to device: 0.010000 
+Time taken to execute kernel: 0.110000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 0.120000
+Time taken per iteration 0.000120
+==49849== Profiling application: ./bin/conv_exp -n -a projdense ./data/512.mat ./data/k3_0.mat
+==49849== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 99.77%  76.627ms      1000  76.626us  22.528us  5.1553ms  convolve2DKernel(float*, float*, float*, int, int, int, int, int)
+  0.12%  88.737us         2  44.368us     800ns  87.937us  [CUDA memcpy HtoD]
+  0.11%  86.817us         1  86.817us  86.817us  86.817us  [CUDA memcpy DtoH]
+  0.00%     992ns         1     992ns     992ns     992ns  [CUDA memset]
+
+==49849== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 75.03%  361.85ms         4  90.463ms  154.50us  361.28ms  cudaFree
+ 21.57%  104.01ms         1  104.01ms  104.01ms  104.01ms  cudaDeviceSynchronize
+  1.20%  5.7722ms      1000  5.7720us  5.4090us  31.725us  cudaLaunch
+  0.86%  4.1288ms         3  1.3763ms  134.30us  3.2548ms  cudaMemcpy
+  0.59%  2.8359ms       332  8.5410us     204ns  344.43us  cuDeviceGetAttribute
+  0.27%  1.2782ms      8000     159ns     138ns  2.8440us  cudaSetupArgument
+  0.19%  925.29us         4  231.32us  113.77us  321.89us  cuDeviceTotalMem
+  0.19%  896.54us         3  298.85us  244.41us  405.42us  cudaMalloc
+  0.06%  265.62us         4  66.404us  60.552us  70.944us  cuDeviceGetName
+  0.05%  263.95us      1000     263ns     248ns  2.8810us  cudaConfigureCall
+  0.01%  34.132us         1  34.132us  34.132us  34.132us  cudaMemset
+  0.00%  4.0410us         2  2.0200us     323ns  3.7180us  cuDeviceGetCount
+  0.00%  2.4380us         8     304ns     219ns     455ns  cuDeviceGet
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a projdense ./data/1024.mat ./data/k3_0.mat 
+iterations_flag = 1, alg_type_flag = projdense
+Non-option argument ./data/1024.mat
+Non-option argument ./data/k3_0.mat
+optind:4,argc:6
+==49859== NVPROF is profiling process 49859, command: ./bin/conv_exp -n -a projdense ./data/1024.mat ./data/k3_0.mat
+Number of iterations: 1000
+ ============= TILED CONVOLUTION ================= 
+No pitch, pitch is: 0
+Kernel is not on the device. Allocating to device memory
+Grid dim: (64, 64), block dim: (18, 18)
+Total threads: 1327104
+Actual matrix width: 1024
+Shared mem is: 333 elems, tile: 324, kernel: 9
+Time taken to allocate mem and copy to device: 0.010000 
+Time taken to execute kernel: 0.380000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 0.390000
+Time taken per iteration 0.000390
+==49859== Profiling application: ./bin/conv_exp -n -a projdense ./data/1024.mat ./data/k3_0.mat
+==49859== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 99.34%  328.31ms      1000  328.31us  86.369us  5.2090ms  convolve2DKernel(float*, float*, float*, int, int, int, int, int)
+  0.52%  1.7246ms         1  1.7246ms  1.7246ms  1.7246ms  [CUDA memcpy DtoH]
+  0.14%  448.93us         2  224.47us     768ns  448.16us  [CUDA memcpy HtoD]
+  0.00%     960ns         1     960ns     960ns     960ns  [CUDA memset]
+
+==49859== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 49.08%  381.58ms         1  381.58ms  381.58ms  381.58ms  cudaDeviceSynchronize
+ 48.47%  376.86ms         4  94.215ms  159.67us  376.05ms  cudaFree
+  0.90%  6.9650ms         3  2.3217ms  583.53us  4.0682ms  cudaMemcpy
+  0.74%  5.7533ms      1000  5.7530us  5.3940us  27.371us  cudaLaunch
+  0.37%  2.8883ms       332  8.6990us     204ns  381.16us  cuDeviceGetAttribute
+  0.16%  1.2216ms      8000     152ns     138ns  3.4210us  cudaSetupArgument
+  0.12%  919.09us         4  229.77us  113.75us  319.89us  cuDeviceTotalMem
+  0.10%  769.33us         3  256.44us  207.47us  323.21us  cudaMalloc
+  0.03%  267.12us         4  66.779us  61.011us  71.026us  cuDeviceGetName
+  0.03%  197.64us      1000     197ns     169ns  2.8930us  cudaConfigureCall
+  0.00%  29.708us         1  29.708us  29.708us  29.708us  cudaMemset
+  0.00%  4.0640us         2  2.0320us     455ns  3.6090us  cuDeviceGetCount
+  0.00%  3.3030us         8     412ns     258ns     772ns  cuDeviceGet
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a projdense ./data/2048.mat ./data/k3_0.mat 
+iterations_flag = 1, alg_type_flag = projdense
+Non-option argument ./data/2048.mat
+Non-option argument ./data/k3_0.mat
+optind:4,argc:6
+==49884== NVPROF is profiling process 49884, command: ./bin/conv_exp -n -a projdense ./data/2048.mat ./data/k3_0.mat
+Number of iterations: 1000
+ ============= TILED CONVOLUTION ================= 
+No pitch, pitch is: 0
+Kernel is not on the device. Allocating to device memory
+Grid dim: (128, 128), block dim: (18, 18)
+Total threads: 5308416
+Actual matrix width: 2048
+Shared mem is: 333 elems, tile: 324, kernel: 9
+Time taken to allocate mem and copy to device: 0.010000 
+Time taken to execute kernel: 1.360000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 1.370000
+Time taken per iteration 0.001370
+==49884== Profiling application: ./bin/conv_exp -n -a projdense ./data/2048.mat ./data/k3_0.mat
+==49884== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 99.19%  795.81ms      1000  795.81us  346.69us  5.4714ms  convolve2DKernel(float*, float*, float*, int, int, int, int, int)
+  0.59%  4.7432ms         1  4.7432ms  4.7432ms  4.7432ms  [CUDA memcpy DtoH]
+  0.22%  1.7930ms         2  896.49us  1.1200us  1.7919ms  [CUDA memcpy HtoD]
+  0.00%  1.0240us         1  1.0240us  1.0240us  1.0240us  [CUDA memset]
+
+==49884== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 76.43%  1.34437s         1  1.34437s  1.34437s  1.34437s  cudaDeviceSynchronize
+ 22.30%  392.21ms         4  98.052ms  392.93us  389.66ms  cudaFree
+  0.59%  10.338ms         3  3.4460ms  1.8602ms  5.3799ms  cudaMemcpy
+  0.32%  5.6530ms      1000  5.6520us  5.3710us  29.698us  cudaLaunch
+  0.17%  2.9708ms       332  8.9480us     217ns  426.59us  cuDeviceGetAttribute
+  0.07%  1.2202ms      8000     152ns     138ns  2.3630us  cudaSetupArgument
+  0.05%  949.17us         4  237.29us  111.17us  342.23us  cuDeviceTotalMem
+  0.05%  809.18us         3  269.73us  227.86us  336.75us  cudaMalloc
+  0.02%  272.59us         4  68.146us  64.100us  70.602us  cuDeviceGetName
+  0.01%  196.49us      1000     196ns     172ns  2.5860us  cudaConfigureCall
+  0.00%  33.127us         1  33.127us  33.127us  33.127us  cudaMemset
+  0.00%  3.7310us         2  1.8650us     443ns  3.2880us  cuDeviceGetCount
+  0.00%  3.2190us         8     402ns     287ns     525ns  cuDeviceGet
+(pytorch) [lhg256@cuda2 code]$ nvprof ./bin/conv_exp -n -a projdense ./data/2048.mat ./data/k7_0.mat 
+iterations_flag = 1, alg_type_flag = projdense
+Non-option argument ./data/2048.mat
+Non-option argument ./data/k7_0.mat
+optind:4,argc:6
+==49902== NVPROF is profiling process 49902, command: ./bin/conv_exp -n -a projdense ./data/2048.mat ./data/k7_0.mat
+Number of iterations: 1000
+ ============= TILED CONVOLUTION ================= 
+No pitch, pitch is: 0
+Kernel is not on the device. Allocating to device memory
+Grid dim: (128, 128), block dim: (22, 22)
+Total threads: 7929856
+Actual matrix width: 2048
+Shared mem is: 533 elems, tile: 484, kernel: 49
+Time taken to allocate mem and copy to device: 0.020000 
+Time taken to execute kernel: 3.860000 
+Time taken to copy memory back to host and free device mem: 0.000000 
+Time taken is 3.880000
+Time taken per iteration 0.003880
+==49902== Profiling application: ./bin/conv_exp -n -a projdense ./data/2048.mat ./data/k7_0.mat
+==49902== Profiling result:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 99.79%  3.66322s      1000  3.6632ms  979.46us  6.6666ms  convolve2DKernel(float*, float*, float*, int, int, int, int, int)
+  0.13%  4.7341ms         1  4.7341ms  4.7341ms  4.7341ms  [CUDA memcpy DtoH]
+  0.08%  2.7929ms         2  1.3964ms     832ns  2.7921ms  [CUDA memcpy HtoD]
+  0.00%     992ns         1     992ns     992ns     992ns  [CUDA memset]
+
+==49902== API calls:
+Time(%)      Time     Calls       Avg       Min       Max  Name
+ 89.78%  3.85285s         1  3.85285s  3.85285s  3.85285s  cudaDeviceSynchronize
+  9.65%  414.04ms         4  103.51ms  416.18us  411.91ms  cudaFree
+  0.28%  12.089ms         3  4.0297ms  2.9485ms  5.4208ms  cudaMemcpy
+  0.14%  5.9771ms      1000  5.9770us  5.6290us  33.396us  cudaLaunch
+  0.07%  2.8314ms       332  8.5280us     208ns  337.55us  cuDeviceGetAttribute
+  0.03%  1.2403ms      8000     155ns     138ns  4.7550us  cudaSetupArgument
+  0.02%  966.98us         4  241.74us  118.23us  342.99us  cuDeviceTotalMem
+  0.02%  896.73us         3  298.91us  236.89us  353.53us  cudaMalloc
+  0.01%  275.91us         4  68.978us  65.977us  71.025us  cuDeviceGetName
+  0.00%  171.04us      1000     171ns     161ns  3.7040us  cudaConfigureCall
+  0.00%  37.742us         1  37.742us  37.742us  37.742us  cudaMemset
+  0.00%  4.2400us         2  2.1200us     327ns  3.9130us  cuDeviceGetCount
+  0.00%  2.6340us         8     329ns     212ns     486ns  cuDeviceGet
