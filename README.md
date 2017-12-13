@@ -4,6 +4,7 @@ Evaluating sparse and dense matrix formats for performing the forward pass for s
 
 ## Running the experiments
 ```bash
+module load cuda-8.0
 cd code
 make clean
 make all
