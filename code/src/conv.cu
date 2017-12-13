@@ -499,7 +499,8 @@ void convolve2DDense(struct Matrix * mat,
                                              /*horizontal_stride=*/1,
                                              /*dilation_height=*/1,
                                              /*dilation_width=*/1,
-                                             /*mode=*/CUDNN_CROSS_CORRELATION));
+                                             /*mode=*/CUDNN_CROSS_CORRELATION,
+                                             CUDNN_DATA_FLOAT));
 
   // Initialize kernel descriptor if it is not on the device already
   if (!kernel->is_on_device)
